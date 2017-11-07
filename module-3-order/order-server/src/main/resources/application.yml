@@ -1,0 +1,52 @@
+
+online: false
+
+logging.config: classpath:log-dev.xml
+
+database:
+  url:  jdbc:mysql://127.0.0.1:3306/mall?useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&statementInterceptors=com.github.common.sql.ShowSqlInterceptor
+  userName: root
+  password: root
+  initialSize: 1
+  minIdle: 1
+  maxActive: 1
+  maxWait: 60000
+  timeBetweenEvictionRunsMillis: 60000
+  minEvictableIdleTimeMillis: 300000
+  validationQuery: SELECT 'x'
+  testWhileIdle: true
+  testOnBorrow: false
+  testOnReturn: false
+  filters: stat,wall
+
+
+spring.redis:
+  host: 127.0.0.1
+  port: 6379
+
+
+# io.dubbo.springboot.DubboProperties
+spring.dubbo:
+  # 扫描 @Service @Reference 注解所在的目录, 前者在 容器初始化之后 注入, 前者在 窗口初始化之前 注入. 目录如果有多个用 <英文逗号(,)> 隔开
+  scan: com.github
+  # 只在服务端时需要下面的配置, 相当于这个配置: <dubbo:protocol name="dubbo" port="xx" serialization="kryo" />
+  protocol:
+    # serialization: kryo
+    name: dubbo
+    port: order
+  application:
+    # <dubbo:application name="p-s" id="p-s" />
+    name: Order-server
+    # <dubbo:registry address="zk://ip:port" timeout="10000" />
+    registry:
+      address: zookeeper://127.0.0.1:2181
+      timeout: 10000
+    # 如果 zk 有集群, 去掉上面, 解开下面即可, 上面的方式只是基于一个 zk 实例
+#    registries:
+#      -
+#        address: zookeeper://127.0.0.1:2181
+#        timeout: 10000
+#      -
+#        address: zookeeper://192.168.0.124:2181
+#        timeout: 1000
+#

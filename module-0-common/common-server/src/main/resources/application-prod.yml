@@ -1,0 +1,41 @@
+
+online: true
+
+logging.config: classpath:log-prod.xml
+
+database:
+  url:  jdbc:mysql://prod_ip:prod_port/y123y?useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true
+  userName: yy123yy
+  password: yyy123yyy
+  initialSize: 10
+  minIdle: 10
+  maxActive: 100
+  maxWait: 60000
+  timeBetweenEvictionRunsMillis: 60000
+  minEvictableIdleTimeMillis: 300000
+  validationQuery: SELECT 'x'
+  testWhileIdle: true
+  testOnBorrow: false
+  testOnReturn: false
+  filters: wall
+
+spring.redis:
+  host: 127.0.0.1
+  port: 6379
+
+spring.dubbo:
+  scan: com.github
+  protocol:
+    # serialization: kryo
+    name: dubbo
+    port: common
+  application:
+    name: Common-server
+    registries:
+      -
+        address: zookeeper://10.10.10.5:2181
+        timeout: 10000
+      -
+        address: zookeeper://10.10.10.6:2181
+        timeout: 10000
+
