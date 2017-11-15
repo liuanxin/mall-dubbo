@@ -190,8 +190,8 @@ public final class RequestUtils {
     }
 
     /** 将「json 字符」以 json 格式输出 */
-    public static void toJson(JsonResult jsonResult, HttpServletResponse response) throws IOException {
-        render("application/json", jsonResult, response);
+    public static void toJson(JsonResult result, HttpServletResponse response) throws IOException {
+        render("application/json", result, response);
     }
     private static void render(String type, JsonResult jsonResult, HttpServletResponse response) throws IOException {
         String result = JsonUtil.toRender(jsonResult);
@@ -202,8 +202,8 @@ public final class RequestUtils {
         response.getWriter().write(result);
     }
     /** 将「json 字符」以 html 格式输出. 不常见! 这种只会在一些特殊的场景用到 */
-    public static void toHtml(JsonResult jsonResult, HttpServletResponse response) throws IOException {
-        render("text/html", jsonResult, response);
+    public static void toHtml(JsonResult result, HttpServletResponse response) throws IOException {
+        render("text/html", result, response);
     }
 
     /** 基于请求上下文生成一个日志需要的上下文信息对象 */

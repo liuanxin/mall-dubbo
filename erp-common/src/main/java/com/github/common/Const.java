@@ -24,7 +24,7 @@ public final class Const {
     /** 全局的 dubbo 版本 */
     public static final String DUBBO_VERSION = "1.0";
     /** 全局的 dubbo 超时时间, 单位: 毫秒 */
-    public static final int DUBBO_TIMEOUT = 60000;
+    public static final int DUBBO_TIMEOUT = 60 * 1000;
     /** 全局的 dubbo 超时时间, 单位: 毫秒 */
     public static final String DUBBO_FILTER = "-exception";
     // ========== dubbo ==========

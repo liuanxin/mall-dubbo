@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.6.RELEASE</version>
+        <version>1.5.8.RELEASE</version>
         <relativePath/>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -45,7 +45,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- 所有的版本都在这里统一控制, 不要在其他地方设置! -->
-        <spring-boot.version>1.5.6.RELEASE</spring-boot.version>
 
         <commons-lang3.version>3.4</commons-lang3.version>
         <commons-codec.version>1.10</commons-codec.version>
@@ -62,7 +61,7 @@
         <mybatis-redis-cache.version>1.0.1</mybatis-redis-cache.version>
 
         <!-- -Ddubbo.reference.check=false -->
-        <dubbo.version>2.5.5</dubbo.version>
+        <dubbo.version>2.5.7</dubbo.version>
         <!-- 如果用 dubbox 可以开启 kryo -->
         <!--<kryo.kryo.version>2.24.0</kryo.kryo.version>
         <kryo.version>4.0.1</kryo.version>
@@ -139,7 +138,7 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>wlw-task</artifactId>
+                <artifactId>timing-task</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- 当前项目相关 -->

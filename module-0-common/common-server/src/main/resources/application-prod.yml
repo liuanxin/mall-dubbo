@@ -26,11 +26,10 @@ spring.redis:
 spring.dubbo:
   scan: com.github
   protocol:
-    # serialization: kryo
     name: dubbo
-    port: common
+    port: 20880
   application:
-    name: Common-server
+    name: common-server
     registries:
       -
         address: zookeeper://10.10.10.5:2181
@@ -38,4 +37,3 @@ spring.dubbo:
       -
         address: zookeeper://10.10.10.6:2181
         timeout: 10000
-

@@ -385,10 +385,11 @@ class Server {
             "\n" +
             "# io.dubbo.springboot.DubboProperties\n" +
             "spring.dubbo:\n" +
-            "  # 扫描 @Service @Reference 注解所在的目录, 前者在 容器初始化之后 注入, 前者在 窗口初始化之前 注入. 目录如果有多个用 <英文逗号(,)> 隔开\n" +
+            "  # 扫描 @Service @Reference 注解所在的目录. 目录如果有多个用 英文逗号(,) 隔开\n" +
             "  scan: " + ModuleTest.PACKAGE + "\n" +
             "  # 只在服务端时需要下面的配置, 相当于这个配置: <dubbo:protocol name=\"dubbo\" port=\"xx\" serialization=\"kryo\" />\n" +
             "  protocol:\n" +
+            "    # 序列化方式如果想使用 kryo, 需要引入 kryo 和 kryo-serializers 包, 见项目的 pom.xml 中的注释部分, 且需要 dubbox\n" +
             "    # serialization: kryo\n" +
             "    name: dubbo\n" +
             "    port: %s\n" +
@@ -406,8 +407,8 @@ class Server {
             "#        timeout: 10000\n" +
             "#      -\n" +
             "#        address: zookeeper://192.168.0.124:2181\n" +
-            "#        timeout: 1000\n#" +
-            "\n";
+            "#        timeout: 1000\n" +
+            "#\n";
 
     private static String APPLICATION_TEST_YML = "\n" +
             "online: false\n" +
@@ -439,15 +440,13 @@ class Server {
             "spring.dubbo:\n" +
             "  scan: " + ModuleTest.PACKAGE + "\n" +
             "  protocol:\n" +
-            "    # serialization: kryo\n" +
             "    name: dubbo\n" +
             "    port: %s\n" +
             "  application:\n" +
             "    name: %s-server\n" +
             "    registry:\n" +
             "      address: zookeeper://127.0.0.1:2181\n" +
-            "      timeout: 10000\n" +
-            "\n";
+            "      timeout: 10000\n";
 
     private static String APPLICATION_PROD_YML = "\n" +
             "online: true\n" +
@@ -478,7 +477,6 @@ class Server {
             "spring.dubbo:\n" +
             "  scan: " + ModuleTest.PACKAGE + "\n" +
             "  protocol:\n" +
-            "    # serialization: kryo\n" +
             "    name: dubbo\n" +
             "    port: %s\n" +
             "  application:\n" +
@@ -489,8 +487,7 @@ class Server {
             "        timeout: 10000\n" +
             "      -\n" +
             "        address: zookeeper://10.10.10.6:2181\n" +
-            "        timeout: 10000\n" +
-            "\n";
+            "        timeout: 10000\n";
 
     private static String LOG_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<configuration>\n" +
@@ -790,11 +787,11 @@ class Server {
         File resourcePath = new File(module + "/" + server + "/src/main/resources");
         resourcePath.mkdirs();
 
-        String applicationYml = String.format(APPLICATION_YML, parentPackageName, clazzName, port, packageName);
+        String applicationYml = String.format(APPLICATION_YML, port, packageName);
         ModuleTest.writeFile(new File(resourcePath, "application.yml"), applicationYml);
-        String applicationTestYml = String.format(APPLICATION_TEST_YML, parentPackageName, clazzName, port, packageName);
+        String applicationTestYml = String.format(APPLICATION_TEST_YML, port, packageName);
         ModuleTest.writeFile(new File(resourcePath, "application-test.yml"), applicationTestYml);
-        String applicationProdYml = String.format(APPLICATION_PROD_YML, parentPackageName, clazzName, port, packageName);
+        String applicationProdYml = String.format(APPLICATION_PROD_YML,  port, packageName);
         ModuleTest.writeFile(new File(resourcePath, "application-prod.yml"), applicationProdYml);
 
         String logXml = LOG_XML.replaceAll("~MODULE_NAME~", parentPackageName);
