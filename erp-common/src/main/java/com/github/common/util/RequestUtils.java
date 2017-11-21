@@ -2,7 +2,6 @@ package com.github.common.util;
 
 import com.github.common.json.JsonResult;
 import com.github.common.json.JsonUtil;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -99,9 +98,9 @@ public final class RequestUtils {
         // return getRequest().getQueryString(); // 没有时将会返回 null
 
         HttpServletRequest request = getRequest();
-        return ServletFileUpload.isMultipartContent(request)
-                ? "(content-type start with multipart/) uploading file"
-                : U.formatParam(request.getParameterMap());
+        String contentType = request.getContentType();
+        boolean upload = U.isNotBlank(contentType) && contentType.startsWith("multipart/");
+        return upload ? "uploading file" : U.formatParam(request.getParameterMap());
     }
 
     /** 返回 url 并且拼上参数, 非 get 请求将忽略参数 */
@@ -194,7 +193,7 @@ public final class RequestUtils {
         render("application/json", result, response);
     }
     private static void render(String type, JsonResult jsonResult, HttpServletResponse response) throws IOException {
-        String result = JsonUtil.toRender(jsonResult);
+        String result = JsonUtil.toJson(jsonResult);
         if (LogUtil.ROOT_LOG.isInfoEnabled()) {
             LogUtil.ROOT_LOG.info("return json: " + result);
         }

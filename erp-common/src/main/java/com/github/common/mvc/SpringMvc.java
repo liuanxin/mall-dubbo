@@ -6,7 +6,6 @@ import com.github.common.json.JsonUtil;
 import com.github.common.util.A;
 import com.github.common.util.LogUtil;
 import com.github.common.util.U;
-import com.github.common.converter.*;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -49,11 +48,11 @@ public final class SpringMvc {
                 jsonp = ((MappingJacksonValue) object).getJsonpFunction();
             }
             if (LogUtil.ROOT_LOG.isDebugEnabled()) {
-                String toRender = JsonUtil.toRender(render);
+                String json = JsonUtil.toJson(render);
                 if (U.isNotBlank(jsonp)) {
-                    toRender = "/**/" + jsonp + "(" + toRender + ");";
+                    json = "/**/" + jsonp + "(" + json + ");";
                 }
-                LogUtil.ROOT_LOG.debug("return: {}", toRender);
+                LogUtil.ROOT_LOG.debug("return: {}", json);
             }
         }
     }
