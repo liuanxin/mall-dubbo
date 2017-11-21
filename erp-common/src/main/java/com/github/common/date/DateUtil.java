@@ -2,6 +2,8 @@ package com.github.common.date;
 
 import com.github.common.util.U;
 import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.format.DateTimeFormat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,7 +21,10 @@ public class DateUtil {
     public static String nowTime() {
         return now(DateFormatType.YYYY_MM_DD_HH_MM_SS);
     }
-
+    /** 返回 yyyy-MM-dd HH:mm:ss SSS 格式的当前时间 */
+    public static String detailNowTime() {
+        return now(DateFormatType.YYYY_MM_DD_HH_MM_SS_SSS);
+    }
     /** 获取当前时间日期的字符串 */
     public static String now(DateFormatType dateFormatType) {
         return format(now(), dateFormatType);
@@ -43,11 +48,11 @@ public class DateUtil {
             return U.EMPTY;
         }
 
-        return new SimpleDateFormat(type.getValue()).format(date);
+        return DateTimeFormat.forPattern(type.getValue()).print(date.getTime());
     }
 
     /**
-     * 将字符串转换成 Date 对象. 类型基于 DateFormatType 一个一个试
+     * 将字符串转换成 Date 对象. 类型基于 DateFormatType 一个一个试. cst 格式麻烦一点
      *
      * @see DateFormatType
      */
@@ -57,19 +62,18 @@ public class DateUtil {
         }
 
         source = source.trim();
-        SimpleDateFormat dateFormat;
         for (DateFormatType type : DateFormatType.values()) {
-            if (type.isCst()) {
-                dateFormat = new SimpleDateFormat(type.getValue(), Locale.US);
-            } else {
-                dateFormat = new SimpleDateFormat(type.getValue());
-            }
             try {
-                Date date = dateFormat.parse(source);
-                if (date != null) {
-                    return date;
+                if (type.isCst()) {
+                    // cst 单独处理
+                    return new SimpleDateFormat(type.getValue(), Locale.ENGLISH).parse(source);
+                } else {
+                    Date date = DateTimeFormat.forPattern(type.getValue()).parseDateTime(source).toDate();
+                    if (date != null) {
+                        return date;
+                    }
                 }
-            } catch (ParseException e) {
+            } catch (ParseException | IllegalArgumentException e) {
                 // ignore
             }
         }
@@ -78,17 +82,31 @@ public class DateUtil {
 
     /** 获取一个日期所在天的最开始的时间(00:00:00 000), 对日期查询尤其有用 */
     public static Date getDayStart(Date date) {
-        return new DateTime(date).hourOfDay().withMinimumValue()
+        if (U.isBlank(date)) {
+            return null;
+        }
+        return getDateTimeStart(date).toDate();
+    }
+    private static DateTime getDateTimeStart(Date date) {
+        return new DateTime(date)
+                .hourOfDay().withMinimumValue()
                 .minuteOfHour().withMinimumValue()
                 .secondOfMinute().withMinimumValue()
-                .millisOfSecond().withMinimumValue().toDate();
+                .millisOfSecond().withMinimumValue();
     }
     /** 获取一个日期所在天的最晚的时间(23:59:59 999), 对日期查询尤其有用 */
     public static Date getDayEnd(Date date) {
-        return new DateTime(date).hourOfDay().withMaximumValue()
+        if (U.isBlank(date)) {
+            return null;
+        }
+        return getDateTimeEnd(date).toDate();
+    }
+    private static DateTime getDateTimeEnd(Date date) {
+        return new DateTime(date)
+                .hourOfDay().withMaximumValue()
                 .minuteOfHour().withMaximumValue()
                 .secondOfMinute().withMaximumValue()
-                .millisOfSecond().withMaximumValue().toDate();
+                .millisOfSecond().withMaximumValue();
     }
 
     /**
@@ -159,5 +177,13 @@ public class DateUtil {
         DateTime dt = DateTime.now();
         DateTime dateTime = new DateTime(date);
         return dt.getMonthOfYear() == dateTime.getMonthOfYear() && dt.getDayOfMonth() == dateTime.getDayOfMonth();
+    }
+
+    /** 计算两个日期之间相差的天数. 如果 start 比 end 大将会返回负数 */
+    public static int betweenDay(Date start, Date end) {
+        if (U.isBlank(start) || U.isBlank(end)) {
+            return 0;
+        }
+        return Days.daysBetween(getDateTimeStart(start), getDateTimeStart(end)).getDays();
     }
 }
