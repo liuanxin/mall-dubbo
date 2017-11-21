@@ -5,12 +5,12 @@ import com.github.common.Const;
 import com.github.common.json.JsonResult;
 import com.github.common.page.Page;
 import com.github.product.service.ProductService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import static com.github.common.json.JsonResult.success;
 
-@Controller
+@RestController
 public class ProductController {
 
     @Reference(version = Const.DUBBO_VERSION, lazy = true, check = false, timeout = Const.DUBBO_TIMEOUT)
