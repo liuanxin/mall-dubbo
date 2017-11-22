@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ModuleTest {
 
-    static String PACKAGE = Const.BASE_PACKAGE;
+    static String PACKAGE = "com.github";
     // static String PARENT = "~/project/mall-dubbo/";
     static String PARENT = ModuleTest.class.getClassLoader().getResource("").getFile() + "../../../";
     static String PACKAGE_PATH = PACKAGE.replaceAll("\\.", "/");
@@ -491,10 +491,8 @@ class Server {
 
     private static String LOG_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<configuration>\n" +
-            "\n" +
             "    <include resource=\"org/springframework/boot/logging/logback/defaults.xml\" />\n" +
-            "    <property name=\"CONSOLE_LOG_PATTERN\" value=\"[%X{receiveTime}%d] [${PID:- } %t\\\\(%logger\\\\) : %p]" +
-            "%n[%X{requestInfo} %X{headInfo}]%n%class.%method\\\\(%file:%line\\\\)%n%m%n%n\"/>\n" +
+            "    <property name=\"CONSOLE_LOG_PATTERN\" value=\"[%X{receiveTime}%d] [${PID:- } %t\\\\(%logger\\\\) : %p]%n%X{requestInfo}%class.%method\\\\(%file:%line\\\\)%n%m%n%n\"/>\n" +
             "    <include resource=\"org/springframework/boot/logging/logback/console-appender.xml\" />\n" +
             "\n" +
             "    <logger name=\"" + ModuleTest.PACKAGE + ".~MODULE_NAME~.repository\" level=\"warn\"/>\n" +
@@ -503,12 +501,11 @@ class Server {
             "    <logger name=\"com.alibaba\" level=\"error\"/>\n" +
             "    <logger name=\"com.netflix\" level=\"warn\"/>\n" +
             "    <logger name=\"org.mybatis\" level=\"warn\"/>\n" +
-            "    <logger name=\"freemarker\" level=\"warn\"/>\n" +
             "    <logger name=\"com.github\" level=\"warn\"/>\n" +
             "    <logger name=\"org.apache\" level=\"warn\"/>\n" +
             "    <logger name=\"org.I0Itec\" level=\"warn\"/>\n" +
             "    <logger name=\"org.jboss\" level=\"warn\"/>\n" +
-            "    <logger name=\"io.github\" level=\"warn\"/>" +
+            "    <logger name=\"io.github\" level=\"warn\"/>\n" +
             "\n" +
             "    <root level=\"debug\">\n" +
             "        <appender-ref ref=\"CONSOLE\"/>\n" +
@@ -516,11 +513,9 @@ class Server {
             "</configuration>\n";
     private static String LOG_TEST_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<configuration>\n" +
-            "    <property name=\"LOG_PATTERN\" value=\"[%X{receiveTime}%d] [${PID:- } %t\\\\(%logger\\\\) : %p] " +
-            "[%X{requestInfo} %X{headInfo}] %class{30}#%method\\\\(%file:%line\\\\)%n%m%n%n\"/>\n" +
-            "    <property name=\"LOG_NO_HEADER_PATTERN\" value=\"%d [${PID:- } %t\\\\(%logger\\\\) : %p] " +
-            "[%X{requestInfo}] %class{30}#%method\\\\(%file:%line\\\\)%n%m%n%n\"/>\n" +
             "    <property name=\"FILE_PATH\" value=\"${user.home}/logs/~MODULE_NAME~-test\"/>\n" +
+            "    <property name=\"SQL_PATTERN\" value=\"%d [${PID:- } %t\\\\(%logger\\\\) : %p]%n%class.%method\\\\(%file:%line\\\\)%n%m%n%n\"/>\n" +
+            "    <property name=\"LOG_PATTERN\" value=\"[%X{receiveTime}%d] [${PID:- } %t\\\\(%logger\\\\) : %p] %X{requestInfo} %class{30}#%method\\\\(%file:%line\\\\)%n%m%n%n\"/>\n" +
             "\n" +
             "    <appender name=\"PROJECT\" class=\"ch.qos.logback.core.rolling.RollingFileAppender\">\n" +
             "        <file>${FILE_PATH}.log</file>\n" +
@@ -537,11 +532,10 @@ class Server {
             "        <file>${FILE_PATH}-sql.log</file>\n" +
             "        <rollingPolicy class=\"ch.qos.logback.core.rolling.TimeBasedRollingPolicy\">\n" +
             "            <fileNamePattern>${FILE_PATH}-sql-%d{yyyy-MM-dd}.log</fileNamePattern>\n" +
-            "            <maxHistory>90</maxHistory>\n" +
+            "            <maxHistory>7</maxHistory>\n" +
             "        </rollingPolicy>\n" +
-            "\n" +
             "        <encoder>\n" +
-            "            <pattern>${LOG_NO_HEADER_PATTERN}</pattern>\n" +
+            "            <pattern>${SQL_PATTERN}</pattern>\n" +
             "        </encoder>\n" +
             "    </appender>\n" +
             "\n" +
@@ -551,12 +545,11 @@ class Server {
             "    <logger name=\"com.alibaba\" level=\"error\"/>\n" +
             "    <logger name=\"com.netflix\" level=\"warn\"/>\n" +
             "    <logger name=\"org.mybatis\" level=\"warn\"/>\n" +
-            "    <logger name=\"freemarker\" level=\"warn\"/>\n" +
             "    <logger name=\"com.github\" level=\"warn\"/>\n" +
             "    <logger name=\"org.apache\" level=\"warn\"/>\n" +
             "    <logger name=\"org.I0Itec\" level=\"warn\"/>\n" +
             "    <logger name=\"org.jboss\" level=\"warn\"/>\n" +
-            "    <logger name=\"io.github\" level=\"warn\"/>" +
+            "    <logger name=\"io.github\" level=\"warn\"/>\n" +
             "\n" +
             "    <logger name=\"sqlLog\" level=\"debug\" additivity=\"false\">\n" +
             "        <appender-ref ref=\"SQL\" />\n" +
@@ -568,9 +561,8 @@ class Server {
             "</configuration>\n";
     private static String LOG_PROD_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<configuration>\n" +
-            "    <property name=\"LOG_PATTERN\" value=\"[%X{receiveTime}%d] [${PID:- } %t\\\\(%logger\\\\) : %p] " +
-            "[%X{requestInfo} %X{headInfo}] %class{30}#%method\\\\(%file:%line\\\\)%n%m%n%n\"/>\n" +
             "    <property name=\"FILE_PATH\" value=\"${user.home}/logs/~MODULE_NAME~-prod\"/>\n" +
+            "    <property name=\"LOG_PATTERN\" value=\"[%X{receiveTime}%d] [${PID:- } %t\\\\(%logger\\\\) : %p] %X{requestInfo} %class{30}#%method\\\\(%file:%line\\\\)%n%m%n%n\"/>\n" +
             "\n" +
             "    <appender name=\"PROJECT\" class=\"ch.qos.logback.core.rolling.RollingFileAppender\">\n" +
             "        <file>${FILE_PATH}.log</file>\n" +
@@ -578,7 +570,6 @@ class Server {
             "            <fileNamePattern>${FILE_PATH}-%d{yyyy-MM-dd}.log</fileNamePattern>\n" +
             "            <maxHistory>60</maxHistory>\n" +
             "        </rollingPolicy>\n" +
-            "\n" +
             "        <encoder>\n" +
             "            <pattern>${LOG_PATTERN}</pattern>\n" +
             "        </encoder>\n" +
@@ -596,12 +587,11 @@ class Server {
             "    <logger name=\"com.alibaba\" level=\"error\"/>\n" +
             "    <logger name=\"com.netflix\" level=\"warn\"/>\n" +
             "    <logger name=\"org.mybatis\" level=\"warn\"/>\n" +
-            "    <logger name=\"freemarker\" level=\"warn\"/>\n" +
             "    <logger name=\"com.github\" level=\"warn\"/>\n" +
             "    <logger name=\"org.apache\" level=\"warn\"/>\n" +
             "    <logger name=\"org.I0Itec\" level=\"warn\"/>\n" +
             "    <logger name=\"org.jboss\" level=\"warn\"/>\n" +
-            "    <logger name=\"io.github\" level=\"warn\"/>" +
+            "    <logger name=\"io.github\" level=\"warn\"/>\n" +
             "\n" +
             "    <root level=\"info\">\n" +
             "        <appender-ref ref=\"ASYNC\"/>\n" +

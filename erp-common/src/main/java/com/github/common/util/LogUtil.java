@@ -23,20 +23,13 @@ public final class LogUtil {
 
     /** 接收到请求的时间. 在 log.xml 中使用 %X{recordTime} 获取  */
     private static final String RECEIVE_TIME = "receiveTime";
-    /** 请求信息, 包括有 ip、url, param 等  */
+    /** 请求信息: 包括 ip、url, param 等  */
     private static final String REQUEST_INFO = "requestInfo";
-    /** 请求里包含的头信息  */
-    private static final String HEAD_INFO = "headInfo";
 
     /** 输出当前请求信息, 在日志中显示 */
     public static void bind(RequestLogContext logContextInfo) {
         recordTime();
-        MDC.put(REQUEST_INFO, logContextInfo.paramInfo());
-        MDC.put(HEAD_INFO, logContextInfo.headParamInfo());
-    }
-    public static boolean wasBind() {
-        String receiveTime = MDC.get(RECEIVE_TIME);
-        return receiveTime != null && !"".equalsIgnoreCase(receiveTime.trim());
+        MDC.put(REQUEST_INFO, logContextInfo.requestInfo());
     }
     public static void unbind() {
         MDC.clear();
@@ -46,11 +39,14 @@ public final class LogUtil {
         MDC.put(RECEIVE_TIME, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS").format(new Date()) + " -> ");
     }
 
+
     @Setter
     @Getter
     @NoArgsConstructor
     @Accessors(chain = true)
     public static class RequestLogContext {
+        boolean online;
+
         String id;
         String name;
         /** 访问 ip */
@@ -64,11 +60,24 @@ public final class LogUtil {
         /** 请求 header 中的参数 */
         String headParam;
 
-        private String paramInfo() {
-            return String.format("%s (%s/%s) (%s %s) param(%s)", ip, id, name, method, url, param);
-        }
-        private String headParamInfo() {
-            return String.format("header(%s)", headParam);
+        private String requestInfo() {
+            StringBuilder sbd = new StringBuilder();
+            sbd.append("[");
+            if (U.isBlank(id) && U.isBlank(name)) {
+                sbd.append(String.format("%s (%s %s) param(%s)", ip, method, url, param));
+            } else {
+                sbd.append(String.format("%s (%s/%s) (%s %s) param(%s)", ip, id, name, method, url, param));
+            }
+            sbd.append(" ");
+            // 非线上环境则输出 head 信息
+            if (!online) {
+                sbd.append(String.format("header(%s)", headParam));
+            }
+            sbd.append("]");
+            if (!online) {
+                sbd.append("\n");
+            }
+            return sbd.toString();
         }
     }
 }
