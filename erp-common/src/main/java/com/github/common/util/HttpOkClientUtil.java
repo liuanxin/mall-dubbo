@@ -67,9 +67,10 @@ public class HttpOkClientUtil {
         for (Map.Entry<String, File> entry : files.entrySet()) {
             File file = entry.getValue();
             MediaType type = null;
-            if (file.getName().endsWith(".png")) {
+            String fileName = file.getName().toLowerCase();
+            if (fileName.endsWith(".png")) {
                 type = PNG;
-            } else if (file.getName().endsWith(".jpg")) {
+            } else if (fileName.endsWith(".jpg")) {
                 type = JPG;
             }
             if (type != null) {
@@ -100,8 +101,9 @@ public class HttpOkClientUtil {
                 }
             }
         }
-        // if (LogUtil.ROOT_LOG.isDebugEnabled())
-        //    LogUtil.ROOT_LOG.debug("request ({}), return ({})", url, body);
+        if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+            LogUtil.ROOT_LOG.debug("request ({}), return ({})", url, body);
+        }
         return body;
     }
     private static ResponseBody response(String url, Request.Builder builder) {
