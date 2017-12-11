@@ -1,13 +1,16 @@
 package com.github.global.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
 
 import java.util.concurrent.TimeUnit;
 
-@Service
+@Configuration
+@ConditionalOnClass({ Jedis.class, StringRedisTemplate.class })
 public class CacheService {
 
     /** @see org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration.RedisConfiguration */

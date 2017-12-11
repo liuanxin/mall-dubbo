@@ -103,10 +103,33 @@ public final class RequestUtils {
         return upload ? "uploading file" : U.formatParam(request.getParameterMap());
     }
 
+    public static String getRequestDomain() {
+        HttpServletRequest request = getRequest();
+
+        StringBuilder sbd = new StringBuilder();
+        String scheme = request.getScheme().toLowerCase();
+        int port = request.getServerPort();
+        if (port < 0) {
+            port = 80;
+        }
+
+        sbd.append(scheme);
+        sbd.append("://");
+        sbd.append(request.getServerName());
+        if ((scheme.equals("http") && (port != 80))
+                || (scheme.equals("https") && (port != 443))) {
+            sbd.append(':');
+            sbd.append(port);
+        }
+        return sbd.toString();
+    }
+
     /** 返回 url 并且拼上参数, 非 get 请求将忽略参数 */
     public static String getUrl() {
-        String url = getRequest().getRequestURL().toString();
-        if ("get".equalsIgnoreCase(getRequest().getMethod())) {
+        HttpServletRequest request = getRequest();
+        String url = request.getRequestURL().toString();
+        // String url = getRequestDomain() + request.getRequestURI();
+        if ("get".equalsIgnoreCase(request.getMethod())) {
             String param = formatParam();
             if (U.isNotBlank(param)) {
                 url += ("?" + param);

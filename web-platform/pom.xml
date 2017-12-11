@@ -11,7 +11,7 @@
 
     <artifactId>web-platform</artifactId>
     <description>给前端项目调用, 发布成 web 项目</description>
-    <packaging>war</packaging>
+    <!--<packaging>war</packaging>-->
 
     <dependencies>
         <dependency>
