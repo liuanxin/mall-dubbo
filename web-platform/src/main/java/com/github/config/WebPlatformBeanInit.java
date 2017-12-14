@@ -1,9 +1,13 @@
 package com.github.config;
 
+import com.github.common.ApplicationContextUtil;
+import com.github.common.Const;
+import com.github.common.RenderViewResolver;
+import com.github.global.model.Develop;
+import com.github.liuanxin.api.annotation.EnableApiInfo;
+import com.github.liuanxin.api.model.DocumentCopyright;
 import com.github.util.WebPlatformDataCollectUtil;
 import com.github.util.WebPlatformSessionUtil;
-import com.github.common.ApplicationContextUtil;
-import com.github.common.RenderViewResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.freemarker.FreeMarkerProperties;
@@ -16,6 +20,7 @@ import java.nio.charset.StandardCharsets;
 
 /** 项目中需要额外加载的类 */
 @Configuration
+@EnableApiInfo
 public class WebPlatformBeanInit {
 
     @Value("${online:false}")
@@ -53,5 +58,15 @@ public class WebPlatformBeanInit {
         resolver.putVariable(online).putClass(WebPlatformSessionUtil.class).putEnum(WebPlatformDataCollectUtil.ENUM_CLASS);
         properties.applyToViewResolver(resolver);
         return resolver;
+    }
+
+    @Bean
+    public DocumentCopyright urlCopyright() {
+        return new DocumentCopyright()
+                .setTitle(Develop.TITLE)
+                .setContact(Develop.CONTACT)
+                .setTeam(Develop.TEAM)
+                .setVersion(Const.DUBBO_VERSION)
+                .setOnline(online);
     }
 }

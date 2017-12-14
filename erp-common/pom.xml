@@ -86,6 +86,11 @@
             <artifactId>mybatis-page</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.liuanxin</groupId>
+            <artifactId>api-info</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <dependency>
             <groupId>com.alibaba</groupId>

@@ -133,7 +133,10 @@ class Model {
             "public final class %sConst {\n"+
             "\n"+
             "    /** 当前模块名 */\n"+
-            "    public static String MODULE_NAME = \"%s\";\n"+
+            "    public static final String MODULE_NAME = \"%s\";\n" +
+            "\n" +
+            "    /** 当前模块说明. 当用在文档中时有用 */\n" +
+            "    public static final String MODULE_INFO = MODULE_NAME + \"-%s\";\n"+
             "}\n";
 
     private static String INTERFACE = "package " + ModuleTest.PACKAGE + ".%s.service;\n" +
@@ -186,7 +189,7 @@ class Model {
         model_interface.mkdirs();
         new File(modelSourcePath, "enums").mkdirs();
         new File(modelSourcePath, "model").mkdirs();
-        String constModel = String.format(CONST, parentPackageName, clazzName, packageName);
+        String constModel = String.format(CONST, parentPackageName, clazzName, packageName, comment);
         ModuleTest.writeFile(new File(model_constant, clazzName + "Const.java"), constModel);
 
         String interfaceModel = String.format(INTERFACE, parentPackageName, clazzName);
