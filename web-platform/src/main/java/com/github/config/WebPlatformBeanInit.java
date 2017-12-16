@@ -1,7 +1,7 @@
 package com.github.config;
 
+import com.github.common.AppVersion;
 import com.github.common.ApplicationContextUtil;
-import com.github.common.Const;
 import com.github.common.RenderViewResolver;
 import com.github.global.model.Develop;
 import com.github.liuanxin.api.annotation.EnableApiInfo;
@@ -66,7 +66,7 @@ public class WebPlatformBeanInit {
                 .setTitle(Develop.TITLE)
                 .setContact(Develop.CONTACT)
                 .setTeam(Develop.TEAM)
-                .setVersion(Const.DUBBO_VERSION)
+                .setVersion(AppVersion.currentVersion())
                 .setOnline(online);
     }
 }

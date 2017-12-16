@@ -1,15 +1,17 @@
 package com.github.config;
 
 import com.github.common.Const;
-import com.github.common.mvc.PageArgumentResolver;
 import com.github.common.mvc.SpringMvc;
+import com.github.common.mvc.VersionRequestMappingHandlerMapping;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.util.List;
 
@@ -19,7 +21,18 @@ import java.util.List;
  * @see org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter
  */
 @Configuration
-public class WebPlatformWarInit extends WebMvcConfigurerAdapter {
+public class WebPlatformWarInit extends WebMvcConfigurationSupport {
+
+    @Override
+    protected RequestMappingHandlerMapping createRequestMappingHandlerMapping() {
+        return new VersionRequestMappingHandlerMapping();
+    }
+
+    @Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 继承至 Support 之后且处理了版本需要手动路由静态资源
+        registry.addResourceHandler("/static/**").addResourceLocations( "classpath:/static/");
+    }
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
@@ -33,12 +46,11 @@ public class WebPlatformWarInit extends WebMvcConfigurerAdapter {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        argumentResolvers.add(new PageArgumentResolver());
+        SpringMvc.handlerArgument(argumentResolvers);
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // 添加自定义的拦截器
         registry.addInterceptor(new WebPlatformInterceptor()).addPathPatterns("/**");
     }
 
