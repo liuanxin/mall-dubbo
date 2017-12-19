@@ -67,6 +67,7 @@ public class WebPlatformBeanInit {
                 .setContact(Develop.CONTACT)
                 .setTeam(Develop.TEAM)
                 .setVersion(Const.DUBBO_VERSION)
+                //.setCommentInReturnExample(false)
                 .setOnline(online);
     }
 }

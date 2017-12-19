@@ -1,26 +1,24 @@
 package com.github.common.resource;
 
-import com.google.common.collect.Lists;
 import com.github.common.util.A;
 import com.github.common.util.U;
+import com.google.common.collect.Maps;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 public final class CollectEnumUtil {
 
     /** 获取所有枚举的说明 */
-    @SuppressWarnings("unchecked")
-    public static List<Map<Object, Object>> enumList(Map<String, Object> enums) {
-        List<Map<Object, Object>> enumList = Lists.newArrayList();
+    public static Map<String, Map<Object, Object>> enumMap(Map<String, Object> enums) {
+        Map<String, Map<Object, Object>> enumMap = Maps.newHashMap();
         for (String type : enums.keySet()) {
             Map<Object, Object> enumInfo = enumInfo(type, enums);
             if (A.isNotEmpty(enumInfo)) {
-                enumList.add(A.maps(type, enumInfo));
+                enumMap.put(type, enumInfo);
             }
         }
-        return enumList;
+        return enumMap;
     }
     /** 根据枚举的名字获取单个枚举的说明 */
     @SuppressWarnings("unchecked")

@@ -33,7 +33,7 @@ public class IndexController {
     @ResponseBody
     public JsonResult enumList(@ApiParam(desc = "枚举类型. 不传则返回列表, type 与 枚举的类名相同, 忽略大小写") String type) {
         return U.isBlank(type) ?
-                success("枚举列表", CollectEnumUtil.enumList(WebPlatformDataCollectUtil.ENUMS)) :
+                success("枚举列表", CollectEnumUtil.enumMap(WebPlatformDataCollectUtil.ENUMS)) :
                 success("枚举信息", CollectEnumUtil.enumInfo(type, WebPlatformDataCollectUtil.ENUMS));
     }
 
