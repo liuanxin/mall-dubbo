@@ -14,7 +14,4 @@ public class DemoDto {
 
     @ApiParam(desc = "用户 id")
     private Long userId;
-
-    @ApiParam(type = "int", desc = "性别")
-    private Gender gender;
 }
