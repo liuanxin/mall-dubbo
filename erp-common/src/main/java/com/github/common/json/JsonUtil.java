@@ -10,6 +10,7 @@ public class JsonUtil {
     public static final ObjectMapper RENDER = new RenderObjectMapper();
 
 	private static class RenderObjectMapper extends ObjectMapper {
+        private static final long serialVersionUID = 0L;
 		private RenderObjectMapper() {
 			super();
             // 日期不用 utc 方式显示(utc 是一个整数值)
