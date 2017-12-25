@@ -88,7 +88,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.liuanxin</groupId>
-            <artifactId>api-info</artifactId>
+            <artifactId>api-document</artifactId>
             <scope>provided</scope>
         </dependency>
 
