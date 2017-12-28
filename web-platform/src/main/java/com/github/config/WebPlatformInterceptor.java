@@ -1,12 +1,11 @@
 package com.github.config;
 
-import com.github.util.WebPlatformSessionUtil;
-import com.google.common.collect.Lists;
 import com.github.common.annotation.NotNeedLogin;
 import com.github.common.annotation.NotNeedPermission;
 import com.github.common.util.LogUtil;
 import com.github.common.util.RequestUtils;
-import org.springframework.beans.factory.annotation.Value;
+import com.github.util.WebPlatformSessionUtil;
+import com.google.common.collect.Lists;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,8 +19,10 @@ public class WebPlatformInterceptor implements HandlerInterceptor {
 
     private static final List<String> LET_IT_GO = Lists.newArrayList("/error");
 
-    @Value("${online}")
     private boolean online;
+    WebPlatformInterceptor(boolean online) {
+        this.online = online;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
