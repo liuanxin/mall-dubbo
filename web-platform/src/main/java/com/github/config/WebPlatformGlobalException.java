@@ -41,6 +41,33 @@ public class WebPlatformGlobalException {
     @Value("${online:false}")
     private boolean online;
 
+    /** 业务异常. 非 rpc 调用抛出此异常时 */
+    @ExceptionHandler(ServiceException.class)
+    public void serviceException(ServiceException e, HttpServletResponse response) throws IOException {
+        if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+            LogUtil.ROOT_LOG.debug(e.getMessage());
+        }
+        RequestUtils.toJson(fail(e.getMessage()), response);
+    }
+
+    /** 请求时没权限. 非 rpc 调用抛出此异常时 */
+    @ExceptionHandler(ForbiddenException.class)
+    public void forbidden(ForbiddenException e, HttpServletResponse response) throws IOException {
+        if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+            LogUtil.ROOT_LOG.debug(e.getMessage());
+        }
+        RequestUtils.toJson(fail(e.getMessage()), response);
+    }
+
+    /** 请求时没登录. 非 rpc 调用抛出此异常时 */
+    @ExceptionHandler(NotLoginException.class)
+    public void noLogin(NotLoginException e, HttpServletResponse response) throws IOException {
+        if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+            LogUtil.ROOT_LOG.debug(e.getMessage());
+        }
+        RequestUtils.toJson(notLogin(), response);
+    }
+
     /** 请求没有相应的处理 */
     @ExceptionHandler(NoHandlerFoundException.class)
     public void forbidden(NoHandlerFoundException e, HttpServletResponse response) throws IOException {
