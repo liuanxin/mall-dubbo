@@ -1,6 +1,5 @@
 package com.github.config;
 
-import com.github.common.exception.CommonException;
 import com.github.common.exception.ForbiddenException;
 import com.github.common.exception.NotLoginException;
 import com.github.common.exception.ServiceException;
@@ -17,6 +16,8 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.github.common.json.JsonResult.fail;
 import static com.github.common.json.JsonResult.notLogin;
@@ -31,43 +32,14 @@ import static com.github.common.json.JsonResult.notLogin;
 @ControllerAdvice
 public class WebPlatformGlobalException {
 
+    /** dubbo 返回的异常 */
+    private static final Pattern DUBBO_EXCEPTION_REGEX = Pattern.compile("(([^\\n]*)\n){2}");
+    private static final String SERVICE = ServiceException.class.getName();
+    private static final String FORBIDDEN = ForbiddenException.class.getName();
+    private static final String NOTLOGIN = NotLoginException.class.getName();
+
     @Value("${online:false}")
     private boolean online;
-
-    @ExceptionHandler(CommonException.class)
-    public void commonException(CommonException e, HttpServletResponse response) throws IOException {
-        if (LogUtil.ROOT_LOG.isDebugEnabled()) {
-            LogUtil.ROOT_LOG.debug(e.getMessage());
-        }
-        RequestUtils.toJson(fail(e.getMessage()), response);
-    }
-
-    /** 业务异常 */
-    @ExceptionHandler(ServiceException.class)
-    public void serviceException(ServiceException e, HttpServletResponse response) throws IOException {
-        if (LogUtil.ROOT_LOG.isDebugEnabled()) {
-            LogUtil.ROOT_LOG.debug(e.getMessage());
-        }
-        RequestUtils.toJson(fail(e.getMessage()), response);
-    }
-
-    /** 请求时没权限 */
-    @ExceptionHandler(ForbiddenException.class)
-    public void forbidden(ForbiddenException e, HttpServletResponse response) throws IOException {
-        if (LogUtil.ROOT_LOG.isErrorEnabled()) {
-            LogUtil.ROOT_LOG.error(e.getMessage());
-        }
-        RequestUtils.toJson(fail(e.getMessage()), response);
-    }
-
-    /** 请求时没登录 */
-    @ExceptionHandler(NotLoginException.class)
-    public void noLogin(NotLoginException e, HttpServletResponse response) throws IOException {
-        if (LogUtil.ROOT_LOG.isDebugEnabled()) {
-            LogUtil.ROOT_LOG.debug(e.getMessage());
-        }
-        RequestUtils.toJson(notLogin(), response);
-    }
 
     /** 请求没有相应的处理 */
     @ExceptionHandler(NoHandlerFoundException.class)
@@ -105,9 +77,38 @@ public class WebPlatformGlobalException {
     /** 未知的所有其他异常 */
     @ExceptionHandler(Throwable.class)
     public void exception(Throwable e, HttpServletResponse response) throws IOException {
-        if (LogUtil.ROOT_LOG.isErrorEnabled()) {
-            LogUtil.ROOT_LOG.error("有错误: " + e.getMessage(), e);
+        // x.xxException: abc\nx.xxException: abc\n
+        String msg = e.getMessage();
+        Matcher m = DUBBO_EXCEPTION_REGEX.matcher(msg);
+        if (m.matches()) {
+            msg = m.group(2);
         }
-        RequestUtils.toJson(fail(online ? "请求时出现错误, 我们将会尽快处理." : e.getMessage()), response);
+        // 业务异常
+        if (msg.startsWith(SERVICE)) {
+            if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+                LogUtil.ROOT_LOG.debug(e.getMessage(), e);
+            }
+            RequestUtils.toJson(fail(msg.substring(SERVICE.length() + 1)), response);
+        }
+        // 请求时没权限
+        else if (msg.startsWith(FORBIDDEN)) {
+            if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+                LogUtil.ROOT_LOG.debug(e.getMessage(), e);
+            }
+            RequestUtils.toJson(fail(msg.substring(FORBIDDEN.length() + 1)), response);
+        }
+        // 请求时没登录
+        else if (msg.startsWith(NOTLOGIN)) {
+            if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+                LogUtil.ROOT_LOG.debug(e.getMessage(), e);
+            }
+            RequestUtils.toJson(notLogin(), response);
+        }
+        else {
+            if (LogUtil.ROOT_LOG.isErrorEnabled()) {
+                LogUtil.ROOT_LOG.error("有错误: " + e.getMessage(), e);
+            }
+            RequestUtils.toJson(fail(online ? "请求时出现错误, 我们将会尽快处理." : e.getMessage()), response);
+        }
     }
 }
