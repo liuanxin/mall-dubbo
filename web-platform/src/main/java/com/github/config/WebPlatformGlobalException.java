@@ -16,8 +16,6 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.github.common.json.JsonResult.fail;
 import static com.github.common.json.JsonResult.notLogin;
@@ -32,11 +30,9 @@ import static com.github.common.json.JsonResult.notLogin;
 @ControllerAdvice
 public class WebPlatformGlobalException {
 
-    /** dubbo 返回的异常 */
-    private static final Pattern DUBBO_EXCEPTION_REGEX = Pattern.compile("(([^\\n]*)\n){2}");
     private static final String SERVICE = ServiceException.class.getName();
     private static final String FORBIDDEN = ForbiddenException.class.getName();
-    private static final String NOTLOGIN = NotLoginException.class.getName();
+    private static final String NOT_LOGIN = NotLoginException.class.getName();
 
     @Value("${online:false}")
     private boolean online;
@@ -104,38 +100,44 @@ public class WebPlatformGlobalException {
     /** 未知的所有其他异常 */
     @ExceptionHandler(Throwable.class)
     public void exception(Throwable e, HttpServletResponse response) throws IOException {
-        // x.xxException: abc\nx.xxException: abc\n
         String msg = e.getMessage();
-        Matcher m = DUBBO_EXCEPTION_REGEX.matcher(msg);
-        if (m.matches()) {
-            msg = m.group(2);
-        }
-        // 业务异常
-        if (msg.startsWith(SERVICE)) {
-            if (LogUtil.ROOT_LOG.isDebugEnabled()) {
-                LogUtil.ROOT_LOG.debug(e.getMessage(), e);
+        if (U.isNotBlank(msg)) {
+            // x.xxException: abc\nx.xxException: abc\n
+            msg = msg.split("\n")[0].trim();
+            // 业务异常
+            if (msg.startsWith(SERVICE)) {
+                if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+                    LogUtil.ROOT_LOG.debug(e.getMessage(), e);
+                }
+                RequestUtils.toJson(fail(msg.substring(SERVICE.length() + 1)), response);
+                return;
             }
-            RequestUtils.toJson(fail(msg.substring(SERVICE.length() + 1)), response);
-        }
-        // 请求时没权限
-        else if (msg.startsWith(FORBIDDEN)) {
-            if (LogUtil.ROOT_LOG.isDebugEnabled()) {
-                LogUtil.ROOT_LOG.debug(e.getMessage(), e);
+            // 请求时没权限
+            else if (msg.startsWith(FORBIDDEN)) {
+                if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+                    LogUtil.ROOT_LOG.debug(e.getMessage(), e);
+                }
+                RequestUtils.toJson(fail(msg.substring(FORBIDDEN.length() + 1)), response);
+                return;
             }
-            RequestUtils.toJson(fail(msg.substring(FORBIDDEN.length() + 1)), response);
-        }
-        // 请求时没登录
-        else if (msg.startsWith(NOTLOGIN)) {
-            if (LogUtil.ROOT_LOG.isDebugEnabled()) {
-                LogUtil.ROOT_LOG.debug(e.getMessage(), e);
+            // 请求时没登录
+            else if (msg.startsWith(NOT_LOGIN)) {
+                if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+                    LogUtil.ROOT_LOG.debug(e.getMessage(), e);
+                }
+                RequestUtils.toJson(notLogin(), response);
+                return;
             }
-            RequestUtils.toJson(notLogin(), response);
         }
-        else {
-            if (LogUtil.ROOT_LOG.isErrorEnabled()) {
-                LogUtil.ROOT_LOG.error("有错误: " + e.getMessage(), e);
-            }
-            RequestUtils.toJson(fail(online ? "请求时出现错误, 我们将会尽快处理." : e.getMessage()), response);
+
+        if (LogUtil.ROOT_LOG.isErrorEnabled()) {
+            LogUtil.ROOT_LOG.error("有错误: " + e.getMessage(), e);
         }
+        if (online) {
+            msg = "请求时出现错误, 我们将会尽快处理";
+        } else if (e instanceof NullPointerException && U.isBlank(msg)) {
+            msg = "空指针异常, 联系后台查看日志进行处理";
+        }
+        RequestUtils.toJson(fail(msg), response);
     }
 }
