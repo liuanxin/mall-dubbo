@@ -48,18 +48,18 @@ public final class SpringMvc {
         protected void writeSuffix(JsonGenerator generator, Object object) throws IOException {
             super.writeSuffix(generator, object);
 
-            String jsonp = null;
-            Object render = object;
-            if (object instanceof MappingJacksonValue) {
-                render = ((MappingJacksonValue) object).getValue();
-                jsonp = ((MappingJacksonValue) object).getJsonpFunction();
-            }
-            if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+            if (LogUtil.ROOT_LOG.isInfoEnabled()) {
+                String jsonp = null;
+                Object render = object;
+                if (object instanceof MappingJacksonValue) {
+                    render = ((MappingJacksonValue) object).getValue();
+                    jsonp = ((MappingJacksonValue) object).getJsonpFunction();
+                }
                 String toRender = JsonUtil.toJson(render);
                 if (U.isNotBlank(jsonp)) {
                     toRender = "/**/" + jsonp + "(" + toRender + ");";
                 }
-                LogUtil.ROOT_LOG.debug("return: {}", toRender);
+                LogUtil.ROOT_LOG.info("return json : {}", toRender);
             }
         }
     }
