@@ -499,6 +499,7 @@ class Server {
             "    <include resource=\"org/springframework/boot/logging/logback/console-appender.xml\" />\n" +
             "\n" +
             "    <logger name=\"" + ModuleTest.PACKAGE + ".~MODULE_NAME~.repository\" level=\"warn\"/>\n" +
+            "    <logger name=\"" + ModuleTest.PACKAGE + ".common.mvc\" level=\"warn\"/>\n" +
             "    <logger name=\"org.springframework\" level=\"warn\"/>\n" +
             "    <logger name=\"org.hibernate\" level=\"warn\"/>\n" +
             "    <logger name=\"com.alibaba\" level=\"error\"/>\n" +
@@ -543,6 +544,7 @@ class Server {
             "    </appender>\n" +
             "\n" +
             "    <logger name=\"" + ModuleTest.PACKAGE + ".~MODULE_NAME~.repository\" level=\"warn\"/>\n" +
+            "    <logger name=\"" + ModuleTest.PACKAGE + ".common.mvc\" level=\"warn\"/>\n" +
             "    <logger name=\"org.springframework\" level=\"warn\"/>\n" +
             "    <logger name=\"org.hibernate\" level=\"warn\"/>\n" +
             "    <logger name=\"com.alibaba\" level=\"error\"/>\n" +
@@ -585,6 +587,7 @@ class Server {
             "    </appender>\n" +
             "\n" +
             "    <logger name=\"" + ModuleTest.PACKAGE + ".~MODULE_NAME~.repository\" level=\"warn\"/>\n" +
+            "    <logger name=\"" + ModuleTest.PACKAGE + ".common.mvc\" level=\"warn\"/>\n" +
             "    <logger name=\"org.springframework\" level=\"warn\"/>\n" +
             "    <logger name=\"org.hibernate\" level=\"warn\"/>\n" +
             "    <logger name=\"com.alibaba\" level=\"error\"/>\n" +

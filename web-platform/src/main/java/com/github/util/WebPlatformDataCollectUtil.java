@@ -1,15 +1,16 @@
 package com.github.util;
 
+import com.github.common.Const;
+import com.github.common.constant.CommonConst;
+import com.github.common.resource.Loader;
+import com.github.common.util.U;
+import com.github.global.constant.GlobalConst;
+import com.github.order.constant.OrderConst;
 import com.github.product.constant.ProductConst;
 import com.github.user.constant.UserConst;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.github.common.Const;
-import com.github.common.constant.CommonConst;
-import com.github.common.resource.Loader;
-import com.github.common.util.U;
-import com.github.order.constant.OrderConst;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ public final class WebPlatformDataCollectUtil {
 
     private static final List<Class[]> ALL_MODEL_ENUM = Lists.newArrayList();
     static {
+        ALL_MODEL_ENUM.add(Loader.getEnumArray(GlobalConst.class, Const.enumPath(GlobalConst.MODULE_NAME)));
         ALL_MODEL_ENUM.add(Loader.getEnumArray(CommonConst.class, Const.enumPath(CommonConst.MODULE_NAME)));
         ALL_MODEL_ENUM.add(Loader.getEnumArray(UserConst.class, Const.enumPath(UserConst.MODULE_NAME)));
         ALL_MODEL_ENUM.add(Loader.getEnumArray(ProductConst.class, Const.enumPath(ProductConst.MODULE_NAME)));
