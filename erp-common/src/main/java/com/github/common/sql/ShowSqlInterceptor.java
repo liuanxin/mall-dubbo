@@ -34,12 +34,14 @@ public class ShowSqlInterceptor implements StatementInterceptor {
                 sql = sql.substring(sql.indexOf(':') + 1).trim();
             }
         }
-        if (U.isNotBlank(sql)) {
-            if (LogUtil.SQL_LOG.isDebugEnabled() && !"SELECT 1".equalsIgnoreCase(sql)) {
+        if (U.isNotBlank(sql) && !"SELECT 1".equalsIgnoreCase(sql)) {
+            long executeTime = (System.currentTimeMillis() - TIME.get());
+            if (LogUtil.SQL_LOG.isDebugEnabled()) {
                 // druid -> SQLUtils.formatMySql
-                LogUtil.SQL_LOG.debug("{}", SqlFormat.format(sql));
+                LogUtil.SQL_LOG.debug("time: {} ms, sql: {}", executeTime, SqlFormat.format(sql));
             }
         }
+        TIME.remove();
         return null;
     }
 
