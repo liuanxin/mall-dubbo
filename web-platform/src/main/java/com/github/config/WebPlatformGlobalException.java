@@ -6,6 +6,7 @@ import com.github.common.exception.ServiceException;
 import com.github.common.json.JsonResult;
 import com.github.common.util.A;
 import com.github.common.util.LogUtil;
+import com.github.common.util.RequestUtils;
 import com.github.common.util.U;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -65,7 +66,9 @@ public class WebPlatformGlobalException {
     @ExceptionHandler(NoHandlerFoundException.class)
     public JsonResult forbidden(NoHandlerFoundException e) {
         if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+            LogUtil.bind(RequestUtils.logContextInfo(false));
             LogUtil.ROOT_LOG.debug(e.getMessage(), e);
+            LogUtil.unbind();
         }
         return fail("404");
     }
@@ -73,7 +76,9 @@ public class WebPlatformGlobalException {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public JsonResult notSupported(HttpRequestMethodNotSupportedException e) {
         if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+            LogUtil.bind(RequestUtils.logContextInfo(false));
             LogUtil.ROOT_LOG.debug(e.getMessage());
+            LogUtil.unbind();
         }
 
         String msg = U.EMPTY;
