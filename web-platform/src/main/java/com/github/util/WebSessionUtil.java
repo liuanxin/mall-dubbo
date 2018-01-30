@@ -6,12 +6,12 @@ import com.github.common.util.RequestUtils;
 import com.github.common.util.U;
 
 /** 操作 session 都基于此, 其他地方不允许操作! 避免 session 被滥用 */
-public class WebPlatformSessionUtil {
+public class WebSessionUtil {
 
     /** 放在 session 里的图片验证码 key */
-    private static final String CODE = WebPlatformSessionUtil.class.getName() + "-CODE";
+    private static final String CODE = WebSessionUtil.class.getName() + "-CODE";
     /** 放在 session 里的用户 的 key */
-    private static final String USER = WebPlatformSessionUtil.class.getName() + "-USER";
+    private static final String USER = WebSessionUtil.class.getName() + "-USER";
 
     /** 验证图片验证码 */
     public static boolean checkImageCode(String code) {
@@ -34,15 +34,15 @@ public class WebPlatformSessionUtil {
     @SuppressWarnings("unchecked")
     /* todo
     public static void toSession(Account account, List<AccountPermission> permissions) {
-        RequestUtils.getSession().setAttribute(USER, WebPlatformSessionModel.assemblyData(account, permissions));
+        RequestUtils.getSession().setAttribute(USER, WebSessionModel.assemblyData(account, permissions));
     }
     */
 
     /** 获取用户信息, 从 token 中获取, 没有则从 session 中获取 */
-    public static WebPlatformSessionModel getSessionInfo() {
-        WebPlatformSessionModel sessionModel =
-                (WebPlatformSessionModel) RequestUtils.getSession().getAttribute(USER);
-        return sessionModel == null ? WebPlatformSessionModel.defaultUser() : sessionModel;
+    public static WebSessionModel getSessionInfo() {
+        WebSessionModel sessionModel =
+                (WebSessionModel) RequestUtils.getSession().getAttribute(USER);
+        return sessionModel == null ? WebSessionModel.defaultUser() : sessionModel;
     }
 
     /** 从 session 中获取用户 id */

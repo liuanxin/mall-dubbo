@@ -6,8 +6,8 @@ import com.github.common.RenderViewResolver;
 import com.github.global.model.Develop;
 import com.github.liuanxin.api.annotation.EnableApiInfo;
 import com.github.liuanxin.api.model.DocumentCopyright;
-import com.github.util.WebPlatformDataCollectUtil;
-import com.github.util.WebPlatformSessionUtil;
+import com.github.util.WebDataCollectUtil;
+import com.github.util.WebSessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.freemarker.FreeMarkerProperties;
@@ -55,7 +55,7 @@ public class WebPlatformBeanInit {
     @Bean(name = "freeMarkerViewResolver")
     public RenderViewResolver viewResolver() {
         RenderViewResolver resolver = new RenderViewResolver();
-        resolver.putVariable(online).putClass(WebPlatformSessionUtil.class).putEnum(WebPlatformDataCollectUtil.ENUM_CLASS);
+        resolver.putVariable(online).putClass(WebSessionUtil.class).putEnum(WebDataCollectUtil.ENUM_CLASS);
         properties.applyToViewResolver(resolver);
         return resolver;
     }

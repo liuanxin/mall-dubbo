@@ -11,4 +11,4 @@
 [#-- @ftlvariable name="DateUtil" type="com.github.common.date.DateUtil.static" --]
 [#-- @ftlvariable name="RequestUtils" type="com.github.common.util.RequestUtils.static" --]
 
-[#-- @ftlvariable name="CentralPlatformSessionUtil" type="com.github.util.WebPlatformSessionUtil.static" --]
+[#-- @ftlvariable name="WebSessionUtil" type="com.github.util.WebSessionUtil.static" --]

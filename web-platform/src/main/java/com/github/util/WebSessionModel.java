@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Accessors(chain = true)
-public class WebPlatformSessionModel implements Serializable {
+public class WebSessionModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** 默认未登录用户的 id */
@@ -66,14 +66,14 @@ public class WebPlatformSessionModel implements Serializable {
         return false;
     }
 
-    public static WebPlatformSessionModel defaultUser() {
-        return new WebPlatformSessionModel().setId(DEFAULT_ID).setUserName(DEFAULT_NAME);
+    public static WebSessionModel defaultUser() {
+        return new WebSessionModel().setId(DEFAULT_ID).setUserName(DEFAULT_NAME);
     }
 
     // todo
     /*
-    public static WebPlatformSessionModel assemblyData(Account account, List<AccountPermission> permissions) {
-        WebPlatformSessionModel sessionModel = JsonUtil.convert(account, WebPlatformSessionModel.class);
+    public static WebSessionModel assemblyData(Account account, List<AccountPermission> permissions) {
+        WebSessionModel sessionModel = JsonUtil.convert(account, WebSessionModel.class);
         sessionModel.setPermissionList(JsonUtil.convertList(permissions, Permission.class));
         return sessionModel;
     }

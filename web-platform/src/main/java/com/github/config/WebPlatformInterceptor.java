@@ -5,7 +5,7 @@ import com.github.common.annotation.NotNeedPermission;
 import com.github.common.mvc.Cors;
 import com.github.common.util.LogUtil;
 import com.github.common.util.RequestUtils;
-import com.github.util.WebPlatformSessionUtil;
+import com.github.util.WebSessionUtil;
 import com.google.common.collect.Lists;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -53,8 +53,8 @@ public class WebPlatformInterceptor implements HandlerInterceptor {
     private void bindParam() {
         // 打印日志上下文中的数据
         LogUtil.RequestLogContext logContextInfo = RequestUtils.logContextInfo(online)
-                .setId(String.valueOf(WebPlatformSessionUtil.getUserId()))
-                .setName(WebPlatformSessionUtil.getUserName());
+                .setId(String.valueOf(WebSessionUtil.getUserId()))
+                .setName(WebSessionUtil.getUserName());
         LogUtil.bind(logContextInfo);
     }
 
@@ -84,7 +84,7 @@ public class WebPlatformInterceptor implements HandlerInterceptor {
             return;
         }
 
-        WebPlatformSessionUtil.checkLogin();
+        WebSessionUtil.checkLogin();
 
         // 在不需要验证权限的 url 上标注 @NotNeedPermission
         NotNeedPermission notNeedPermission = getAnnotation(handlerMethod, NotNeedPermission.class);
@@ -94,7 +94,7 @@ public class WebPlatformInterceptor implements HandlerInterceptor {
         }
 
         // todo 检查权限
-        // WebPlatformSessionUtil.checkPermission();
+        // WebSessionUtil.checkPermission();
     }
     private <T extends Annotation> T getAnnotation(HandlerMethod handlerMethod, Class<T> clazz) {
         // 先找方法上的注解, 再找类上的注解
