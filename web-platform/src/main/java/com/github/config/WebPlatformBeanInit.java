@@ -3,6 +3,7 @@ package com.github.config;
 import com.github.common.AppVersion;
 import com.github.common.ApplicationContextUtil;
 import com.github.common.RenderViewResolver;
+import com.github.common.mvc.CorsFilter;
 import com.github.global.model.Develop;
 import com.github.liuanxin.api.annotation.EnableApiInfo;
 import com.github.liuanxin.api.model.DocumentCopyright;
@@ -14,6 +15,8 @@ import org.springframework.boot.autoconfigure.freemarker.FreeMarkerProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.nio.charset.StandardCharsets;
@@ -35,7 +38,14 @@ public class WebPlatformBeanInit {
         return new ApplicationContextUtil();
     }
 
-    /** 处理字符的 filter. */
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public FilterRegistrationBean corsBean() {
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+        registrationBean.setFilter(new CorsFilter());
+        return registrationBean;
+    }
+
     @Bean
     public FilterRegistrationBean filterRegistrationBean() {
         CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
