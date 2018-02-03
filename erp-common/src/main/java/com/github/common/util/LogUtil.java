@@ -58,6 +58,14 @@ public final class LogUtil {
         /** 请求 header 中的参数 */
         private String headParam;
 
+        public RequestLogContext(String ip, String method, String url, String param, String headParam) {
+            this.ip = ip;
+            this.method =method;
+            this.url = url;
+            this.param = param;
+            this.headParam = headParam;
+        }
+
         private String requestInfo() {
             StringBuilder sbd = new StringBuilder();
             sbd.append("[");
