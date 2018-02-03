@@ -218,10 +218,10 @@ public final class RequestUtils {
     }
 
     /** 将「json 字符」以 json 格式输出 */
-    public static void toJson(JsonResult result, HttpServletResponse response) {
+    public static void toJson(JsonResult result, HttpServletResponse response) throws IOException {
         render("application/json", result, response);
     }
-    private static void render(String type, JsonResult jsonResult, HttpServletResponse response) {
+    private static void render(String type, JsonResult jsonResult, HttpServletResponse response) throws IOException {
         String result = JsonUtil.toJson(jsonResult);
         if (LogUtil.ROOT_LOG.isInfoEnabled()) {
             LogUtil.ROOT_LOG.info("return json: " + result);
@@ -237,14 +237,10 @@ public final class RequestUtils {
             if (LogUtil.ROOT_LOG.isDebugEnabled()) {
                 LogUtil.ROOT_LOG.debug("response state exception", e);
             }
-        } catch (IOException e) {
-            if (LogUtil.ROOT_LOG.isErrorEnabled()) {
-                LogUtil.ROOT_LOG.error("response exception", e);
-            }
         }
     }
     /** 将「json 字符」以 html 格式输出. 不常见! 这种只会在一些特殊的场景用到 */
-    public static void toHtml(JsonResult result, HttpServletResponse response) {
+    public static void toHtml(JsonResult result, HttpServletResponse response) throws IOException {
         render("text/html", result, response);
     }
 
