@@ -2,7 +2,6 @@ package com.github.common.mvc;
 
 import com.github.common.Const;
 import com.github.common.util.A;
-import com.github.common.util.RequestUtils;
 import com.github.common.util.U;
 import org.springframework.http.HttpHeaders;
 
@@ -19,8 +18,8 @@ public class CorsFilter implements Filter {
     private static final String CREDENTIALS = "Access-Control-Allow-Credentials";
     private static final String METHODS = "Access-Control-Allow-Methods";
     private static final String HEADERS = "Access-Control-Allow-Headers";
-    /** for ie: https://www.lovelucy.info/ie-accept-third-party-cookie.html */
-    private static final String P3P = "P3P";
+    // /** for ie: https://www.lovelucy.info/ie-accept-third-party-cookie.html */
+    // private static final String P3P = "P3P";
 
     private static void handlerCors(HttpServletRequest request, HttpServletResponse response) {
         String origin = request.getHeader(HttpHeaders.ORIGIN);
@@ -40,16 +39,18 @@ public class CorsFilter implements Filter {
                         "Connection, Cookie, DNT, Host, User-Agent, Content-Type, Authorization, " +
                         "X-Requested-With, Origin, Access-Control-Request-headers");
             }
+            /*
             if (RequestUtils.isIeRequest() && U.isBlank(response.getHeader(P3P))) {
                 response.addHeader(P3P, "CP='CAO IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT'");
             }
+            */
         }
     }
 
     /** 在指定域名内的才加 cors 进 header */
     private static void handlerCors(HttpServletRequest request,
-                                   HttpServletResponse response,
-                                   List<String> assignOriginList) {
+                                    HttpServletResponse response,
+                                    List<String> assignOriginList) {
         if (A.isNotEmpty(assignOriginList) && assignOriginList.contains(request.getHeader(HttpHeaders.ORIGIN))) {
             handlerCors(request, response);
         }

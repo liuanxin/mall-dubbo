@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Enumeration;
 
 /** <span style="color:red;">!!!此工具类请只在 Controller 中调用!!!</span> */
@@ -95,6 +94,11 @@ public final class RequestUtils {
                 || U.isNotBlank(request.getParameter("_json"));
     }
 
+    /** 请求头里的 referer 这个单词拼写是错误的, 应该是 referrer, 历史遗留问题 */
+    public static String getReferrer() {
+        return getRequest().getHeader(REFERRER);
+    }
+
     /**
      * 格式化参数, 如果是文件流(form 表单中有 type="multipart/form-data" 这种), 则不打印出参数
      *
@@ -107,89 +111,6 @@ public final class RequestUtils {
         String contentType = request.getContentType();
         boolean upload = U.isNotBlank(contentType) && contentType.startsWith("multipart/");
         return upload ? "uploading file" : U.formatParam(request.getParameterMap());
-    }
-
-    public static String getRequestDomain() {
-        HttpServletRequest request = getRequest();
-
-        StringBuilder sbd = new StringBuilder();
-        String scheme = request.getScheme().toLowerCase();
-        int port = request.getServerPort();
-        if (port < 0) {
-            port = 80;
-        }
-
-        sbd.append(scheme);
-        sbd.append("://");
-        sbd.append(request.getServerName());
-        if ((scheme.equals("http") && (port != 80))
-                || (scheme.equals("https") && (port != 443))) {
-            sbd.append(':');
-            sbd.append(port);
-        }
-        return sbd.toString();
-    }
-
-    /** 返回 url 并且拼上参数, 非 get 请求将忽略参数 */
-    public static String getUrl() {
-        HttpServletRequest request = getRequest();
-        String url = request.getRequestURL().toString();
-        // String url = getRequestDomain() + request.getRequestURI();
-        if ("get".equalsIgnoreCase(request.getMethod())) {
-            String param = formatParam();
-            if (U.isNotBlank(param)) {
-                url += ("?" + param);
-            }
-        }
-        return url;
-    }
-
-    /**
-     * 获取上一个请求的 url. 先从 requestUrl 读, 而再从 referrer 读.
-     * 如果有值且值是以指定域名开头的, 且不能是主域名, 也不是要放过的 url, 就将此 url 转义了返回
-     *
-     * @param domain 主域名
-     * @param letGoUrls 放过的 url 数组
-     */
-    public static String getLastUrl(String domain, String[] letGoUrls) {
-        String last = getUrl();
-        if (checkUrl(last, domain, letGoUrls)) {
-            return U.urlEncode(last);
-        }
-
-        last = getReferrer();
-        if (checkUrl(last, domain, letGoUrls)) {
-            return U.urlEncode(last);
-        }
-        return U.EMPTY;
-    }
-    /** 返回的 url 不能为空, 跟主域名不一样, 且不包含在指定的 url 里面就返回 true */
-    private static boolean checkUrl(String backUrl, String domain, String[] letGoUrls) {
-        if (U.isNotBlank(backUrl)) {
-            domain = U.addSuffix(domain);
-            // 不能完全跟域名一样, 也不能在指定的 url 里面
-            return !backUrl.equals(domain) && !letGo(backUrl, domain, letGoUrls);
-        }
-        return false;
-    }
-    /** 传入的 url 是在指定的里面就返回 true */
-    private static boolean letGo(String backUrl, String domain, String[] letGoUrls) {
-        domain = U.addSuffix(domain);
-        for (String url : letGoUrls) {
-            // url 里面有以 / 开头就去掉, domain 里面已经带了
-            if (U.isNotBlank(url) && url.startsWith("/")) {
-                url = url.substring(1);
-            }
-            if (backUrl.startsWith(domain + url)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /** 请求头里的 referer 这个单词拼写是错误的, 应该是 referrer, 历史遗留问题 */
-    public static String getReferrer() {
-        return getRequest().getHeader(REFERRER);
     }
 
     /** 先从请求头中查, 为空再从参数中查 */
@@ -227,11 +148,10 @@ public final class RequestUtils {
             LogUtil.ROOT_LOG.info("return json: " + result);
         }
 
-        try (PrintWriter writer = response.getWriter()) {
+        try {
             response.setCharacterEncoding("utf-8");
             response.setContentType(type + ";charset=utf-8;");
-            writer.write(result);
-            writer.flush();
+            response.getWriter().write(result);
         } catch (IllegalStateException e) {
             // 基于 response 调用了 getOutputStream(), 又再调用 getWriter() 会被 web 容器拒绝
             if (LogUtil.ROOT_LOG.isDebugEnabled()) {
