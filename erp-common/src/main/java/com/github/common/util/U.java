@@ -37,8 +37,6 @@ public final class U {
     private static final String EMAIL = "^\\w[\\w\\-]*@([\\w\\-]+\\.\\w+)+$";
     /** ico, jpeg, jpg, bmp, png 后缀 */
     private static final String IMAGE = "(?i)^(.*)\\.(ico|jpeg|jpg|bmp|png)$";
-    /** 帐号输入(字母或数字开头, 长度 5-30, 可以有下划线) */
-    private static final String USER_NAME = "^[a-zA-Z0-9]\\w{4,29}$";
     /** IPv4 地址 */
     private static final String IPV4 = "^([01]?[0-9]{1,2}|2[0-4][0-9]|25[0-5])(\\.([01]?[0-9]{1,2}|2[0-4][0-9]|25[0-5])){3}$";
     /** 身份证号码 */
@@ -130,14 +128,7 @@ public final class U {
     public static boolean less0(Number obj) {
         return obj == null || obj.doubleValue() <= 0;
     }
-    /** 数值在指定的数区间时(包含边界)返回 true */
-    public static boolean betweenBorder(Number num, Number min, Number max) {
-        return num.doubleValue() >= min.doubleValue() && num.doubleValue() <= max.doubleValue();
-    }
-    /** 数值不在指定的数区间时(包含边界)返回 true */
-    public static boolean notBetweenBorder(Number num, Number min, Number max) {
-        return !betweenBorder(num, min, max);
-    }
+
     /** 数值在指定的数区间时(不包含边界)返回 true */
     public static boolean between(Number num, Number min, Number max) {
         return num.doubleValue() > min.doubleValue() && num.doubleValue() < max.doubleValue();
@@ -150,6 +141,10 @@ public final class U {
 
 
     // ========== object & string ==========
+    public static String toStr(Object obj) {
+        return isBlank(obj) ? EMPTY : obj.toString();
+    }
+
     /** 对象为 null, 或者其字符串形态为 空白符, "null" 时返回 true */
     public static boolean isBlank(Object obj) {
         return obj == null || StringUtils.isBlank(obj.toString()) || "null".equalsIgnoreCase(obj.toString().trim());
@@ -159,15 +154,21 @@ public final class U {
         return !isBlank(obj);
     }
 
-    /** 对象长度在指定的数值经内(包含边距)就返回 true */
-    public static boolean lengthBorder(Object obj, int max) {
-        return obj != null && obj.toString().trim().length() <= max;
-    }
     /** 对象长度在指定的数值以内(不包含边距)就返回 true */
     public static boolean length(Object obj, int max) {
         return obj != null && obj.toString().trim().length() < max;
     }
 
+    /** 对象长度在指定的数值经内(包含边距)就返回 true */
+    public static boolean lengthBorder(String str, int min, int max) {
+        return !isBlank(str) && str.length() >= min && str.length() <= max;
+    }
+    /** 对象长度在指定的数值以内(不包含边距)就返回 true */
+    public static boolean length(String str, int min, int max) {
+        return lengthBorder(str, min + 1, max - 1);
+    }
+
+    private static final Pattern ALL = Pattern.compile(".");
     /** 将字符串中指定位数的值模糊成 * 并返回. 索引位从 0 开始 */
     public static String foggy(String param, int start, int end) {
         if (isBlank(param)) {
@@ -177,18 +178,7 @@ public final class U {
             return param;
         }
 
-        return param.substring(0, start) + param.substring(start, end).replaceAll("[0-9]", "*") + param.substring(end);
-    }
-
-    /** 去掉所有的空白符(空格, 制表符, 换行符) */
-    public static String trim(String str) {
-        return isBlank(str) ? EMPTY : str.replaceAll("\\s", "");
-    }
-
-    /** 获取图片后缀(包含点 .) */
-    public static String getSuffix(String image) {
-        return (isNotBlank(image) && image.contains("."))
-                ? image.substring(image.lastIndexOf(".")) : EMPTY;
+        return param.substring(0, start) + ALL.matcher(param.substring(start, end)).replaceAll("*") + param.substring(end);
     }
 
     public static String like(String param) {
@@ -226,9 +216,6 @@ public final class U {
     public static boolean checkPhone(String phone) {
         return checkRegexWithStrict(phone, PHONE);
     }
-    public static boolean checkUserName(String userName) {
-        return checkRegexWithStrict(userName, USER_NAME);
-    }
     /** 是一个有效的 ip 地址则返回 true */
     public static boolean isLicitIp(String ip) {
         return checkRegexWithStrict(ip, IPV4);
@@ -243,7 +230,7 @@ public final class U {
     }
 
     /** 只要找到匹配即返回 true */
-    public static boolean checkRegexWithRelax(String param, String regex) {
+    static boolean checkRegexWithRelax(String param, String regex) {
         return isNotBlank(param) && Pattern.compile(regex).matcher(param).find();
     }
     /** 传入的参数只要包含中文就返回 true */
@@ -255,7 +242,7 @@ public final class U {
         return checkRegexWithRelax(param, MOBILE);
     }
     /** 传入的参数只要是 iOS 端就返回 true */
-    public static boolean checkIos(String param) {
+    public static boolean checkiOS(String param) {
         return checkRegexWithRelax(param, IOS);
     }
     /** 传入的参数只要是 android 端就返回 true */
@@ -307,6 +294,13 @@ public final class U {
     public static String uuid() {
         return UUID.randomUUID().toString().replace("-", "");
     }
+
+    /** 获取后缀(包含点 .) */
+    public static String getSuffix(String file) {
+        return (isNotBlank(file) && file.contains("."))
+                ? file.substring(file.lastIndexOf(".")) : EMPTY;
+    }
+
     /** 将传入的文件重命名成不带 - 的 uuid 名称并返回 */
     public static String renameFile(String fileName) {
         return uuid() + getSuffix(fileName);
@@ -349,13 +343,9 @@ public final class U {
         return url.substring(url.lastIndexOf("/") + 1, last);
     }
 
-    /** 当值为 null, 空白符, "null" 时则返回指定的字符 */
-    public static String getNil(Object obj, String defaultStr) {
-        return isBlank(obj) ? defaultStr : obj.toString().trim();
-    }
     /** 当值为 null, 空白符, "null" 时, 返回空字符串 */
     public static String getNil(Object obj) {
-        return getNil(obj, EMPTY);
+        return isBlank(obj) ? EMPTY : obj.toString().trim();
     }
 
     /** 属性转换成方法, 加上 get 并首字母大写 */
@@ -479,6 +469,13 @@ public final class U {
     public static void assert0(Number number, String msg) {
         if (less0(number)) {
             assertException(msg);
+        }
+    }
+
+    /** 字符长度不在指定的倍数之间则抛出异常 */
+    public static void assertLength(String str, int min, int max, String name) {
+        if (!lengthBorder(str, min, max)) {
+            assertException(String.format("%s长度要在 %s 到 %s 位之间", name, min, max));
         }
     }
 
