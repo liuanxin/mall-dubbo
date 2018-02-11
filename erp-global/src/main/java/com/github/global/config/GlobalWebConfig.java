@@ -1,7 +1,6 @@
 package com.github.global.config;
 
 import com.github.common.mvc.CorsFilter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -17,19 +16,16 @@ import java.nio.charset.StandardCharsets;
 @ConditionalOnClass({ Servlet.class })
 public class GlobalWebConfig {
 
-    @Value("${online:false}")
-    private boolean online;
-
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    public FilterRegistrationBean corsBean() {
+    public FilterRegistrationBean corsFilter() {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         registrationBean.setFilter(new CorsFilter());
         return registrationBean;
     }
 
     @Bean
-    public FilterRegistrationBean filterRegistrationBean() {
+    public FilterRegistrationBean characterFilter() {
         CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
         encodingFilter.setEncoding(StandardCharsets.UTF_8.displayName());
         encodingFilter.setForceEncoding(true);

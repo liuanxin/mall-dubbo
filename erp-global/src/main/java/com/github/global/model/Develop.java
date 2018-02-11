@@ -9,8 +9,5 @@ public class Develop {
 
     // 下面是具体的开发人员
 
-    public static final String COMMON = "Python";
-    public static final String USER = "Canal";
-    public static final String PRODUCT = "Play";
     public static final String ORDER = "Who";
 }
