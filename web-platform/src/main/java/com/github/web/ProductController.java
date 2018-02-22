@@ -6,7 +6,7 @@ import com.github.common.json.JsonResult;
 import com.github.common.page.Page;
 import com.github.liuanxin.api.annotation.ApiGroup;
 import com.github.product.constant.ProductConst;
-import com.github.product.service.ProductService;
+import com.github.product.service.ProductExampleService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,10 +17,10 @@ import static com.github.common.json.JsonResult.success;
 public class ProductController {
 
     @Reference(version = Const.DUBBO_VERSION, lazy = true, check = false, timeout = Const.DUBBO_TIMEOUT)
-    private ProductService productService;
+    private ProductExampleService productExampleService;
 
     @GetMapping("/demo")
     public JsonResult demo(Page page) {
-        return success("demo", productService.demo(page));
+        return success("demo", productExampleService.demo(page));
     }
 }
