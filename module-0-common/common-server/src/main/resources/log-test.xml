@@ -42,10 +42,10 @@
     <logger name="org.I0Itec" level="warn"/>
     <logger name="org.jboss" level="warn"/>
 
+
     <logger name="sqlLog" level="debug" additivity="false">
         <appender-ref ref="SQL" />
     </logger>
-
 
     <root level="debug">
         <appender-ref ref="PROJECT"/>

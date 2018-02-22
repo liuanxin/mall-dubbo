@@ -559,11 +559,11 @@ class Server {
             "    <logger name=\"org.apache\" level=\"warn\"/>\n" +
             "    <logger name=\"org.I0Itec\" level=\"warn\"/>\n" +
             "    <logger name=\"org.jboss\" level=\"warn\"/>\n" +
-            "\n" +
+            "\n\n" +
             "    <logger name=\"sqlLog\" level=\"debug\" additivity=\"false\">\n" +
             "        <appender-ref ref=\"SQL\" />\n" +
             "    </logger>\n" +
-            "\n\n" +
+            "\n" +
             "    <root level=\"debug\">\n" +
             "        <appender-ref ref=\"PROJECT\"/>\n" +
             "    </root>\n" +
