@@ -18,13 +18,11 @@
     <modules>
         <!-- 公共包, 工具类等 -->
         <module>erp-common</module>
-
-        <!-- 全局服务模块, 比如 cache 相关的模块, 被 dubbo 服务端依赖 -->
+        <!-- 会放到 spring 上下文的全局服务包, 比如 cache 相关的模块, 被 dubbo 服务端依赖 -->
         <module>erp-global</module>
 
         <!-- 公共服务模块 -->
         <module>module-0-common</module>
-
         <!-- 用户模块 -->
         <module>module-1-user</module>
         <!-- 商品模块 -->
@@ -34,7 +32,6 @@
 
         <!-- 给前端项目调用, 发布成 web 项目 -->
         <module>web-platform</module>
-
         <!-- 定时任务服务 -->
         <module>timing-task</module>
     </modules>
