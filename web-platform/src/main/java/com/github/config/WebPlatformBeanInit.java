@@ -1,10 +1,7 @@
 package com.github.config;
 
-import com.github.common.AppVersion;
 import com.github.common.RenderViewResolver;
-import com.github.global.model.Develop;
 import com.github.liuanxin.api.annotation.EnableApiInfo;
-import com.github.liuanxin.api.model.DocumentCopyright;
 import com.github.util.WebDataCollectUtil;
 import com.github.util.WebSessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,16 +33,5 @@ public class WebPlatformBeanInit {
         resolver.putVariable(online).putClass(WebSessionUtil.class).putEnum(WebDataCollectUtil.ENUM_CLASS);
         properties.applyToViewResolver(resolver);
         return resolver;
-    }
-
-    @Bean
-    public DocumentCopyright urlCopyright() {
-        return new DocumentCopyright()
-                .setTitle(Develop.TITLE)
-                .setContact(Develop.CONTACT)
-                .setTeam(Develop.TEAM)
-                .setVersion(AppVersion.currentVersion())
-                //.setCommentInReturnExample(false)
-                .setOnline(online);
     }
 }

@@ -50,7 +50,7 @@ public class WebPlatformInterceptor implements HandlerInterceptor {
 
     private void bindParam() {
         // 打印日志上下文中的数据
-        LogUtil.RequestLogContext logContextInfo = RequestUtils.logContextInfo(online)
+        LogUtil.RequestLogContext logContextInfo = RequestUtils.logContextInfo()
                 .setId(String.valueOf(WebSessionUtil.getUserId()))
                 .setName(WebSessionUtil.getUserName());
         LogUtil.bind(logContextInfo);
@@ -91,7 +91,7 @@ public class WebPlatformInterceptor implements HandlerInterceptor {
             return;
         }
 
-        // todo 检查权限
+        // 检查权限
         // WebSessionUtil.checkPermission();
     }
     private <T extends Annotation> T getAnnotation(HandlerMethod handlerMethod, Class<T> clazz) {
