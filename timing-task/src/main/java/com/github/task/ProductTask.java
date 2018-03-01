@@ -18,18 +18,18 @@ public class ProductTask {
     @Scheduled(cron = "0 0 0/1 * * *")
     public void offlineProduct() {
         LogUtil.recordTime();
-
         try {
-            // productService.yyy();
-        } catch (Exception e) {
-            if (LogUtil.ROOT_LOG.isErrorEnabled()) {
-                LogUtil.ROOT_LOG.error("商品下架时异常", e);
-            }
+            offline();
+        } finally {
+            LogUtil.unbind();
         }
+    }
+    private void offline() {
+        int offline = 0;
 
+        // productService.yyy();
         if (LogUtil.ROOT_LOG.isInfoEnabled()) {
-            LogUtil.ROOT_LOG.info("商品下架操作完成");
+            LogUtil.ROOT_LOG.info("共下架 {} 个商品", offline);
         }
-        LogUtil.unbind();
     }
 }

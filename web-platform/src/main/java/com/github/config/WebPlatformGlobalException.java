@@ -44,7 +44,6 @@ public class WebPlatformGlobalException {
         }
         return fail(e.getMessage());
     }
-
     /** 请求时没权限. 非 rpc 调用抛出此异常时 */
     @ExceptionHandler(ForbiddenException.class)
     public JsonResult forbidden(ForbiddenException e) {
@@ -53,7 +52,6 @@ public class WebPlatformGlobalException {
         }
         return fail(e.getMessage());
     }
-
     /** 请求时没登录. 非 rpc 调用抛出此异常时 */
     @ExceptionHandler(NotLoginException.class)
     public JsonResult noLogin(NotLoginException e) {
@@ -73,7 +71,7 @@ public class WebPlatformGlobalException {
         }
         return fail("404");
     }
-
+    /** 请求不支持相应的方法 */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public JsonResult notSupported(HttpRequestMethodNotSupportedException e) {
         if (LogUtil.ROOT_LOG.isDebugEnabled()) {
@@ -90,7 +88,6 @@ public class WebPlatformGlobalException {
         }
         return fail("不支持此种请求方式!" + msg);
     }
-
     /** 上传文件太大 */
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public JsonResult notFound(MaxUploadSizeExceededException e) {
