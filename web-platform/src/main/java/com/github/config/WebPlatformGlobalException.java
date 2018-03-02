@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import static com.github.common.json.JsonResult.fail;
-import static com.github.common.json.JsonResult.notLogin;
-
 /**
  * 处理全局异常的控制类
  *
@@ -42,7 +39,7 @@ public class WebPlatformGlobalException {
         if (LogUtil.ROOT_LOG.isDebugEnabled()) {
             LogUtil.ROOT_LOG.debug(e.getMessage());
         }
-        return fail(e.getMessage());
+        return JsonResult.fail(e.getMessage());
     }
     /** 请求时没权限. 非 rpc 调用抛出此异常时 */
     @ExceptionHandler(ForbiddenException.class)
@@ -50,7 +47,7 @@ public class WebPlatformGlobalException {
         if (LogUtil.ROOT_LOG.isDebugEnabled()) {
             LogUtil.ROOT_LOG.debug(e.getMessage());
         }
-        return fail(e.getMessage());
+        return JsonResult.fail(e.getMessage());
     }
     /** 请求时没登录. 非 rpc 调用抛出此异常时 */
     @ExceptionHandler(NotLoginException.class)
@@ -58,7 +55,7 @@ public class WebPlatformGlobalException {
         if (LogUtil.ROOT_LOG.isDebugEnabled()) {
             LogUtil.ROOT_LOG.debug(e.getMessage());
         }
-        return notLogin();
+        return JsonResult.notLogin();
     }
 
     /** 请求没有相应的处理 */
@@ -69,7 +66,7 @@ public class WebPlatformGlobalException {
             LogUtil.ROOT_LOG.debug(e.getMessage(), e);
             LogUtil.unbind();
         }
-        return fail("404");
+        return JsonResult.fail("404");
     }
     /** 请求不支持相应的方法 */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
@@ -86,7 +83,7 @@ public class WebPlatformGlobalException {
         if (!online) {
             msg = String.format(" 当前方式(%s), 支持方式(%s)", e.getMethod(), A.toStr(e.getSupportedMethods()));
         }
-        return fail("不支持此种请求方式!" + msg);
+        return JsonResult.fail("不支持此种请求方式!" + msg);
     }
     /** 上传文件太大 */
     @ExceptionHandler(MaxUploadSizeExceededException.class)
@@ -95,7 +92,7 @@ public class WebPlatformGlobalException {
             LogUtil.ROOT_LOG.debug("文件太大: " + e.getMessage(), e);
         }
         // 右移 20 位相当于除以两次 1024, 正好表示从字节到 Mb
-        return fail("上传文件太大! 请保持在 " + (e.getMaxUploadSize() >> 20) + "M 以内");
+        return JsonResult.fail("上传文件太大! 请保持在 " + (e.getMaxUploadSize() >> 20) + "M 以内");
     }
 
     /** 未知的所有其他异常 */
@@ -110,21 +107,21 @@ public class WebPlatformGlobalException {
                 if (LogUtil.ROOT_LOG.isDebugEnabled()) {
                     LogUtil.ROOT_LOG.debug(e.getMessage(), e);
                 }
-                return fail(msg.substring(SERVICE.length() + 1));
+                return JsonResult.fail(msg.substring(SERVICE.length() + 1));
             }
             // 请求时没权限
             else if (msg.startsWith(FORBIDDEN)) {
                 if (LogUtil.ROOT_LOG.isDebugEnabled()) {
                     LogUtil.ROOT_LOG.debug(e.getMessage(), e);
                 }
-                return fail(msg.substring(FORBIDDEN.length() + 1));
+                return JsonResult.fail(msg.substring(FORBIDDEN.length() + 1));
             }
             // 请求时没登录
             else if (msg.startsWith(NOT_LOGIN)) {
                 if (LogUtil.ROOT_LOG.isDebugEnabled()) {
                     LogUtil.ROOT_LOG.debug(e.getMessage(), e);
                 }
-                return notLogin();
+                return JsonResult.notLogin();
             }
         }
 
@@ -136,6 +133,6 @@ public class WebPlatformGlobalException {
         } else if (e instanceof NullPointerException && U.isBlank(msg)) {
             msg = "空指针异常, 联系后台查看日志进行处理";
         }
-        return fail(msg);
+        return JsonResult.fail(msg);
     }
 }
