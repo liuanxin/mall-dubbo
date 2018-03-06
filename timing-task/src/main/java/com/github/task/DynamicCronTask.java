@@ -28,7 +28,7 @@ public class DynamicCronTask implements SchedulingConfigurer {
         Runnable task = new Runnable() {
             @Override
             public void run() {
-                // 操作具体的业务 TODO
+                // 操作具体的业务
                 // productService.cancel();
             }
         };
