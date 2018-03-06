@@ -1,10 +1,7 @@
 package com.github.task;
 
-import com.alibaba.dubbo.config.annotation.Reference;
-import com.github.common.Const;
-import com.github.common.service.CommonService;
+import com.github.common.util.LogUtil;
 import com.github.common.util.U;
-import com.github.product.service.ProductService;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.TriggerContext;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
@@ -17,26 +14,38 @@ import java.util.Date;
 // @Component
 public class DynamicCronTask implements SchedulingConfigurer {
 
-    @Reference(version = Const.DUBBO_VERSION, lazy = true, check = false, timeout = Const.DUBBO_TIMEOUT)
-    private ProductService productService;
+    // @Autowired
+    // private ProductService productService;
 
-    @Reference(version = Const.DUBBO_VERSION, lazy = true, check = false, timeout = Const.DUBBO_TIMEOUT)
-    private CommonService commonService;
+    // @Autowired
+    // private CommonService commonService;
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         Runnable task = new Runnable() {
             @Override
             public void run() {
-                // 操作具体的业务
-                // productService.cancel();
+                LogUtil.recordTime();
+                try {
+                    // 操作具体的业务
+                    // int offlineCount = productService.yyy();
+                    // if (LogUtil.ROOT_LOG.isInfoEnabled()) {
+                    //     LogUtil.ROOT_LOG.info("共下架 {} 个商品", offlineCount);
+                    // }
+                } catch (Exception e) {
+                    if (LogUtil.ROOT_LOG.isErrorEnabled()) {
+                        LogUtil.ROOT_LOG.error("下架商品时异常", e);
+                    }
+                } finally {
+                    LogUtil.unbind();
+                }
             }
         };
 
         Trigger trigger = new Trigger() {
             @Override
             public Date nextExecutionTime(TriggerContext triggerContext) {
-                // 从数据库读取
+                // 从数据库读取 cron 表达式
                 String cron = ""; // commonService.getAbcCron();
                 if (U.isBlank(cron)) {
                     // 如果没有, 给一个默认值.
