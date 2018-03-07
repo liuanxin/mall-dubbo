@@ -35,10 +35,15 @@ public class ShowSqlInterceptor implements StatementInterceptor {
             }
         }
         if (U.isNotBlank(sql) && !"SELECT 1".equalsIgnoreCase(sql)) {
-            long executeTime = (System.currentTimeMillis() - TIME.get());
             if (LogUtil.SQL_LOG.isDebugEnabled()) {
+                Long start = TIME.get();
                 // druid -> SQLUtils.formatMySql
-                LogUtil.SQL_LOG.debug("time: {} ms, sql: {}", executeTime, SqlFormat.format(sql));
+                String formatSql = SqlFormat.format(sql);
+                if (start != null) {
+                    LogUtil.SQL_LOG.debug("time: {} ms, sql: {}", (System.currentTimeMillis() - start), formatSql);
+                } else {
+                    LogUtil.SQL_LOG.debug("sql: {}", formatSql);
+                }
             }
         }
         TIME.remove();
@@ -47,6 +52,7 @@ public class ShowSqlInterceptor implements StatementInterceptor {
 
     @Override
     public boolean executeTopLevelOnly() { return false; }
+
     @Override
     public void destroy() {}
 }
