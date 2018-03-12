@@ -10,7 +10,7 @@
     <logger name="freemarker" level="warn"/>
     <logger name="httpclient" level="warn"/>
     <logger name="org.apache" level="warn"/>
-    <logger name="com.github" level="warn"/>
+    <!--<logger name="com.github" level="warn"/>-->
     <logger name="com.alibaba" level="warn"/>
     <logger name="org.springframework" level="warn"/>
 
