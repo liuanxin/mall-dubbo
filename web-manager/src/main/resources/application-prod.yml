@@ -4,6 +4,7 @@ online: true
 logging.config: classpath:log-prod.xml
 
 server.port: 8787
+spring.application.name: web-backend
 
 spring.redis:
   host: 127.0.0.1
@@ -12,7 +13,7 @@ spring.redis:
 spring.dubbo:
   scan: com.github
   application:
-    name: web-platform
+    name: ${spring.application.name}
     registries:
       -
         address: zookeeper://127.0.0.1:2181

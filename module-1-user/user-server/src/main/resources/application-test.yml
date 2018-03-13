@@ -3,6 +3,8 @@ online: false
 
 logging.config: classpath:log-test.xml
 
+spring.application.name: user
+
 database:
   url:  jdbc:mysql://test_ip:test_port/x123x?useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&statementInterceptors=com.github.common.sql.ShowSqlInterceptor
   userName: xx123xx
@@ -29,7 +31,7 @@ spring.dubbo:
     name: dubbo
     port: 20881
   application:
-    name: user-server
+    name: ${spring.application.name}
     registry:
       address: zookeeper://127.0.0.1:2181
       timeout: 10000

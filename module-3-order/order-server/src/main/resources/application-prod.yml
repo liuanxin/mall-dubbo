@@ -3,6 +3,8 @@ online: true
 
 logging.config: classpath:log-prod.xml
 
+spring.application.name: order
+
 database:
   url:  jdbc:mysql://prod_ip:prod_port/y123y?useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true
   userName: yy123yy
@@ -29,7 +31,7 @@ spring.dubbo:
     name: dubbo
     port: 20883
   application:
-    name: order-server
+    name: ${spring.application.name}
     registries:
       -
         address: zookeeper://10.10.10.5:2181

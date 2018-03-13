@@ -362,6 +362,8 @@ class Server {
             "\n" +
             "logging.config: classpath:log-dev.xml\n" +
             "\n" +
+            "spring.application.name: %s\n" +
+            "\n" +
             "database:\n" +
             "  url:  jdbc:mysql://127.0.0.1:3306/mall?useSSL=false&useUnicode=true&characterEncoding=utf8" +
             "&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&statementInterceptors=" +
@@ -398,8 +400,7 @@ class Server {
             "    port: %s\n" +
             "  application:\n" +
             "    # <dubbo:application name=\"p-s\" id=\"p-s\" />\n" +
-            "    name: %s-server\n" +
-            "    # <dubbo:registry address=\"zk://ip:port\" timeout=\"10000\" />\n" +
+            "    name: ${spring.application.name}\n" +
             "    registry:\n" +
             "      address: zookeeper://127.0.0.1:2181\n" +
             "      timeout: 10000\n" +
@@ -417,6 +418,8 @@ class Server {
             "online: false\n" +
             "\n" +
             "logging.config: classpath:log-test.xml\n" +
+            "\n" +
+            "spring.application.name: %s\n" +
             "\n" +
             "database:\n" +
             "  url:  jdbc:mysql://test_ip:test_port/x123x?useSSL=false&useUnicode=true&characterEncoding=utf8" +
@@ -446,7 +449,7 @@ class Server {
             "    name: dubbo\n" +
             "    port: %s\n" +
             "  application:\n" +
-            "    name: %s-server\n" +
+            "    name: ${spring.application.name}\n" +
             "    registry:\n" +
             "      address: zookeeper://127.0.0.1:2181\n" +
             "      timeout: 10000\n";
@@ -455,6 +458,8 @@ class Server {
             "online: true\n" +
             "\n" +
             "logging.config: classpath:log-prod.xml\n" +
+            "\n" +
+            "spring.application.name: %s\n" +
             "\n" +
             "database:\n" +
             "  url:  jdbc:mysql://prod_ip:prod_port/y123y?useSSL=false&useUnicode=true&characterEncoding=utf8" +
@@ -483,7 +488,7 @@ class Server {
             "    name: dubbo\n" +
             "    port: %s\n" +
             "  application:\n" +
-            "    name: %s-server\n" +
+            "    name: ${spring.application.name}\n" +
             "    registries:\n" +
             "      -\n" +
             "        address: zookeeper://10.10.10.5:2181\n" +
@@ -789,11 +794,11 @@ class Server {
         File resourcePath = new File(module + "/" + server + "/src/main/resources");
         resourcePath.mkdirs();
 
-        String applicationYml = String.format(APPLICATION_YML, port, packageName);
+        String applicationYml = String.format(APPLICATION_YML, packageName, port);
         ModuleTest.writeFile(new File(resourcePath, "application.yml"), applicationYml);
-        String applicationTestYml = String.format(APPLICATION_TEST_YML, port, packageName);
+        String applicationTestYml = String.format(APPLICATION_TEST_YML, packageName, port);
         ModuleTest.writeFile(new File(resourcePath, "application-test.yml"), applicationTestYml);
-        String applicationProdYml = String.format(APPLICATION_PROD_YML,  port, packageName);
+        String applicationProdYml = String.format(APPLICATION_PROD_YML,  packageName, port);
         ModuleTest.writeFile(new File(resourcePath, "application-prod.yml"), applicationProdYml);
 
         String logXml = LOG_XML.replaceAll("~MODULE_NAME~", parentPackageName);
