@@ -12,6 +12,8 @@ import org.springframework.cloud.sleuth.autoconfig.TraceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Random;
+
 @Configuration
 @ConditionalOnProperty(value = "dubbo.trace.enabled", matchIfMissing = true)
 @ConditionalOnClass(Filter.class)
@@ -29,8 +31,9 @@ public class TraceDubboAutoConfiguration {
         return new DubboSpanInjector();
     }
 
+    /** @see TraceAutoConfiguration#randomForSpanIds() */
     @Bean
-    public SpanExtractor<RpcContext> spanExtractor() {
-        return new DubboSpanExtractor();
+    public SpanExtractor<RpcContext> spanExtractor(Random random) {
+        return new DubboSpanExtractor(random);
     }
 }

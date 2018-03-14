@@ -2,9 +2,9 @@
 logging.config: classpath:log-dev.xml
 server.port: 9411
 
+## 使用 mysql 存储
 #zipkin.storage.type: mysql
 #spring.datasource:
-#  driver-class-name: com.mysql.jdbc.Driver
 #  url: jdbc:mysql://127.0.0.1:3306/zipkin?useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&statementInterceptors=com.github.common.sql.ShowSqlInterceptor
 #  username: root
 #  password: root
@@ -14,3 +14,12 @@ server.port: 9411
 #  hikari:
 #    minimumIdle: 1
 #    maximumPoolSize: 1
+
+## 使用 rabbitmq 存储的话
+#zipkin:
+#  collector:
+#    rabbitmq:
+#      addresses: ip:port
+#      password: guest
+#      username: guest
+#      queue: zipkin

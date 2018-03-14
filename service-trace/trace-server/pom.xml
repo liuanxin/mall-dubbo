@@ -22,6 +22,16 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- 使用 rabbitmq 存储 -->
+        <!--
+        <dependency>
+            <groupId>io.zipkin.java</groupId>
+            <artifactId>zipkin-autoconfigure-collector-rabbitmq</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+        -->
+
+        <!-- 使用 mysql 存储 -->
         <!--
         <dependency>
             <groupId>${project.groupId}</groupId>

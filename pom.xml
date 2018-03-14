@@ -18,6 +18,8 @@
     <modules>
         <!-- 公共包, 工具类等 -->
         <module>erp-common</module>
+        <!-- 服务跟踪模块 -->
+        <module>service-trace</module>
         <!-- 放到 spring 上下文的全局服务包, 比如 cache 相关的模块, 被 dubbo 服务端依赖 -->
         <module>erp-global</module>
 
@@ -36,9 +38,6 @@
         <module>web-manager</module>
         <!-- 定时任务服务 -->
         <module>timing-task</module>
-
-        <!-- 服务跟踪模块 -->
-        <module>service-trace</module>
     </modules>
 
     <properties>
@@ -82,6 +81,17 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>erp-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>trace-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>trace-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -151,17 +161,6 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>timing-task</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>trace-server</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>trace-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- 当前项目相关 -->

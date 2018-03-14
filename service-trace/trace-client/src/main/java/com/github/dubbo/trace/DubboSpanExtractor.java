@@ -10,7 +10,10 @@ import java.util.Random;
 
 public class DubboSpanExtractor implements SpanExtractor<RpcContext> {
 
-    private static final Random RANDOM = new Random();
+    private Random random;
+    DubboSpanExtractor(Random random) {
+        this.random = random;
+    }
 
     @Override
     public Span joinTrace(RpcContext carrier) {
@@ -23,7 +26,7 @@ public class DubboSpanExtractor implements SpanExtractor<RpcContext> {
         long traceId = Span.hexToId(attachments.get(Span.TRACE_ID_NAME));
         long spanId = attachments.get(Span.SPAN_ID_NAME) != null
                 ? Span.hexToId(attachments.get(Span.SPAN_ID_NAME))
-                : RANDOM.nextLong();
+                : random.nextLong();
         return buildParentSpan(carrier, skip, traceId, spanId);
     }
 

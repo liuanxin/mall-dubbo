@@ -25,7 +25,7 @@ import java.util.List;
  * public PageInfo page(xxx, Page page) {
  *     PageBounds pageBounds = Pages.param(page);
  *     List&lt;XXX> xxxList = xxxMapper.selectByExample(xxxxx, pageBounds);
- *     return Pages.returnList(xxxList);
+ *     return Pages.returnPage(xxxList);
  * }
  *
  * 这么做的目的是分页包只需要在服务端引入即可
@@ -44,14 +44,20 @@ public class PageInfo<T> implements Serializable {
     @ApiReturn(desc = "当前页的数据")
     private List<T> list;
 
+    static <T> PageInfo<T> emptyReturn() {
+        return new PageInfo<>(0, Collections.emptyList());
+    }
+    static <T> PageInfo<T> returnPage(int total, List<T> list) {
+        return new PageInfo<>(total, list);
+    }
+
     /** 在 Controller 中调用 --> 组装不同的 vo 时使用此方法 */
-    @SuppressWarnings("unchecked")
     public static <S,T> PageInfo<T> convert(PageInfo<S> pageInfo) {
         if (U.isBlank(pageInfo)) {
-            return new PageInfo(0, Collections.emptyList());
+            return emptyReturn();
         } else {
             // 只要总条数
-            PageInfo info = new PageInfo();
+            PageInfo<T> info = new PageInfo<>();
             info.setTotal(pageInfo.getTotal());
             return info;
         }

@@ -4,7 +4,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-public class ApplicationContextUtils implements ApplicationContextAware {
+public final class ApplicationContextUtils implements ApplicationContextAware {
 
     private static ApplicationContext context;
 
@@ -13,12 +13,7 @@ public class ApplicationContextUtils implements ApplicationContextAware {
         context = applicationContext;
     }
 
-    public static <T> T getBean(Class<T> clazz) {
+    static <T> T getBean(Class<T> clazz) {
         return context.getBean(clazz);
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T> T getBean(String beanName) {
-        return (T) context.getBean(beanName);
     }
 }
