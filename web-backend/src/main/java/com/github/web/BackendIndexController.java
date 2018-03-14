@@ -1,6 +1,12 @@
 package com.github.web;
 
+import com.github.common.json.JsonResult;
+import com.github.common.resource.CollectEnumUtil;
 import com.github.common.util.SecurityCodeUtil;
+import com.github.common.util.U;
+import com.github.liuanxin.api.annotation.ApiIgnore;
+import com.github.liuanxin.api.annotation.ApiParam;
+import com.github.util.BackendDataCollectUtil;
 import com.github.util.BackendSessionUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@ApiIgnore
 @Controller
 public class BackendIndexController {
 
@@ -16,6 +23,15 @@ public class BackendIndexController {
     @GetMapping("/")
     public String index() {
         return "api-gateway";
+    }
+
+    @ApiIgnore(false)
+    @GetMapping("/enum")
+    @ResponseBody
+    public JsonResult enumList(@ApiParam(desc = "枚举类型. 不传则返回列表, type 与 枚举的类名相同, 忽略大小写") String type) {
+        return U.isBlank(type) ?
+                JsonResult.success("枚举列表", CollectEnumUtil.enumMap(BackendDataCollectUtil.ENUMS)) :
+                JsonResult.success("枚举信息", CollectEnumUtil.enumInfo(type, BackendDataCollectUtil.ENUMS));
     }
 
     @GetMapping("/code")

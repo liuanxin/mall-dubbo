@@ -1,13 +1,8 @@
 package com.github.web;
 
-import com.github.common.json.JsonResult;
-import com.github.common.resource.CollectEnumUtil;
 import com.github.common.util.SecurityCodeUtil;
-import com.github.common.util.U;
 import com.github.liuanxin.api.annotation.ApiIgnore;
-import com.github.liuanxin.api.annotation.ApiParam;
 import com.github.util.ManagerSessionUtil;
-import com.github.util.ManagerDataCollectUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,15 +19,6 @@ public class ManagerIndexController {
     @ResponseBody
     public String index() {
         return "web-platform";
-    }
-
-    @ApiIgnore(false)
-    @GetMapping("/enum")
-    @ResponseBody
-    public JsonResult enumList(@ApiParam(desc = "枚举类型. 不传则返回列表, type 与 枚举的类名相同, 忽略大小写") String type) {
-        return U.isBlank(type) ?
-                JsonResult.success("枚举列表", CollectEnumUtil.enumList(ManagerDataCollectUtil.ENUMS)) :
-                JsonResult.success("枚举信息", CollectEnumUtil.enumInfo(type, ManagerDataCollectUtil.ENUMS));
     }
 
     @GetMapping("/code")
