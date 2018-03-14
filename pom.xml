@@ -39,7 +39,6 @@
 
         <!-- 服务跟踪模块 -->
         <module>service-trace</module>
-        <module>service-trace-client</module>
     </modules>
 
     <properties>
@@ -157,12 +156,12 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>service-trace</artifactId>
+                <artifactId>trace-server</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>service-trace-client</artifactId>
+                <artifactId>trace-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- 当前项目相关 -->
