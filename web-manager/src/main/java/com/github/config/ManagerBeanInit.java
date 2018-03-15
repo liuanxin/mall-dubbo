@@ -30,7 +30,9 @@ public class ManagerBeanInit {
     @Bean(name = "freeMarkerViewResolver")
     public RenderViewResolver viewResolver() {
         RenderViewResolver resolver = new RenderViewResolver();
-        resolver.putVariable(online).putClass(ManagerSessionUtil.class).putEnum(ManagerDataCollectUtil.ENUM_CLASS);
+        resolver.putVariable(online)
+                .putClass(ManagerSessionUtil.class)
+                .putEnum(ManagerDataCollectUtil.VIEW_ENUM_ARRAY);
         properties.applyToViewResolver(resolver);
         return resolver;
     }

@@ -1,38 +1,28 @@
 package com.github.product.config;
 
-import com.google.common.collect.Lists;
-import com.github.common.Const;
-import com.github.common.resource.CollectHandlerUtil;
+import com.github.common.resource.CollectMybatisTypeHandlerUtil;
 import com.github.common.resource.CollectResourceUtil;
-import com.github.common.resource.LoaderHandler;
-import com.github.common.resource.LoaderResource;
+import com.github.common.util.A;
 import com.github.global.constant.GlobalConst;
 import com.github.product.constant.ProductConst;
 import org.apache.ibatis.type.TypeHandler;
 import org.springframework.core.io.Resource;
 
-import java.util.List;
-
 /** 商品模块的配置数据. 主要是 mybatis 的多配置目录和类型处理器 */
-public final class ProductConfigData {
+final class ProductConfigData {
 
     private static final String[] RESOURCE_PATH = new String[] {
             ProductConst.MODULE_NAME + "/*.xml",
             ProductConst.MODULE_NAME + "-custom/*.xml"
     };
-    private static final List<Resource[]> RESOURCES = Lists.newArrayList();
-    static {
-        RESOURCES.add(LoaderResource.getResourceArray(ProductConfigData.class, RESOURCE_PATH));
-    }
-
-    private static final List<TypeHandler[]> HANDLERS = Lists.newArrayList();
-    static {
-        HANDLERS.add(LoaderHandler.getHandleArray(GlobalConst.class, Const.handlerPath(GlobalConst.MODULE_NAME)));
-        HANDLERS.add(LoaderHandler.getHandleArray(ProductConfigData.class, Const.handlerPath(ProductConst.MODULE_NAME)));
-    }
-
     /** 要加载的 mybatis 的配置文件目录 */
-    public static final Resource[] RESOURCE_ARRAY = CollectResourceUtil.resource(RESOURCES);
+    static final Resource[] RESOURCE_ARRAY = CollectResourceUtil.resource(A.maps(
+            ProductConfigData.class, RESOURCE_PATH
+    ));
+    
     /** 要加载的 mybatis 类型处理器的目录 */
-    public static final TypeHandler[] HANDLER_ARRAY = CollectHandlerUtil.handler(HANDLERS);
+    static final TypeHandler[] HANDLER_ARRAY = CollectMybatisTypeHandlerUtil.handler(A.maps(
+            GlobalConst.MODULE_NAME, GlobalConst.class,
+            ProductConst.MODULE_NAME, ProductConfigData.class
+    ));
 }
