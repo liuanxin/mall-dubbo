@@ -52,7 +52,7 @@ public class CommonDataSourceInit {
         sessionFactory.setDataSource(dataSource());
         // 装载 xml 实现
         sessionFactory.setMapperLocations(CommonConfigData.RESOURCE_ARRAY);
-        // 装载 handler 实现
+        // 装载 typeHandler 实现
         sessionFactory.setTypeHandlers(CommonConfigData.HANDLER_ARRAY);
         // 插件
         sessionFactory.setPlugins(new Interceptor[] { mybatisPage() });

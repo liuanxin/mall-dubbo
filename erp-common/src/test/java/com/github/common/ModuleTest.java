@@ -220,7 +220,7 @@ class Server {
 
     private static final String CONFIG_DATA = "package " + PACKAGE + ".%s.config;\n" +
             "\n" +
-            "import " + PACKAGE + ".common.resource.CollectMybatisTypeHandlerUtil;\n" +
+            "import " + PACKAGE + ".common.resource.CollectTypeHandlerUtil;\n" +
             "import " + PACKAGE + ".common.resource.CollectResourceUtil;\n" +
             "import " + PACKAGE + ".common.util.A;\n" +
             "import " + PACKAGE + ".global.constant.GlobalConst;\n" +
@@ -241,7 +241,7 @@ class Server {
             "    ));\n" +
             "    \n" +
             "    /** 要加载的 mybatis 类型处理器的目录 */\n" +
-            "    static final TypeHandler[] HANDLER_ARRAY = CollectMybatisTypeHandlerUtil.handler(A.maps(\n" +
+            "    static final TypeHandler[] HANDLER_ARRAY = CollectTypeHandlerUtil.typeHandler(A.maps(\n" +
             "            GlobalConst.MODULE_NAME, GlobalConst.class,\n" +
             "            %sConst.MODULE_NAME, %sConfigData.class\n" +
             "    ));\n" +
@@ -301,7 +301,7 @@ class Server {
             "        sessionFactory.setDataSource(dataSource());\n" +
             "        // 装载 xml 实现\n" +
             "        sessionFactory.setMapperLocations(%sConfigData.RESOURCE_ARRAY);\n" +
-            "        // 装载 handler 实现\n" +
+            "        // 装载 typeHandler 实现\n" +
             "        sessionFactory.setTypeHandlers(%sConfigData.HANDLER_ARRAY);\n" +
             "        // 插件\n" +
             "        sessionFactory.setPlugins(new Interceptor[] { mybatisPage() });\n" +
@@ -760,7 +760,7 @@ class Server {
         File servicePath = new File(sourcePath, "service");
         configPath.mkdirs();
         servicePath.mkdirs();
-        new File(sourcePath, "handler").mkdirs();
+        new File(sourcePath, "typeHandler").mkdirs();
         new File(sourcePath, "repository").mkdirs();
 
         String application = String.format(APPLICATION, clazzName, clazzName);

@@ -52,7 +52,7 @@ public class UserDataSourceInit {
         sessionFactory.setDataSource(dataSource());
         // 装载 xml 实现
         sessionFactory.setMapperLocations(UserConfigData.RESOURCE_ARRAY);
-        // 装载 handler 实现
+        // 装载 typeHandler 实现
         sessionFactory.setTypeHandlers(UserConfigData.HANDLER_ARRAY);
         // 插件
         sessionFactory.setPlugins(new Interceptor[] { mybatisPage() });
