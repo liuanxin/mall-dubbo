@@ -760,7 +760,7 @@ class Server {
         File servicePath = new File(sourcePath, "service");
         configPath.mkdirs();
         servicePath.mkdirs();
-        new File(sourcePath, "typeHandler").mkdirs();
+        new File(sourcePath, "handler").mkdirs();
         new File(sourcePath, "repository").mkdirs();
 
         String application = String.format(APPLICATION, clazzName, clazzName);
