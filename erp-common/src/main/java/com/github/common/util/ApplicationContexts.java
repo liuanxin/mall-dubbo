@@ -1,10 +1,10 @@
-package com.github.common;
+package com.github.common.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-public class ApplicationContextUtil implements ApplicationContextAware {
+public class ApplicationContexts implements ApplicationContextAware {
 
     private static ApplicationContext context;
 
