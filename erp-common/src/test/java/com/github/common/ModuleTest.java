@@ -156,17 +156,12 @@ class Model {
             "    <modelVersion>4.0.0</modelVersion>\n" +
             "\n" +
             "    <artifactId>%s</artifactId>\n" +
-            "    <description>%s模块中 所有与数据库相关的实体、枚举, 以及 dubbo 的接口 等</description>" +
+            "    <description>%s模块中 所有与数据库相关的实体、枚举, 以及 dubbo 的接口 等</description>\n" +
             "\n" +
             "    <dependencies>\n" +
             "        <dependency>\n" +
             "            <groupId>${project.groupId}</groupId>\n" +
             "            <artifactId>erp-common</artifactId>\n" +
-            "            <scope>provided</scope>\n" +
-            "        </dependency>\n" +
-            "        <dependency>\n" +
-            "            <groupId>${project.groupId}</groupId>\n" +
-            "            <artifactId>erp-global</artifactId>\n" +
             "            <scope>provided</scope>\n" +
             "        </dependency>\n" +
             "    </dependencies>\n" +

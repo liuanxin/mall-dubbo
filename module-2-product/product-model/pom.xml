@@ -11,15 +11,11 @@
 
     <artifactId>product-model</artifactId>
     <description>商品模块中 所有与数据库相关的实体、枚举, 以及 dubbo 的接口 等</description>
+
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>erp-common</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>erp-global</artifactId>
             <scope>provided</scope>
         </dependency>
     </dependencies>
