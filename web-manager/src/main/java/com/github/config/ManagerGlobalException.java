@@ -35,7 +35,7 @@ public class ManagerGlobalException {
 
     /** 业务异常. 非 rpc 调用抛出此异常时 */
     @ExceptionHandler(ServiceException.class)
-    public JsonResult serviceException(ServiceException e) {
+    public JsonResult service(ServiceException e) {
         if (LogUtil.ROOT_LOG.isDebugEnabled()) {
             LogUtil.ROOT_LOG.debug(e.getMessage());
         }
@@ -51,7 +51,7 @@ public class ManagerGlobalException {
     }
     /** 请求时没登录. 非 rpc 调用抛出此异常时 */
     @ExceptionHandler(NotLoginException.class)
-    public JsonResult noLogin(NotLoginException e) {
+    public JsonResult notLogin(NotLoginException e) {
         if (LogUtil.ROOT_LOG.isDebugEnabled()) {
             LogUtil.ROOT_LOG.debug(e.getMessage());
         }
@@ -60,7 +60,7 @@ public class ManagerGlobalException {
 
     /** 请求没有相应的处理 */
     @ExceptionHandler(NoHandlerFoundException.class)
-    public JsonResult forbidden(NoHandlerFoundException e) {
+    public JsonResult noHandler(NoHandlerFoundException e) {
         if (LogUtil.ROOT_LOG.isDebugEnabled()) {
             LogUtil.bind(RequestUtils.logContextInfo());
             LogUtil.ROOT_LOG.debug(e.getMessage(), e);
@@ -87,7 +87,7 @@ public class ManagerGlobalException {
     }
     /** 上传文件太大 */
     @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public JsonResult notFound(MaxUploadSizeExceededException e) {
+    public JsonResult uploadSizeExceeded(MaxUploadSizeExceededException e) {
         if (LogUtil.ROOT_LOG.isDebugEnabled()) {
             LogUtil.ROOT_LOG.debug("文件太大: " + e.getMessage(), e);
         }
