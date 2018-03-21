@@ -47,7 +47,7 @@ public class ManagerGlobalException {
         if (LogUtil.ROOT_LOG.isDebugEnabled()) {
             LogUtil.ROOT_LOG.debug(e.getMessage());
         }
-        return JsonResult.fail(e.getMessage());
+        return JsonResult.notPermission(e.getMessage());
     }
     /** 请求时没登录. 非 rpc 调用抛出此异常时 */
     @ExceptionHandler(NotLoginException.class)
