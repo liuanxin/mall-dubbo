@@ -3,32 +3,23 @@ online: false
 
 logging.config: classpath:log-dev.xml
 
-server.port: 8787
-spring.application.name: web-manager
-
-spring.redis:
-  host: 127.0.0.1
-  port: 6379
-
+spring.application.name: task
 
 # io.dubbo.springboot.DubboProperties
 spring.dubbo:
   # 扫描 @Service @Reference 注解所在的目录, 前者在 容器初始化之后 注入, 前者在 窗口初始化之前 注入. 目录如果有多个用 <英文逗号(,)> 隔开
   scan: com.github
   application:
+    # <dubbo:application name="xxx" />
     name: ${spring.application.name}
     # <dubbo:registry address="zk://ip:port" timeout="10000" register="false" /> 只向注册中心订阅服务, 不注册
     registry:
       address: zookeeper://127.0.0.1:2181
       timeout: 10000
       register: false
-    # 如果 zk 有集群, 去掉上面, 解开下面即可, 上面的方式只是基于一个 zk 实例
-#    registries:
-#      -
-#        address: zookeeper://127.0.0.1:2181
-#        timeout: 10000
-#        register: false
-#      -
-#        address: zookeeper://192.168.0.124:2181
-#        timeout: 1000
-#        register: false
+
+## org.springframework.cloud.sleuth.zipkin2.ZipkinProperties
+#spring:
+#  zipkin.base-url: http://127.0.0.1:9411
+#  # 抽样比例, 默认是 10%, 如果 值是 1 则表示 100%, 分页式追踪数据量可能会非常大
+#  sleuth.sampler.percentage: 0.1

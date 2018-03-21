@@ -67,7 +67,7 @@ public class ModuleTest {
         for (List<String> list : moduleNameList) {
             System.out.println(String.format("<!-- %s模块 -->\n<module>%s</module>", list.get(0), list.get(1)));
         }
-        System.out.println();
+        System.out.println("\n========================================\n");
         for (List<String> list : moduleList) {
             System.out.println(String.format("\n<dependency>\n" +
                     "    <groupId>${project.groupId}</groupId>\n" +
@@ -80,19 +80,12 @@ public class ModuleTest {
                     "    <version>${project.version}</version>\n" +
                     "</dependency>", list.get(0), list.get(1)));
         }
-        System.out.println("\n");
+        System.out.println("\n========================================\n");
         for (List<String> list : moduleList) {
             System.out.println(String.format("<dependency>\n" +
                     "    <groupId>${project.groupId}</groupId>\n" +
                     "    <artifactId>%s</artifactId>\n" +
                     "</dependency>", list.get(0)));
-        }
-        System.out.println();
-        for (List<String> list : moduleList) {
-            String module = list.get(0);
-            String className = capitalize(module.substring(0, module.indexOf("-model")));
-            System.out.println(String.format("ALL_MODEL_ENUM.add(Loader.getEnumArray(" +
-                    "%sConst.class, Const.enumPath(%sConst.MODULE_NAME)));", className, className));
         }
         System.out.println();
         Thread.sleep(20);
@@ -386,20 +379,12 @@ class Server {
             "    name: dubbo\n" +
             "    port: %s\n" +
             "  application:\n" +
-            "    # <dubbo:application name=\"p-s\" id=\"p-s\" />\n" +
+            "    # <dubbo:application name=\"xxx\" />\n" +
             "    name: ${spring.application.name}\n" +
+            "    # <dubbo:registry address=\"zk://ip:port\" timeout=\"10000\"  />\n" +
             "    registry:\n" +
             "      address: zookeeper://127.0.0.1:2181\n" +
-            "      timeout: 10000\n" +
-            "    # 如果 zk 有集群, 去掉上面, 解开下面即可, 上面的方式只是基于一个 zk 实例\n" +
-            "#    registries:\n" +
-            "#      -\n" +
-            "#        address: zookeeper://127.0.0.1:2181\n" +
-            "#        timeout: 10000\n" +
-            "#      -\n" +
-            "#        address: zookeeper://192.168.0.124:2181\n" +
-            "#        timeout: 1000\n" +
-            "#\n";
+            "      timeout: 10000\n";
 
     private static String APPLICATION_TEST_YML = "\n" +
             "online: false\n" +
@@ -478,10 +463,10 @@ class Server {
             "    name: ${spring.application.name}\n" +
             "    registries:\n" +
             "      -\n" +
-            "        address: zookeeper://10.10.10.5:2181\n" +
+            "        address: zookeeper://192.168.1.101:2181\n" +
             "        timeout: 10000\n" +
             "      -\n" +
-            "        address: zookeeper://10.10.10.6:2181\n" +
+            "        address: zookeeper://192.168.1.102:2181\n" +
             "        timeout: 10000\n";
 
     private static String LOG_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
@@ -782,11 +767,11 @@ class Server {
         resourcePath.mkdirs();
 
         String applicationYml = String.format(APPLICATION_YML, packageName, port);
-        writeFile(new File(resourcePath, "application.yml"), applicationYml);
+        writeFile(new File(resourcePath, "bootstrap.yml"), applicationYml);
         String applicationTestYml = String.format(APPLICATION_TEST_YML, packageName, port);
-        writeFile(new File(resourcePath, "application-test.yml"), applicationTestYml);
+        writeFile(new File(resourcePath, "bootstrap-test.yml"), applicationTestYml);
         String applicationProdYml = String.format(APPLICATION_PROD_YML,  packageName, port);
-        writeFile(new File(resourcePath, "application-prod.yml"), applicationProdYml);
+        writeFile(new File(resourcePath, "bootstrap-prod.yml"), applicationProdYml);
 
         String logXml = LOG_XML.replaceAll("~MODULE_NAME~", parentPackageName);
         writeFile(new File(resourcePath, "log-dev.xml"), logXml);

@@ -3,7 +3,7 @@ online: false
 
 logging.config: classpath:log-dev.xml
 
-spring.application.name: user
+spring.application.name: common
 
 database:
   url:  jdbc:mysql://127.0.0.1:3306/mall?useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&statementInterceptors=com.github.common.sql.ShowSqlInterceptor
@@ -36,19 +36,11 @@ spring.dubbo:
     # 序列化方式如果想使用 kryo, 需要引入 kryo 和 kryo-serializers 包, 见项目的 pom.xml 中的注释部分, 且需要 dubbox
     # serialization: kryo
     name: dubbo
-    port: 20881
+    port: 20880
   application:
-    # <dubbo:application name="p-s" id="p-s" />
+    # <dubbo:application name="xxx" />
     name: ${spring.application.name}
+    # <dubbo:registry address="zk://ip:port" timeout="10000"  />
     registry:
       address: zookeeper://127.0.0.1:2181
       timeout: 10000
-    # 如果 zk 有集群, 去掉上面, 解开下面即可, 上面的方式只是基于一个 zk 实例
-#    registries:
-#      -
-#        address: zookeeper://127.0.0.1:2181
-#        timeout: 10000
-#      -
-#        address: zookeeper://192.168.0.124:2181
-#        timeout: 1000
-#

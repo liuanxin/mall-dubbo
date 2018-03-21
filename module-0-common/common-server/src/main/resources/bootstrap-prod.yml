@@ -3,7 +3,7 @@ online: true
 
 logging.config: classpath:log-prod.xml
 
-spring.application.name: user
+spring.application.name: common
 
 database:
   url:  jdbc:mysql://prod_ip:prod_port/y123y?useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true
@@ -29,13 +29,13 @@ spring.dubbo:
   scan: com.github
   protocol:
     name: dubbo
-    port: 20881
+    port: 20880
   application:
     name: ${spring.application.name}
     registries:
       -
-        address: zookeeper://10.10.10.5:2181
+        address: zookeeper://192.168.1.101:2181
         timeout: 10000
       -
-        address: zookeeper://10.10.10.6:2181
+        address: zookeeper://192.168.1.102:2181
         timeout: 10000

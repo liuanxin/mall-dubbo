@@ -17,10 +17,12 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>erp-common</artifactId>
         </dependency>
-        <dependency>
+
+        <!-- 服务跟踪 -->
+        <!--<dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>trace-client</artifactId>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

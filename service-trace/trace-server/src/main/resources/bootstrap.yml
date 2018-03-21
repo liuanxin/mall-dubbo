@@ -16,10 +16,9 @@ server.port: 9411
 #    maximumPoolSize: 1
 
 ## 使用 rabbitmq 存储的话
-#zipkin:
-#  collector:
-#    rabbitmq:
-#      addresses: ip:port
-#      password: guest
-#      username: guest
-#      queue: zipkin
+#zipkin.collector:
+#  rabbitmq:
+#    addresses: ip:port
+#    password: guest
+#    username: guest
+#    queue: zipkin

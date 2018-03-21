@@ -3,16 +3,19 @@ online: false
 
 logging.config: classpath:log-test.xml
 
-spring.redis:
-  host: 127.0.0.1
-  port: 6379
+server.port: 8787
+
+spring.application.name: web-manager
 
 spring.dubbo:
   scan: com.github
   application:
-    name: task
+    name: ${spring.application.name}
     registry:
       address: zookeeper://127.0.0.1:2181
       timeout: 10000
       register: false
 
+#spring:
+#  zipkin.base-url: http://127.0.0.1:9411
+#  sleuth.sampler.percentage: 0.1

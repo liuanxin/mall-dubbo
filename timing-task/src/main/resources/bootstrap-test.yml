@@ -3,12 +3,7 @@ online: false
 
 logging.config: classpath:log-test.xml
 
-server.port: 8787
-spring.application.name: web-backend
-
-spring.redis:
-  host: 127.0.0.1
-  port: 6379
+spring.application.name: task
 
 spring.dubbo:
   scan: com.github
@@ -18,3 +13,8 @@ spring.dubbo:
       address: zookeeper://127.0.0.1:2181
       timeout: 10000
       register: false
+
+#spring:
+#  zipkin.base-url: http://127.0.0.1:9411
+#  # 抽样比例, 默认是 10%, 如果 值是 1 则表示 100%, 分页式追踪数据量可能会非常大
+#  sleuth.sampler.percentage: 0.1
