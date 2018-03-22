@@ -55,7 +55,7 @@ public class ManagerGlobalException {
         if (LogUtil.ROOT_LOG.isDebugEnabled()) {
             LogUtil.ROOT_LOG.debug(e.getMessage());
         }
-        return JsonResult.notLogin();
+        return JsonResult.notLogin(e.getMessage());
     }
 
     /** 请求没有相应的处理 */
@@ -121,7 +121,7 @@ public class ManagerGlobalException {
                 if (LogUtil.ROOT_LOG.isDebugEnabled()) {
                     LogUtil.ROOT_LOG.debug(e.getMessage(), e);
                 }
-                return JsonResult.notLogin();
+                return JsonResult.notLogin(e.getMessage());
             }
         }
 
