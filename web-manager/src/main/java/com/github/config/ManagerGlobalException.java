@@ -141,7 +141,7 @@ public class ManagerGlobalException {
 
         if (online) {
             msg = "请求出现错误, 我们将会尽快处理";
-        } else if (e instanceof NullPointerException && U.isBlank(msg)) {
+        } else if (e instanceof NullPointerException) {
             msg = "空指针异常, 联系后台查看日志进行处理";
         }
         if (LogUtil.ROOT_LOG.isErrorEnabled()) {
