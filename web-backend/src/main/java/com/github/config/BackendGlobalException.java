@@ -26,6 +26,10 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @RestControllerAdvice
 public class BackendGlobalException {
 
+    private static final String SERVICE = ServiceException.class.getName();
+    private static final String FORBIDDEN = ForbiddenException.class.getName();
+    private static final String NOT_LOGIN = NotLoginException.class.getName();
+
     @Value("${online:false}")
     private boolean online;
 
@@ -95,13 +99,38 @@ public class BackendGlobalException {
     /** 未知的所有其他异常 */
     @ExceptionHandler(Throwable.class)
     public JsonResult exception(Throwable e) {
+        String msg = e.getMessage();
+        if (U.isNotBlank(msg)) {
+            // x.xxException: abc\nx.xxException: abc\n
+            msg = msg.split("\n")[0].trim();
+            if (msg.startsWith(NOT_LOGIN)) {
+                // 没登录
+                if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+                    LogUtil.ROOT_LOG.debug(e.getMessage(), e);
+                }
+                return JsonResult.notLogin(e.getMessage());
+            }
+            else if (msg.startsWith(SERVICE)) {
+                // 业务异常
+                if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+                    LogUtil.ROOT_LOG.debug(e.getMessage(), e);
+                }
+                return JsonResult.fail(msg.substring(SERVICE.length() + 1));
+            }
+            else if (msg.startsWith(FORBIDDEN)) {
+                // 没权限
+                if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+                    LogUtil.ROOT_LOG.debug(e.getMessage(), e);
+                }
+                return JsonResult.notPermission(msg.substring(FORBIDDEN.length() + 1));
+            }
+        }
+
         if (LogUtil.ROOT_LOG.isErrorEnabled()) {
             LogUtil.ROOT_LOG.error("有错误: " + e.getMessage(), e);
         }
-
-        String msg = e.getMessage();
         if (online) {
-            msg = "请求时出现错误, 我们会尽快处理";
+            msg = "请求时出现错误, 我们将会尽快处理";
         } else if (e instanceof NullPointerException && U.isBlank(msg)) {
             msg = "空指针异常, 联系后台查看日志进行处理";
         }

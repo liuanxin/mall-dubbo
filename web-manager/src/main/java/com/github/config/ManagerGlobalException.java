@@ -102,26 +102,26 @@ public class ManagerGlobalException {
         if (U.isNotBlank(msg)) {
             // x.xxException: abc\nx.xxException: abc\n
             msg = msg.split("\n")[0].trim();
-            // 业务异常
             if (msg.startsWith(SERVICE)) {
+                // 业务异常
                 if (LogUtil.ROOT_LOG.isDebugEnabled()) {
                     LogUtil.ROOT_LOG.debug(e.getMessage(), e);
                 }
                 return JsonResult.fail(msg.substring(SERVICE.length() + 1));
             }
-            // 请求时没权限
-            else if (msg.startsWith(FORBIDDEN)) {
-                if (LogUtil.ROOT_LOG.isDebugEnabled()) {
-                    LogUtil.ROOT_LOG.debug(e.getMessage(), e);
-                }
-                return JsonResult.fail(msg.substring(FORBIDDEN.length() + 1));
-            }
-            // 请求时没登录
             else if (msg.startsWith(NOT_LOGIN)) {
+                // 没登录
                 if (LogUtil.ROOT_LOG.isDebugEnabled()) {
                     LogUtil.ROOT_LOG.debug(e.getMessage(), e);
                 }
                 return JsonResult.notLogin(e.getMessage());
+            }
+            else if (msg.startsWith(FORBIDDEN)) {
+                // 没权限
+                if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+                    LogUtil.ROOT_LOG.debug(e.getMessage(), e);
+                }
+                return JsonResult.notPermission(msg.substring(FORBIDDEN.length() + 1));
             }
         }
 
