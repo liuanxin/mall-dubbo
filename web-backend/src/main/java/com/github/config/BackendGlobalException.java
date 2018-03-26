@@ -42,28 +42,31 @@ public class BackendGlobalException {
     /** 业务异常 */
     @ExceptionHandler(ServiceException.class)
     public ResponseEntity<JsonResult> service(ServiceException e) {
+        String msg = e.getMessage();
         if (LogUtil.ROOT_LOG.isDebugEnabled()) {
-            LogUtil.ROOT_LOG.debug(e.getMessage());
+            LogUtil.ROOT_LOG.debug(msg);
         }
-        return new ResponseEntity<>(JsonResult.fail(e.getMessage()), FAIL);
+        return new ResponseEntity<>(JsonResult.fail(msg), FAIL);
     }
 
     /** 未登录 */
     @ExceptionHandler(NotLoginException.class)
     public ResponseEntity<JsonResult> notLogin(NotLoginException e) {
+        String msg = e.getMessage();
         if (LogUtil.ROOT_LOG.isDebugEnabled()) {
-            LogUtil.ROOT_LOG.debug(e.getMessage());
+            LogUtil.ROOT_LOG.debug(msg);
         }
-        return new ResponseEntity<>(JsonResult.notLogin(e.getMessage()), NEED_LOGIN);
+        return new ResponseEntity<>(JsonResult.notLogin(msg), NEED_LOGIN);
     }
 
     /** 无权限 */
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<JsonResult> forbidden(ForbiddenException e) {
+        String msg = e.getMessage();
         if (LogUtil.ROOT_LOG.isDebugEnabled()) {
-            LogUtil.ROOT_LOG.debug(e.getMessage());
+            LogUtil.ROOT_LOG.debug(msg);
         }
-        return new ResponseEntity<>(JsonResult.notPermission(e.getMessage()), NEED_PERMISSION);
+        return new ResponseEntity<>(JsonResult.notPermission(msg), NEED_PERMISSION);
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
@@ -113,7 +116,7 @@ public class BackendGlobalException {
             if (msg.startsWith(NOT_LOGIN)) {
                 // 没登录
                 if (LogUtil.ROOT_LOG.isDebugEnabled()) {
-                    LogUtil.ROOT_LOG.debug(e.getMessage(), e);
+                    LogUtil.ROOT_LOG.debug(msg, e);
                 }
                 JsonResult<Object> result = JsonResult.notLogin(msg.substring(NOT_LOGIN.length() + 1));
                 return new ResponseEntity<>(result, NEED_LOGIN);
@@ -121,7 +124,7 @@ public class BackendGlobalException {
             else if (msg.startsWith(SERVICE)) {
                 // 业务异常
                 if (LogUtil.ROOT_LOG.isDebugEnabled()) {
-                    LogUtil.ROOT_LOG.debug(e.getMessage(), e);
+                    LogUtil.ROOT_LOG.debug(msg, e);
                 }
                 JsonResult<Object> result = JsonResult.fail(msg.substring(SERVICE.length() + 1));
                 return new ResponseEntity<>(result, FAIL);
@@ -129,20 +132,20 @@ public class BackendGlobalException {
             else if (msg.startsWith(FORBIDDEN)) {
                 // 没权限
                 if (LogUtil.ROOT_LOG.isDebugEnabled()) {
-                    LogUtil.ROOT_LOG.debug(e.getMessage(), e);
+                    LogUtil.ROOT_LOG.debug(msg, e);
                 }
                 JsonResult<Object> result = JsonResult.notPermission(msg.substring(FORBIDDEN.length() + 1));
                 return new ResponseEntity<>(result, NEED_PERMISSION);
             }
         }
 
-        if (LogUtil.ROOT_LOG.isErrorEnabled()) {
-            LogUtil.ROOT_LOG.error("有错误: " + e.getMessage(), e);
-        }
         if (online) {
-            msg = "请求时出现错误, 我们将会尽快处理";
+            msg = "请求出现错误, 我们将会尽快处理";
         } else if (e instanceof NullPointerException && U.isBlank(msg)) {
             msg = "空指针异常, 联系后台查看日志进行处理";
+        }
+        if (LogUtil.ROOT_LOG.isErrorEnabled()) {
+            LogUtil.ROOT_LOG.error("有错误", e);
         }
         return new ResponseEntity<>(JsonResult.fail(msg), FAIL);
     }
