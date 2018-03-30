@@ -12,6 +12,7 @@ import com.github.util.BackendDataCollectUtil;
 import com.github.util.BackendSessionUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +27,7 @@ public class BackendIndexController {
 
     @ResponseBody
     @GetMapping("/example")
-    public JsonResult example(String name) {
+    public JsonResult example(@RequestParam String name) {
         if (U.isBlank(name)) {
             name = U.EMPTY;
         }

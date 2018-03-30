@@ -13,10 +13,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.NoHandlerFoundException;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 处理全局异常的控制类
@@ -35,6 +39,8 @@ public class ManagerGlobalException {
     private static final HttpStatus FAIL = HttpStatus.INTERNAL_SERVER_ERROR;
     private static final HttpStatus NEED_LOGIN = HttpStatus.UNAUTHORIZED;
     private static final HttpStatus NEED_PERMISSION = HttpStatus.FORBIDDEN;
+
+    private static final Pattern REQUIRED_PARAMETER = Pattern.compile(".*?\'(.*?)\'.*?");
 
     @Value("${online:false}")
     private boolean online;
@@ -79,6 +85,23 @@ public class ManagerGlobalException {
             LogUtil.unbind();
         }
         return new ResponseEntity<>(JsonResult.notFound(), HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<JsonResult> missParam(MissingServletRequestParameterException e) {
+        if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+            LogUtil.bind(RequestUtils.logContextInfo()
+                    .setId(String.valueOf(ManagerSessionUtil.getUserId()))
+                    .setName(ManagerSessionUtil.getUserName()));
+            LogUtil.ROOT_LOG.debug(e.getMessage(), e);
+            LogUtil.unbind();
+        }
+
+        Matcher matcher = REQUIRED_PARAMETER.matcher(e.getMessage());
+        String showMsg = "缺少必须的参数";
+        if (matcher.find()) {
+            showMsg += "(" + matcher.group(1) + ")";
+        }
+        return new ResponseEntity<>(JsonResult.badRequest(showMsg), HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<JsonResult> notSupported(HttpRequestMethodNotSupportedException e) {
