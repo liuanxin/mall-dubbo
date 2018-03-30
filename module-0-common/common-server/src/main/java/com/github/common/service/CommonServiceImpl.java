@@ -13,4 +13,9 @@ import com.github.common.Const;
  */
 @Service(version = Const.DUBBO_VERSION, timeout = Const.DUBBO_TIMEOUT, filter = Const.DUBBO_FILTER)
 public class CommonServiceImpl implements CommonService {
+
+    @Override
+    public String example(String name) {
+        return "hello " + name;
+    }
 }

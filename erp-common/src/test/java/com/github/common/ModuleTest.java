@@ -137,6 +137,8 @@ class Model {
     private static String INTERFACE = "package " + PACKAGE + ".%s.service;\n" +
             "\n" +
             "public interface %sService {\n" +
+            "\n" +
+            "    String example(String name);\n" +
             "}\n";
 
     private static String POM = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
@@ -335,6 +337,11 @@ class Server {
             " */\n" +
             "@Service(version = Const.DUBBO_VERSION, timeout = Const.DUBBO_TIMEOUT, filter = Const.DUBBO_FILTER)\n" +
             "public class %sServiceImpl implements %sService {\n" +
+            "\n" +
+            "    @Override\n" +
+            "    public String example(String name) {\n" +
+            "        return \"hello \" + name;\n" +
+            "    }\n" +
             "}\n";
 
     private static String APPLICATION_YML = "\n" +
