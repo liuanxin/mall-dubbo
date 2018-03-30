@@ -576,11 +576,13 @@ class Server {
             "\n\n" +
             "    <logger name=\"" + PACKAGE + ".~MODULE_NAME~.repository\" level=\"warn\"/>\n" +
             "    <logger name=\"" + PACKAGE + ".common.mvc\" level=\"warn\"/>\n" +
-            "    <!--<logger name=\"com.github\" level=\"warn\"/>-->\n" +
-            "    <logger name=\"com.alibaba\" level=\"warn\"/>\n" +
-            "    <logger name=\"com.sun\" level=\"warn\"/>\n" +
             "\n" +
-            "    <logger name=\"io.github\" level=\"warn\"/>\n" +
+            "    <logger name=\"httpclient\" level=\"warn\"/>\n" +
+            "\n" +
+            "    <logger name=\"com.alibaba\" level=\"error\"/>\n" +
+            "    <logger name=\"com.netflix\" level=\"warn\"/>\n" +
+            "    <!--<logger name=\"com.github\" level=\"warn\"/>-->\n" +
+            "    <logger name=\"com.sun\" level=\"warn\"/>\n" +
             "\n" +
             "    <logger name=\"org.springframework\" level=\"warn\"/>\n" +
             "    <logger name=\"org.hibernate\" level=\"warn\"/>\n" +
@@ -588,6 +590,8 @@ class Server {
             "    <logger name=\"org.apache\" level=\"warn\"/>\n" +
             "    <logger name=\"org.I0Itec\" level=\"warn\"/>\n" +
             "    <logger name=\"org.jboss\" level=\"warn\"/>\n" +
+            "    <logger name=\"org.xnio\" level=\"warn\"/>\n" +
+            "    <logger name=\"org.jooq\" level=\"warn\"/>\n" +
             "\n\n" +
             "    <root level=\"info\">\n" +
             "        <appender-ref ref=\"ASYNC\"/>\n" +
@@ -684,6 +688,10 @@ class Server {
             "            <groupId>io.dubbo.springboot</groupId>\n" +
             "            <artifactId>spring-boot-starter-dubbo</artifactId>\n" +
             "        </dependency>\n" +
+//            "        <dependency>\n" +
+//            "            <groupId>com.alibaba.spring.boot</groupId>\n" +
+//            "            <artifactId>dubbo-spring-boot-starter</artifactId>\n" +
+//            "        </dependency>\n" +
             "    </dependencies>\n" +
             "\n" +
             "    <build>\n" +

@@ -2,6 +2,7 @@ package com.github.common.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.common.Const;
+import com.github.common.util.LogUtil;
 
 /**
  * <p>类上的注解相当于下面的配置</p>
@@ -16,6 +17,9 @@ public class CommonServiceImpl implements CommonService {
 
     @Override
     public String example(String name) {
+        if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+            LogUtil.ROOT_LOG.debug("param: {}", name);
+        }
         return "hello " + name;
     }
 }

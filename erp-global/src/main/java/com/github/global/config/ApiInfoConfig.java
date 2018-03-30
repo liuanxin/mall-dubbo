@@ -1,4 +1,4 @@
-package com.github.config;
+package com.github.global.config;
 
 import com.github.common.json.JsonCode;
 import com.github.global.model.Develop;
