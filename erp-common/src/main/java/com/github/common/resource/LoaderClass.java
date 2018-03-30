@@ -72,7 +72,7 @@ public final class LoaderClass {
                     }
                 } catch (IOException e) {
                     if (LogUtil.ROOT_LOG.isErrorEnabled()) {
-                        LogUtil.ROOT_LOG.error("can't load jar file: " + e.getMessage());
+                        LogUtil.ROOT_LOG.error("can't load jar file", e);
                     }
                 }
             }
@@ -89,7 +89,7 @@ public final class LoaderClass {
                 }
             } catch (ClassNotFoundException e) {
                 if (LogUtil.ROOT_LOG.isErrorEnabled()) {
-                    LogUtil.ROOT_LOG.error(String.format("can't load class file (%s): ", className) + e.getMessage());
+                    LogUtil.ROOT_LOG.error(String.format("can't load class file (%s): ", className), e);
                 }
             }
         }
@@ -105,7 +105,7 @@ public final class LoaderClass {
                 }
             } catch (ClassNotFoundException e) {
                 if (LogUtil.ROOT_LOG.isErrorEnabled()) {
-                    LogUtil.ROOT_LOG.error(String.format("can't load class file (%s): ", className) + e.getMessage());
+                    LogUtil.ROOT_LOG.error(String.format("can't load class file (%s): ", className), e);
                 }
             }
         }

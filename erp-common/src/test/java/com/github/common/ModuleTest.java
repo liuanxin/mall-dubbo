@@ -102,7 +102,7 @@ class Parent {
                 "         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\n" +
                 "    <parent>\n" +
                 "        <artifactId>mall-dubbo</artifactId>\n" +
-                "        <groupId>com.github</groupId>\n" +
+                "        <groupId>" + PACKAGE + "</groupId>\n" +
                 "        <version>1.0-SNAPSHOT</version>\n" +
                 "    </parent>\n" +
                 "    <modelVersion>4.0.0</modelVersion>\n" +
@@ -145,7 +145,7 @@ class Model {
             "         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\n" +
             "    <parent>\n" +
             "        <artifactId>%s</artifactId>\n" +
-            "        <groupId>com.github</groupId>\n" +
+            "        <groupId>" + PACKAGE + "</groupId>\n" +
             "        <version>1.0-SNAPSHOT</version>\n" +
             "    </parent>\n" +
             "    <modelVersion>4.0.0</modelVersion>\n" +
@@ -594,7 +594,7 @@ class Server {
             "         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\n" +
             "    <parent>\n" +
             "        <artifactId>%s</artifactId>\n" +
-            "        <groupId>com.github</groupId>\n" +
+            "        <groupId>" + PACKAGE + "</groupId>\n" +
             "        <version>1.0-SNAPSHOT</version>\n" +
             "    </parent>\n" +
             "    <modelVersion>4.0.0</modelVersion>\n" +
@@ -765,13 +765,15 @@ class Server {
 
         File resourcePath = new File(module + "/" + server + "/src/main/resources");
         resourcePath.mkdirs();
+        new File(resourcePath, parentPackageName).mkdir();
+        new File(resourcePath, parentPackageName + "-custom").mkdir();
 
         String applicationYml = String.format(APPLICATION_YML, packageName, port);
-        writeFile(new File(resourcePath, "bootstrap.yml"), applicationYml);
+        writeFile(new File(resourcePath, "application.yml"), applicationYml);
         String applicationTestYml = String.format(APPLICATION_TEST_YML, packageName, port);
-        writeFile(new File(resourcePath, "bootstrap-test.yml"), applicationTestYml);
+        writeFile(new File(resourcePath, "application-test.yml"), applicationTestYml);
         String applicationProdYml = String.format(APPLICATION_PROD_YML,  packageName, port);
-        writeFile(new File(resourcePath, "bootstrap-prod.yml"), applicationProdYml);
+        writeFile(new File(resourcePath, "application-prod.yml"), applicationProdYml);
 
         String logXml = LOG_XML.replaceAll("~MODULE_NAME~", parentPackageName);
         writeFile(new File(resourcePath, "log-dev.xml"), logXml);
