@@ -71,7 +71,7 @@
         <zkclient.version>0.10</zkclient.version>
         <spring-boot-dubbo.version>1.0.0</spring-boot-dubbo.version>
 
-        <api-document.version>0.1.1</api-document.version>
+        <api-document.version>0.1.2</api-document.version>
     </properties>
 
     <dependencyManagement>
