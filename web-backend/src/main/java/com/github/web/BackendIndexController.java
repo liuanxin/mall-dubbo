@@ -3,7 +3,7 @@ package com.github.web;
 import com.github.common.json.JsonResult;
 import com.github.common.util.SecurityCodeUtil;
 import com.github.common.util.U;
-import com.github.global.model.Develop;
+import com.github.global.constant.Develop;
 import com.github.liuanxin.api.annotation.ApiIgnore;
 import com.github.liuanxin.api.annotation.ApiMethod;
 import com.github.liuanxin.api.annotation.ApiParam;
