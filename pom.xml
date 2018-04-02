@@ -63,7 +63,7 @@
         <mybatis-redis-cache.version>1.2.3</mybatis-redis-cache.version>
 
         <!-- -Ddubbo.reference.check=false -->
-        <dubbo.version>2.6.0</dubbo.version>
+        <dubbo.version>2.6.1</dubbo.version>
         <!-- 如果用 dubbox 可以开启 kryo -->
         <kryo.kryo.version>2.24.0</kryo.kryo.version>
         <kryo.version>4.0.1</kryo.version>
