@@ -12,6 +12,6 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class DemoDto {
 
-    @ApiParam(desc = "用户 id")
+    @ApiParam("用户 id")
     private Long userId;
 }

@@ -30,7 +30,7 @@ public class BackendIndexController {
     @ApiMethod(title = "枚举信息", develop = Develop.ORDER)
     @GetMapping("/enum")
     @ResponseBody
-    public JsonResult enumList(@ApiParam(desc = "枚举类型. 不传则返回列表, type 与 枚举的类名相同, 忽略大小写") String type) {
+    public JsonResult enumList(@ApiParam("枚举类型. 不传则返回列表, type 与 枚举的类名相同, 忽略大小写") String type) {
         return U.isBlank(type) ?
                 JsonResult.success("枚举列表", BackendDataCollectUtil.ALL_ENUM_INFO) :
                 JsonResult.success("枚举信息", BackendDataCollectUtil.singleEnumInfo(type));
