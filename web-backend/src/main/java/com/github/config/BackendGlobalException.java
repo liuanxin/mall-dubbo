@@ -8,6 +8,7 @@ import com.github.common.util.A;
 import com.github.common.util.LogUtil;
 import com.github.common.util.RequestUtils;
 import com.github.common.util.U;
+import com.github.util.BackendSessionUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,10 +33,6 @@ public class BackendGlobalException {
     private static final String FORBIDDEN = ForbiddenException.class.getName();
     private static final String NOT_LOGIN = NotLoginException.class.getName();
 
-    private static final HttpStatus FAIL = HttpStatus.INTERNAL_SERVER_ERROR;
-    private static final HttpStatus NEED_LOGIN = HttpStatus.UNAUTHORIZED;
-    private static final HttpStatus NEED_PERMISSION = HttpStatus.FORBIDDEN;
-
     @Value("${online:false}")
     private boolean online;
 
@@ -46,7 +43,7 @@ public class BackendGlobalException {
         if (LogUtil.ROOT_LOG.isDebugEnabled()) {
             LogUtil.ROOT_LOG.debug(msg);
         }
-        return new ResponseEntity<>(JsonResult.fail(msg), FAIL);
+        return fail(msg);
     }
 
     /** 未登录 */
@@ -56,7 +53,7 @@ public class BackendGlobalException {
         if (LogUtil.ROOT_LOG.isDebugEnabled()) {
             LogUtil.ROOT_LOG.debug(msg);
         }
-        return new ResponseEntity<>(JsonResult.notLogin(msg), NEED_LOGIN);
+        return notLogin(msg);
     }
 
     /** 无权限 */
@@ -66,7 +63,7 @@ public class BackendGlobalException {
         if (LogUtil.ROOT_LOG.isDebugEnabled()) {
             LogUtil.ROOT_LOG.debug(msg);
         }
-        return new ResponseEntity<>(JsonResult.notPermission(msg), NEED_PERMISSION);
+        return notPermission(msg);
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
@@ -89,7 +86,7 @@ public class BackendGlobalException {
 
         String msg = String.format("不支持此种请求方式! 当前方式(%s), 支持方式(%s)",
                 e.getMethod(), A.toStr(e.getSupportedMethods()));
-        return new ResponseEntity<>(JsonResult.fail(msg), FAIL);
+        return fail(msg);
     }
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<JsonResult> uploadSizeExceeded(MaxUploadSizeExceededException e) {
@@ -97,17 +94,7 @@ public class BackendGlobalException {
 
         // 右移 20 位相当于除以两次 1024, 正好表示从字节到 Mb
         String msg = String.format("上传文件太大! 请保持在 %sM 以内", (e.getMaxUploadSize() >> 20));
-        return new ResponseEntity<>(JsonResult.fail(msg), FAIL);
-    }
-    private void bindAndPrintLog(Exception e) {
-        if (LogUtil.ROOT_LOG.isDebugEnabled()) {
-            LogUtil.bind(RequestUtils.logContextInfo());
-            try {
-                LogUtil.ROOT_LOG.debug(e.getMessage(), e);
-            } finally {
-                LogUtil.unbind();
-            }
-        }
+        return fail(msg);
     }
 
     /** 未知的所有其他异常 */
@@ -122,24 +109,21 @@ public class BackendGlobalException {
                 if (LogUtil.ROOT_LOG.isDebugEnabled()) {
                     LogUtil.ROOT_LOG.debug(msg, e);
                 }
-                JsonResult<Object> result = JsonResult.notLogin(msg.substring(NOT_LOGIN.length() + 1));
-                return new ResponseEntity<>(result, NEED_LOGIN);
+                return notLogin(msg.substring(NOT_LOGIN.length() + 1));
             }
             else if (msg.startsWith(SERVICE)) {
                 // 业务异常
                 if (LogUtil.ROOT_LOG.isDebugEnabled()) {
                     LogUtil.ROOT_LOG.debug(msg, e);
                 }
-                JsonResult<Object> result = JsonResult.fail(msg.substring(SERVICE.length() + 1));
-                return new ResponseEntity<>(result, FAIL);
+                return fail(msg.substring(SERVICE.length() + 1));
             }
             else if (msg.startsWith(FORBIDDEN)) {
                 // 没权限
                 if (LogUtil.ROOT_LOG.isDebugEnabled()) {
                     LogUtil.ROOT_LOG.debug(msg, e);
                 }
-                JsonResult<Object> result = JsonResult.notPermission(msg.substring(FORBIDDEN.length() + 1));
-                return new ResponseEntity<>(result, NEED_PERMISSION);
+                return notPermission(msg.substring(FORBIDDEN.length() + 1));
             }
         }
 
@@ -151,6 +135,31 @@ public class BackendGlobalException {
         if (LogUtil.ROOT_LOG.isErrorEnabled()) {
             LogUtil.ROOT_LOG.error("有错误", e);
         }
-        return new ResponseEntity<>(JsonResult.fail(msg), FAIL);
+        return fail(msg);
+    }
+
+    // ==================================================
+
+    private void bindAndPrintLog(Exception e) {
+        if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+            // 当没有进到全局拦截器就抛出的异常, 需要这么处理才能在日志中输出整个上下文信息
+            LogUtil.bind(RequestUtils.logContextInfo()
+                    .setId(String.valueOf(BackendSessionUtil.getUserId()))
+                    .setName(BackendSessionUtil.getUserName()));
+            try {
+                LogUtil.ROOT_LOG.debug(e.getMessage(), e);
+            } finally {
+                LogUtil.unbind();
+            }
+        }
+    }
+    private ResponseEntity<JsonResult> notLogin(String msg) {
+        return new ResponseEntity<>(JsonResult.notLogin(msg), HttpStatus.UNAUTHORIZED);
+    }
+    private ResponseEntity<JsonResult> notPermission(String msg) {
+        return new ResponseEntity<>(JsonResult.notLogin(msg), HttpStatus.FORBIDDEN);
+    }
+    private ResponseEntity<JsonResult> fail(String msg) {
+        return new ResponseEntity<>(JsonResult.fail(msg), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
