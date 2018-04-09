@@ -278,10 +278,10 @@ public final class ExportUtil {
             Cell cell;
             //  表格数       行索引     列索引      数据起始索引  数据结束索引
             int sheetCount, rowIndex, cellIndex, fromIndex, toIndex;
-            //  数据总条数
-            int size;
             //      数据
             List<?> excelList;
+            //  数据总条数, 上面 list 的长度
+            int size;
 
             // 标题头, 这里跟数据中的属性相对应
             Set<String> titleKey = titleMap.keySet();
