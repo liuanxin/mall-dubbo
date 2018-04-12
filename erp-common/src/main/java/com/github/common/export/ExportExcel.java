@@ -2,6 +2,7 @@ package com.github.common.export;
 
 import com.github.common.util.A;
 import com.github.common.util.U;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -32,7 +33,7 @@ final class ExportExcel {
      * @param dataMap  以「sheet 名」为 key, 对应的数据为 value(每一行的数据为一个 Object)
      */
     static Workbook handle(boolean excel07, LinkedHashMap<String, String> titleMap,
-                                   LinkedHashMap<String, List<?>> dataMap) {
+                           LinkedHashMap<String, List<?>> dataMap) {
         // 声明一个工作薄. HSSFWorkbook 是 Office 2003 的版本, XSSFWorkbook 是 2007
         Workbook workbook = excel07 ? new XSSFWorkbook() : new HSSFWorkbook();
         // 没有标题直接返回
@@ -48,6 +49,8 @@ final class ExportExcel {
         CellStyle headStyle = createHeadStyle(workbook);
         // 内容样式
         CellStyle contentStyle = createContentStyle(workbook);
+        // 数字样式
+        CellStyle numberStyle = createNumberStyle(workbook);
 
         Sheet sheet;
         //  行
@@ -121,10 +124,18 @@ final class ExportExcel {
                             for (String value : titleKey) {
                                 // 每列
                                 cell = row.createCell(cellIndex);
-                                cell.setCellStyle(contentStyle);
-                                cell.setCellValue(U.getField(data, value));
-
                                 cellIndex++;
+
+                                String field = U.getField(data, value);
+                                if (NumberUtils.isNumber(field)) {
+                                    cell.setCellStyle(numberStyle);
+                                    cell.setCellValue(NumberUtils.toDouble(field));
+                                    // cell.setCellType(CellType.NUMERIC);
+                                } else {
+                                    cell.setCellStyle(contentStyle);
+                                    cell.setCellValue(field);
+                                    // cell.setCellType(CellType.STRING);
+                                }
                             }
                         }
                     }
@@ -159,6 +170,19 @@ final class ExportExcel {
         CellStyle style = workbook.createCellStyle();
 
         style.setAlignment(HorizontalAlignment.LEFT);
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
+
+        Font font = workbook.createFont();
+        font.setFontHeightInPoints(FONT_SIZE);
+        style.setFont(font);
+        return style;
+    }
+
+    /** 内容样式 */
+    private static CellStyle createNumberStyle(Workbook workbook) {
+        CellStyle style = workbook.createCellStyle();
+
+        style.setAlignment(HorizontalAlignment.RIGHT);
         style.setVerticalAlignment(VerticalAlignment.CENTER);
 
         Font font = workbook.createFont();
