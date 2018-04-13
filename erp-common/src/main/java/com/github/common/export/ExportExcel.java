@@ -33,7 +33,7 @@ final class ExportExcel {
      * @param dataMap  以「sheet 名」为 key, 对应的数据为 value(每一行的数据为一个 Object)
      */
     static Workbook handle(boolean excel07, LinkedHashMap<String, String> titleMap,
-                           LinkedHashMap<String, List<?>> dataMap) {
+                                   LinkedHashMap<String, List<?>> dataMap) {
         // 声明一个工作薄. HSSFWorkbook 是 Office 2003 的版本, XSSFWorkbook 是 2007
         Workbook workbook = excel07 ? new XSSFWorkbook() : new HSSFWorkbook();
         // 没有标题直接返回
@@ -71,6 +71,9 @@ final class ExportExcel {
         Collection<String> titleValue = titleMap.values();
         // 列数量
         int titleLen = titleMap.size();
+        String cellData;
+        String[] titleValues;
+        DataFormat dataFormat = workbook.createDataFormat();
 
         for (Map.Entry<String, List<?>> entry : dataMap.entrySet()) {
             // 当前 sheet 的数据
@@ -121,20 +124,28 @@ final class ExportExcel {
                             row.setHeightInPoints(ROW_HEIGHT);
 
                             cellIndex = 0;
-                            for (String value : titleKey) {
+                            for (String title : titleKey) {
                                 // 每列
                                 cell = row.createCell(cellIndex);
                                 cellIndex++;
 
-                                String field = U.getField(data, value);
-                                if (NumberUtils.isNumber(field)) {
+                                cellData = U.getField(data, title);
+
+                                titleValues = titleMap.get(title).split("\\|");
+                                if (NumberUtils.isNumber(cellData)) {
+                                    cell.setCellType(CellType.NUMERIC);
+                                    cell.setCellValue(NumberUtils.toDouble(cellData));
+                                    if (titleValues.length > 1) {
+                                        numberStyle.setDataFormat(dataFormat.getFormat(titleValues[1]));
+                                    }
                                     cell.setCellStyle(numberStyle);
-                                    cell.setCellValue(NumberUtils.toDouble(field));
-                                    // cell.setCellType(CellType.NUMERIC);
                                 } else {
+                                    cell.setCellType(CellType.STRING);
+                                    cell.setCellValue(cellData);
+                                    if (titleValues.length > 1) {
+                                        contentStyle.setDataFormat(dataFormat.getFormat(titleValues[1]));
+                                    }
                                     cell.setCellStyle(contentStyle);
-                                    cell.setCellValue(field);
-                                    // cell.setCellType(CellType.STRING);
                                 }
                             }
                         }
