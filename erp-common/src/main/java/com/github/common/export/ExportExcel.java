@@ -49,7 +49,7 @@ final class ExportExcel {
         CellStyle headStyle = createHeadStyle(workbook);
         // 内容样式
         CellStyle contentStyle = createContentStyle(workbook);
-        // 每个列真实用到的样式
+        // 每个列用到的样式
         CellStyle cellTmpStyle;
 
         Sheet sheet;
