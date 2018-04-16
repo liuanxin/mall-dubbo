@@ -7,7 +7,10 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 final class ExportExcel {
 
@@ -33,7 +36,7 @@ final class ExportExcel {
      * @param dataMap  以「sheet 名」为 key, 对应的数据为 value(每一行的数据为一个 Object)
      */
     static Workbook handle(boolean excel07, LinkedHashMap<String, String> titleMap,
-                                   LinkedHashMap<String, List<?>> dataMap) {
+                           LinkedHashMap<String, List<?>> dataMap) {
         // 声明一个工作薄. HSSFWorkbook 是 Office 2003 的版本, XSSFWorkbook 是 2007
         Workbook workbook = excel07 ? new XSSFWorkbook() : new HSSFWorkbook();
         // 没有标题直接返回
@@ -75,7 +78,7 @@ final class ExportExcel {
 
         // 单个列的数据
         String cellData;
-        // 标题说明|宽度(255 以内)|数字格式(比如金额用 0.00)
+        // 标题说明|数字格式(比如金额用 0.00)|宽度(255 以内)
         String[] titleValues;
         // 数字格式
         DataFormat dataFormat = workbook.createDataFormat();
@@ -136,10 +139,10 @@ final class ExportExcel {
                                     cell.setCellValue(NumberUtils.toDouble(cellData));
 
                                     titleValues = titleMapEntry.getValue().split("\\|");
-                                    if (titleValues.length > 2) {
+                                    if (titleValues.length > 1) {
                                         // 数字样式需要单独设置格式, 每次都生成一个
                                         cellTmpStyle = createNumberStyle(workbook);
-                                        cellTmpStyle.setDataFormat(dataFormat.getFormat(titleValues[2]));
+                                        cellTmpStyle.setDataFormat(dataFormat.getFormat(titleValues[1]));
                                     } else {
                                         cellTmpStyle = numberStyle;
                                     }
@@ -163,11 +166,11 @@ final class ExportExcel {
                         sheet.autoSizeColumn(cellIndex, true);
                     } else {
                         // 左移 8 相当于 * 256
-                        sheet.setColumnWidth(cellIndex, 15 << 8);
+                        sheet.setColumnWidth(cellIndex, 12 << 8);
 
                         titleValues = titleMapEntry.getValue().split("\\|");
-                        if (titleValues.length > 1) {
-                            int width = NumberUtils.toInt(titleValues[1]);
+                        if (titleValues.length > 2) {
+                            int width = NumberUtils.toInt(titleValues[2]);
                             if (width > 0) {
                                 // 左移 8 相当于 * 256
                                 sheet.setColumnWidth(cellIndex, width << 8);
