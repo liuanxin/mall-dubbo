@@ -65,16 +65,17 @@ final class ExportExcel {
         int size, fromIndex, toIndex;
         //      数据
         List<?> dataList;
+        //      每个 sheet 的数据, 当数据量大, 有多个 sheet 时会用到
         List<?> sheetList;
 
         // 标题头, 这里跟数据中的属性相对应
         Set<Map.Entry<String, String>> titleEntry = titleMap.entrySet();
-
+        // 是否能正确中文字体的大小
         boolean rightChineseFont = false;
 
         // 单个列的数据
         String cellData;
-        // 标题说明|数字格式
+        // 标题说明|宽度(255 以内)|数字格式(比如金额用 0.00)
         String[] titleValues;
         // 数字格式
         DataFormat dataFormat = workbook.createDataFormat();
@@ -168,7 +169,8 @@ final class ExportExcel {
                         if (titleValues.length > 1) {
                             int width = NumberUtils.toInt(titleValues[1]);
                             if (width > 0) {
-                                sheet.setColumnWidth(cellIndex, width);
+                                // 左移 8 相当于 * 256
+                                sheet.setColumnWidth(cellIndex, width << 8);
                             }
                         }
                     }
