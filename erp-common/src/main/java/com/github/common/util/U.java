@@ -250,7 +250,7 @@ public final class U {
     }
 
     /** 去掉所有的制表符 和 换行符 */
-    public static String tabAndWrap(String str) {
+    public static String replaceTabAndWrap(String str) {
         return isBlank(str) ? EMPTY : str.replace("\t", "").replace("\n", "");
     }
 
