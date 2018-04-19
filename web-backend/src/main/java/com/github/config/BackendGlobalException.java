@@ -127,15 +127,10 @@ public class BackendGlobalException {
             }
         }
 
-        if (online) {
-            msg = "请求出现错误, 我们将会尽快处理";
-        } else if (e instanceof NullPointerException) {
-            msg = "空指针异常, 联系后台查看日志进行处理";
-        }
         if (LogUtil.ROOT_LOG.isErrorEnabled()) {
             LogUtil.ROOT_LOG.error("有错误", e);
         }
-        return fail(msg);
+        return fail(U.returnMsg(e, online));
     }
 
     // ==================================================

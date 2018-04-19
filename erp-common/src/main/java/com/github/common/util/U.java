@@ -425,11 +425,12 @@ public final class U {
             return EMPTY;
         }
 
+        String[] split = field.split("\\|");
         Object value;
         if (data instanceof Map) {
-            value = ((Map) data).get(field);
+            value = ((Map) data).get(split[0]);
         } else {
-            value = getMethod(data, fieldToMethod(field));
+            value = getMethod(data, fieldToMethod(split[0]));
         }
 
         if (isBlank(value)) {
@@ -437,10 +438,14 @@ public final class U {
         } else if (value.getClass().isEnum()) {
             // 如果是枚举, 则调用其 getValue 方法, getValue 没有值则使用枚举的 name
             Object enumValue = getMethod(value, "getValue");
-            return getNil(enumValue != null ? enumValue : value.toString());
+            return getNil(enumValue != null ? enumValue : value);
         } else if (value instanceof Date) {
             // 如果是日期, 则格式化
-            return getNil(DateUtil.formatFull((Date) value));
+            if (split.length > 1 && isNotBlank(split[1])) {
+                return getNil(DateUtil.format((Date) value, split[1]));
+            } else {
+                return getNil(DateUtil.formatFull((Date) value));
+            }
         } else {
             return getNil(value);
         }
@@ -557,5 +562,17 @@ public final class U {
         if (flag != null && flag) {
             throw new ServiceMustHandleException(msg);
         }
+    }
+
+    public static String returnMsg(Throwable e, boolean online) {
+        String msg;
+        if (online) {
+            msg = "请求时出现错误, 我们会尽快处理";
+        } else if (e instanceof NullPointerException) {
+            msg = "空指针异常, 联系后台查看日志进行处理";
+        } else {
+            msg = e.getMessage();
+        }
+        return msg;
     }
 }
