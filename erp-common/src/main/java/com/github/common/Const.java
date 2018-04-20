@@ -109,6 +109,8 @@ public final class Const {
     public static final int DUBBO_TIMEOUT = 60 * 1000;
     /** 全局的 dubbo 超时时间, 单位: 毫秒 */
     public static final String DUBBO_FILTER = "";// "-exception";
+    /** dubbo 传输时单接口的最大字节数是 8M, 在 dubbo:protocol 中增大 payload 并不是那么好, 限制导出条数是相对折衷的一个办法 */
+    public static final int EXPORT_COUNT = 5000;
     // ========== dubbo ==========
 
 
