@@ -1,5 +1,6 @@
 package com.github.common.util;
 
+import com.github.common.Const;
 import com.github.common.date.DateUtil;
 import com.github.common.exception.ServiceException;
 import com.github.common.exception.ServiceMustHandleException;
@@ -617,6 +618,13 @@ public final class U {
     public static void assertMustHandleException(Boolean flag, String msg) throws ServiceMustHandleException {
         if (flag != null && flag) {
             throw new ServiceMustHandleException(msg);
+        }
+    }
+
+    /** 导出数据条数如果太多则拒绝 */
+    public static void assertExportCountException(Integer count) {
+        if (U.greater0(count) && count > Const.EXPORT_COUNT) {
+            assertException("数据超过了 " + Const.EXPORT_COUNT +  " 条, 请使用条件缩短导出的数据量, 谢谢您的理解!");
         }
     }
 
