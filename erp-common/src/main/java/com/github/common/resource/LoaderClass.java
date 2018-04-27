@@ -1,9 +1,9 @@
 package com.github.common.resource;
 
-import com.github.common.util.A;
 import com.github.common.util.LogUtil;
-import com.github.common.util.U;
 import com.google.common.collect.Lists;
+import com.github.common.util.U;
+import com.github.common.util.A;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +29,7 @@ public final class LoaderClass {
 
     private static List<Class> getClassList(Class clazz, String classPackage, boolean wasEnum) {
         if (LogUtil.ROOT_LOG.isTraceEnabled()) {
-            LogUtil.ROOT_LOG.trace("{} in ({})", clazz, clazz.getProtectionDomain().getCodeSource().getLocation());
+            LogUtil.ROOT_LOG.trace("{} in ({})", clazz, U.getClassInFile(clazz));
         }
         List<Class> classList = Lists.newArrayList();
         String packageName = classPackage.replace(".", "/");
