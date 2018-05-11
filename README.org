@@ -195,7 +195,7 @@ public enum Gender {
 #+END_SRC
 
 其中 code 和 value 都要有, 一个用来存入数据库, 一个用来显示, 两个 jackson 的注解已经说明了序列化和反序列化的规则,
-此时还需要让 mybatis 也知道, 我在每个模块的 test 中放了 xxxGenerateEnumHandle 这个测试类,
+此时还需要让 mybatis 也知道, 我在每个模块的 test 中放了 xxxGenerateEnumHandler 这个测试类,
 运行后会在当前模块的 handler 包中生成对应的枚举处理类, 就像下面这样
 
 #+BEGIN_SRC java

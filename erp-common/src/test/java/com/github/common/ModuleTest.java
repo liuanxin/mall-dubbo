@@ -731,15 +731,15 @@ class Server {
     private static String TEST_ENUM_HANDLE = "package " + PACKAGE + ".%s;\n" +
             "\n" +
             "import " + PACKAGE + ".common.Const;\n" +
-            "import " + PACKAGE + ".common.util.GenerateEnumHandle;\n" +
+            "import " + PACKAGE + ".common.util.GenerateEnumHandler;\n" +
             "import " + PACKAGE + ".%s.constant.%sConst;\n" +
             "import org.junit.Test;\n" +
             "\n" +
-            "public class %sGenerateEnumHandle {\n" +
+            "public class %sGenerateEnumHandler {\n" +
             "\n" +
             "    @Test\n" +
             "    public void generate() {\n" +
-            "        GenerateEnumHandle.generateEnum(getClass(), Const.BASE_PACKAGE, %sConst.MODULE_NAME);\n" +
+            "        GenerateEnumHandler.generateEnum(getClass(), Const.BASE_PACKAGE, %sConst.MODULE_NAME);\n" +
             "    }\n" +
             "}\n";
 
@@ -809,6 +809,6 @@ class Server {
 
         String test = String.format(TEST_ENUM_HANDLE, parentPackageName,
                 parentPackageName, clazzName, clazzName, clazzName);
-        writeFile(new File(testParent, clazzName + "GenerateEnumHandle.java"), test);
+        writeFile(new File(testParent, clazzName + "GenerateEnumHandler.java"), test);
     }
 }
