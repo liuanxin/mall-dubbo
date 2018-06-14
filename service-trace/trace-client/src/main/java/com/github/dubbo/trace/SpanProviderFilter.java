@@ -12,6 +12,7 @@ import java.util.Map;
 @Activate(group = Constants.PROVIDER, order = Ordered.HIGHEST_PRECEDENCE)
 public class SpanProviderFilter implements Filter {
 
+    @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         Map<String, String> attachments = RpcContext.getContext().getAttachments();
         Tracer tracer = ApplicationContextUtils.getBean(Tracer.class);
