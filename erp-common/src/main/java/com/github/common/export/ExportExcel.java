@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/** 如果想要将数据导成文件保持, 使用 {@link FileExport} 类, 如果要导出文件在 web 端下载, 使用 {@link WebExport} 类 */
 final class ExportExcel {
 
     // excel 2003 的最大行数是 65536 行, 2007 开始的版本是 1048576 行.
