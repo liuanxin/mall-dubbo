@@ -1,5 +1,6 @@
 package com.github.common;
 
+import com.github.common.Const;
 import com.github.common.util.GenerateEnumHandler;
 import com.github.common.constant.CommonConst;
 import org.junit.Test;
