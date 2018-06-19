@@ -439,11 +439,9 @@ class Server {
             "      address: zookeeper://127.0.0.1:2181\n" +
             "      timeout: 10000\n" +
             "\n" +
-            "## org.springframework.cloud.sleuth.zipkin2.ZipkinProperties\n" +
             "#spring:\n" +
             "#  zipkin.base-url: http://127.0.0.1:9411\n" +
-            "#  # 抽样比例, 默认是 10%%, 如果 值是 1 则表示 100%%, 分布式追踪数据量可能会非常大\n" +
-            "#  sleuth.sampler.percentage: 0.1\n";
+            "#  sleuth.sampler.percentage: 0.2\n";
 
     private static String APPLICATION_PROD_YML = "\n" +
             "online: true\n" +
@@ -488,10 +486,8 @@ class Server {
             "        address: zookeeper://192.168.1.102:2181\n" +
             "        timeout: 10000\n" +
             "\n" +
-            "## org.springframework.cloud.sleuth.zipkin2.ZipkinProperties\n" +
             "#spring:\n" +
             "#  zipkin.base-url: http://127.0.0.1:9411\n" +
-            "#  # 抽样比例, 默认是 10%%, 如果 值是 1 则表示 100%%, 分布式追踪数据量可能会非常大\n" +
             "#  sleuth.sampler.percentage: 0.1\n";
 
     private static String LOG_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
