@@ -186,7 +186,7 @@ public enum Gender {
        return code;
    }
 
-   /** 序列化给前端时, 如果只想给前端返回数值, 去掉方法并把注解挪到 getCode 即可 */
+   /** 序列化给前端时, 如果只想给前端返回数值, 去掉此方法并把注解挪到 getCode 即可 */
    @JsonValue
    public Map<String, String> serializer() {
        return U.serializerEnum(code, value);
