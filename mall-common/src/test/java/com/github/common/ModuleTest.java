@@ -158,7 +158,7 @@ class Model {
             "    <dependencies>\n" +
             "        <dependency>\n" +
             "            <groupId>${project.groupId}</groupId>\n" +
-            "            <artifactId>erp-common</artifactId>\n" +
+            "            <artifactId>mall-common</artifactId>\n" +
             "            <scope>provided</scope>\n" +
             "        </dependency>\n" +
             "    </dependencies>\n" +
@@ -630,11 +630,11 @@ class Server {
             "    <dependencies>\n" +
             "        <dependency>\n" +
             "            <groupId>${project.groupId}</groupId>\n" +
-            "            <artifactId>erp-common</artifactId>\n" +
+            "            <artifactId>mall-common</artifactId>\n" +
             "        </dependency>\n" +
             "        <dependency>\n" +
             "            <groupId>${project.groupId}</groupId>\n" +
-            "            <artifactId>erp-global</artifactId>\n" +
+            "            <artifactId>mall-global</artifactId>\n" +
             "        </dependency>\n" +
             "\n" +
             "        <dependency>\n" +

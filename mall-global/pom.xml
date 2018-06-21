@@ -9,13 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>erp-global</artifactId>
+    <artifactId>mall-global</artifactId>
     <description>放到 spring 上下文的全局服务包, 比如 cache 相关的模块, 被 dubbo 服务端依赖</description>
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>erp-common</artifactId>
+            <artifactId>mall-common</artifactId>
         </dependency>
 
         <!-- 服务跟踪 -->

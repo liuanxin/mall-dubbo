@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>erp-common</artifactId>
+    <artifactId>mall-common</artifactId>
     <description>公共包, 工具类等</description>
 
     <dependencies>
