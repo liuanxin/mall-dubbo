@@ -1,5 +1,8 @@
 package com.github.task;
 
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.github.common.Const;
+import com.github.common.service.CommonService;
 import com.github.common.util.LogUtil;
 import com.github.common.util.U;
 import org.springframework.scheduling.Trigger;
@@ -7,11 +10,12 @@ import org.springframework.scheduling.TriggerContext;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.scheduling.support.CronTrigger;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 /** 动态设置运行时间的定时任务 --> 示例 */
-// @Component
+@Component
 public class DynamicCronTask implements SchedulingConfigurer {
 
     /** 当前定时任务的业务说明 */
@@ -19,11 +23,11 @@ public class DynamicCronTask implements SchedulingConfigurer {
     /** 当前任务的默认表达式 */
     private static final String CRON = "0 0 0/1 * * *";
 
-    // @Autowired
-    // private ProductService productService;
+    //@Reference(version = Const.DUBBO_VERSION, lazy = true, check = false, timeout = Const.DUBBO_TIMEOUT)
+    //private ProductService productService;
 
-    // @Autowired
-    // private CommonService commonService;
+    @Reference(version = Const.DUBBO_VERSION, lazy = true, check = false, timeout = Const.DUBBO_TIMEOUT)
+    private CommonService commonService;
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
