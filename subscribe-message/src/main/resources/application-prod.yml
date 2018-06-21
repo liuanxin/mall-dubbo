@@ -18,12 +18,20 @@ spring:
     username: abc@yyy.com
     password: xxx
 
-register.center: http://prod1:8761/eureka/,http://prod2:8761/eureka/,http://prod3:8761/eureka/
-eureka:
-  client:
-    healthcheck.enabled: true
-    registry-fetch-interval-seconds: 5
-    serviceUrl.defaultZone: ${register.center}
-  instance:
-    lease-renewal-interval-in-seconds: 5
-    lease-expiration-duration-in-seconds: 15
+spring.dubbo:
+  scan: com.github
+  application:
+    name: ${spring.application.name}
+    registries:
+      -
+        address: zookeeper://192.168.1.101:2181
+        timeout: 10000
+        register: false
+      -
+        address: zookeeper://192.168.1.102:2181
+        timeout: 10000
+        register: false
+
+#spring:
+#  zipkin.base-url: http://127.0.0.1:9411
+#  sleuth.sampler.percentage: 0.1
