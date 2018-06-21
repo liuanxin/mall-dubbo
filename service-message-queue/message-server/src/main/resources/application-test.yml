@@ -1,0 +1,31 @@
+
+online: false
+
+logging.config: classpath:log-test.xml
+
+spring.application.name: message
+
+spring.activemq:
+  broker-url: failover:(tcp://ip:port)?timeout=3000&startupMaxReconnectAttempts=5
+  user: admin
+  password: admin
+
+spring.redis:
+  host: 127.0.0.1
+  port: 6379
+
+spring.dubbo:
+  scan: com.github
+  protocol:
+    name: dubbo
+    port: 20879
+    serialization: kryo
+  application:
+    name: ${spring.application.name}
+    registry:
+      address: zookeeper://127.0.0.1:2181
+      timeout: 10000
+
+#spring:
+#  zipkin.base-url: http://127.0.0.1:9411
+#  sleuth.sampler.percentage: 0.2

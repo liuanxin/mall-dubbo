@@ -10,6 +10,18 @@ spring:
   mvc.throw-exception-if-no-handler-found: true
   resources.add-mappings: false
 
+
+spring:
+#  session:
+#    store-type: redis
+#  redis:
+#    host: 127.0.0.1
+#    port: 6379
+  http.multipart:
+    maxFileSize: 12Mb
+    maxRequestSize: 20Mb
+
+
 # io.dubbo.springboot.DubboProperties
 spring.dubbo:
   # 扫描 @Service @Reference 注解所在的目录, 前者在 容器初始化之后 注入, 前者在 窗口初始化之前 注入. 目录如果有多个用 <英文逗号(,)> 隔开

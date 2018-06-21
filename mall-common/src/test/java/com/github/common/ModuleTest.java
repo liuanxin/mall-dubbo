@@ -628,7 +628,7 @@ class Server {
             "    <modelVersion>4.0.0</modelVersion>\n" +
             "\n" +
             "    <artifactId>%s</artifactId>\n" +
-            "    <description>%s模块的服务端</description>" +
+            "    <description>%s模块的服务端</description>\n" +
             "\n" +
             "    <dependencies>\n" +
             "        <dependency>\n" +

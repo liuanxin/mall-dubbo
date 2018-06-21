@@ -9,7 +9,7 @@ spring.application.name: subscribe-message
 
 spring:
   activemq:
-    broker-url: failover:(tcp://ip:port)?timeout=3000&startupMaxReconnectAttempts=5
+    broker-url: failover:(tcp://127.0.0.1:61616)?timeout=3000&startupMaxReconnectAttempts=5
     user: admin
     password: admin
   mail:

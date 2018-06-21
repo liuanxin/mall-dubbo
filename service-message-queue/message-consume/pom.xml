@@ -3,27 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>mall-dubbo</artifactId>
+        <artifactId>service-message-queue</artifactId>
         <groupId>com.github</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>web-backend</artifactId>
+    <artifactId>message-consume</artifactId>
+    <description>消息队列的消费端</description>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-activemq</artifactId>
         </dependency>
-        <!--<dependency>
-            <groupId>org.springframework.session</groupId>
-            <artifactId>spring-session</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>-->
 
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -36,11 +29,12 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>common-model</artifactId>
+            <artifactId>message-model</artifactId>
         </dependency>
+
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>user-model</artifactId>
+            <artifactId>common-model</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -75,15 +69,10 @@
             <groupId>io.dubbo.springboot</groupId>
             <artifactId>spring-boot-starter-dubbo</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>com.github.liuanxin</groupId>
-            <artifactId>api-document</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
-        <finalName>web-backend-8686</finalName>
+        <finalName>message-consume</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

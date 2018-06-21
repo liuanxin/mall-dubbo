@@ -3,35 +3,32 @@ online: true
 
 logging.config: classpath:log-prod.xml
 
-server.port: 8787
+spring.application.name: message
 
-spring.application.name: web-manager
+spring.activemq:
+  broker-url: failover:(tcp://first:61616,tcp://secondary:61616)?timeout=3000&startupMaxReconnectAttempts=5
+  user: admin
+  password: admin
 
-
-spring:
-#  session:
-#    store-type: redis
-#  redis:
-#    host: 127.0.0.1
-#    port: 6379
-  http.multipart:
-    maxFileSize: 12Mb
-    maxRequestSize: 20Mb
-
+spring.redis:
+  host: 127.0.0.1
+  port: 6379
 
 spring.dubbo:
   scan: com.github
+  protocol:
+    name: dubbo
+    port: 20879
+    serialization: kryo
   application:
     name: ${spring.application.name}
     registries:
       -
         address: zookeeper://192.168.1.101:2181
         timeout: 10000
-        register: false
       -
         address: zookeeper://192.168.1.102:2181
         timeout: 10000
-        register: false
 
 #spring:
 #  zipkin.base-url: http://127.0.0.1:9411

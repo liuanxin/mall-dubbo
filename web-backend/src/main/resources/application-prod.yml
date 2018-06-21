@@ -10,6 +10,18 @@ spring:
   mvc.throw-exception-if-no-handler-found: true
   resources.add-mappings: false
 
+
+spring:
+#  session:
+#    store-type: redis
+#  redis:
+#    host: 127.0.0.1
+#    port: 6379
+  http.multipart:
+    maxFileSize: 12Mb
+    maxRequestSize: 20Mb
+
+
 spring.dubbo:
   scan: com.github
   application:
