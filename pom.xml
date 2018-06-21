@@ -20,8 +20,10 @@
         <module>mall-common</module>
         <!-- 服务跟踪模块 -->
         <module>service-trace</module>
-        <!-- 放到 spring 上下文的全局服务包, 比如 cache 相关的模块, 被 dubbo 服务端依赖 -->
+        <!-- 放到 spring 上下文的全局服务包 -->
         <module>mall-global</module>
+        <!-- 消息队列 -->
+        <module>message-queue</module>
 
         <!-- 公共服务模块 -->
         <module>module-0-common</module>
@@ -38,8 +40,6 @@
         <module>web-manager</module>
         <!-- 定时任务服务 -->
         <module>timing-task</module>
-        <!-- 消息队列 -->
-        <module>service-message-queue</module>
     </modules>
 
     <properties>

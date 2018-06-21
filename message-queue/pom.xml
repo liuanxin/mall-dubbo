@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>service-message-queue</artifactId>
+    <artifactId>message-queue</artifactId>
     <description>消费订阅模块</description>
     <packaging>pom</packaging>
 
