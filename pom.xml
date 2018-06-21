@@ -103,6 +103,22 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>queue-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>queue-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>queue-consume</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>common-model</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -142,22 +158,6 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>order-server</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>message-model</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>message-server</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>message-consume</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

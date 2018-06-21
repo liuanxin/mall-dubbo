@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>message-consume</artifactId>
+    <artifactId>queue-consume</artifactId>
     <description>消息队列的消费端</description>
 
     <dependencies>
@@ -29,7 +29,7 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>message-model</artifactId>
+            <artifactId>queue-model</artifactId>
         </dependency>
 
         <dependency>
@@ -72,7 +72,7 @@
     </dependencies>
 
     <build>
-        <finalName>message-consume</finalName>
+        <finalName>queue-consume</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>message-server</artifactId>
+    <artifactId>queue-server</artifactId>
     <description>向消息队列发送消息</description>
 
     <dependencies>
@@ -24,7 +24,7 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>message-model</artifactId>
+            <artifactId>queue-model</artifactId>
         </dependency>
 
         <dependency>
@@ -59,7 +59,7 @@
     </dependencies>
 
     <build>
-        <finalName>message-server-20879</finalName>
+        <finalName>queue-server-20879</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
