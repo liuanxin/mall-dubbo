@@ -434,6 +434,7 @@ class Server {
             "  protocol:\n" +
             "    name: dubbo\n" +
             "    port: %s\n" +
+            "    serialization: kryo\n" +
             "  application:\n" +
             "    name: ${spring.application.name}\n" +
             "    registry:\n" +
@@ -477,6 +478,7 @@ class Server {
             "  protocol:\n" +
             "    name: dubbo\n" +
             "    port: %s\n" +
+            "    serialization: kryo\n" +
             "  application:\n" +
             "    name: ${spring.application.name}\n" +
             "    registries:\n" +
