@@ -381,10 +381,11 @@ class Server {
             "  scan: " + PACKAGE + "\n" +
             "  # 只在服务端时需要下面的配置, 相当于这个配置: <dubbo:protocol name=\"dubbo\" port=\"xx\" serialization=\"kryo\" />\n" +
             "  protocol:\n" +
-            "    # 序列化方式如果想使用 kryo, 需要引入 kryo 和 kryo-serializers 包, 见项目的 pom.xml 中的注释部分, 且需要 dubbox\n" +
-            "    # serialization: kryo\n" +
+            //"    # 序列化方式如果想使用 kryo, 需要引入 kryo 和 kryo-serializers 包, 见项目的 pom.xml 中的注释部分, 且需要 dubbox\n" +
+            // 从 2.6.0 开始也支持 kryo 了, 但是从这个版本开始要多引一个包(org.apache.curator:curator-framework:version)
             "    name: dubbo\n" +
             "    port: %s\n" +
+            "    serialization: kryo\n" +
             "  application:\n" +
             "    # <dubbo:application name=\"xxx\" />\n" +
             "    name: ${spring.application.name}\n" +
@@ -688,7 +689,10 @@ class Server {
             "            <groupId>com.alibaba</groupId>\n" +
             "            <artifactId>dubbo</artifactId>\n" +
             "        </dependency>\n" +
-            "        <!--\n" +
+            "        <dependency>\n" +
+            "            <groupId>org.apache.curator</groupId>\n" +
+            "            <artifactId>curator-framework</artifactId>\n" +
+            "        </dependency>\n" +
             "        <dependency>\n" +
             "            <groupId>com.esotericsoftware.kryo</groupId>\n" +
             "            <artifactId>kryo</artifactId>\n" +
@@ -697,7 +701,6 @@ class Server {
             "            <groupId>de.javakaffee</groupId>\n" +
             "            <artifactId>kryo-serializers</artifactId>\n" +
             "        </dependency>\n" +
-            "        -->\n" +
             "        <dependency>\n" +
             "            <groupId>io.dubbo.springboot</groupId>\n" +
             "            <artifactId>spring-boot-starter-dubbo</artifactId>\n" +

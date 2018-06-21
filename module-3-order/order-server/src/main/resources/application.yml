@@ -33,10 +33,9 @@ spring.dubbo:
   scan: com.github
   # 只在服务端时需要下面的配置, 相当于这个配置: <dubbo:protocol name="dubbo" port="xx" serialization="kryo" />
   protocol:
-    # 序列化方式如果想使用 kryo, 需要引入 kryo 和 kryo-serializers 包, 见项目的 pom.xml 中的注释部分, 且需要 dubbox
-    # serialization: kryo
     name: dubbo
     port: 20883
+    serialization: kryo
   application:
     # <dubbo:application name="xxx" />
     name: ${spring.application.name}
