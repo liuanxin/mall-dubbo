@@ -84,8 +84,10 @@ public class BackendGlobalException {
     public ResponseEntity<JsonResult> notSupported(HttpRequestMethodNotSupportedException e) {
         bindAndPrintLog(e);
 
-        String msg = String.format("不支持此种请求方式! 当前方式(%s), 支持方式(%s)",
-                e.getMethod(), A.toStr(e.getSupportedMethods()));
+        String msg = "不支持此种请求方式.";
+        if (!online) {
+            msg += String.format(" 当前(%s), 支持(%s)", e.getMethod(), A.toStr(e.getSupportedMethods()));
+        }
         return fail(msg);
     }
     @ExceptionHandler(MaxUploadSizeExceededException.class)
