@@ -154,7 +154,7 @@ public class BackendGlobalException {
         return new ResponseEntity<>(JsonResult.notLogin(msg), HttpStatus.UNAUTHORIZED);
     }
     private ResponseEntity<JsonResult> notPermission(String msg) {
-        return new ResponseEntity<>(JsonResult.notLogin(msg), HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(JsonResult.notPermission(msg), HttpStatus.FORBIDDEN);
     }
     private ResponseEntity<JsonResult> fail(String msg) {
         return new ResponseEntity<>(JsonResult.fail(msg), HttpStatus.INTERNAL_SERVER_ERROR);
