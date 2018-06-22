@@ -1,9 +1,12 @@
 package com.github.util;
 
+import com.github.common.exception.ForbiddenException;
 import com.github.common.exception.NotLoginException;
 import com.github.common.util.LogUtil;
 import com.github.common.util.RequestUtils;
 import com.github.common.util.U;
+
+import javax.servlet.http.HttpServletRequest;
 
 /** 操作 session 都基于此, 其他地方不允许操作! 避免 session 被滥用 */
 public class ManagerSessionUtil {
@@ -30,18 +33,23 @@ public class ManagerSessionUtil {
         }
     }
 
-    /** 用户在登录之后调用此方法, 主要就是将 用户信息、可访问的 url 等放入 session */
-    @SuppressWarnings("unchecked")
-    /* todo
+    /* 用户在登录之后调用此方法, 主要就是将 用户信息、可访问的 url 等放入 session */
+    /*
     public static void toSession(Account account, List<AccountPermission> permissions) {
-        RequestUtils.getSession().setAttribute(USER, ManagerSessionModel.assemblyData(account, permissions));
+        ManagerSessionModel sessionModel = ManagerSessionModel.assemblyData(account, permissions);
+        if (U.isNotBlank(sessionModel)) {
+            if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+                LogUtil.ROOT_LOG.debug("put ({}) in session({})",
+                        JsonUtil.toJson(sessionModel), RequestUtils.getSession().getId());
+            }
+            RequestUtils.getSession().setAttribute(USER, sessionModel);
+        }
     }
     */
 
     /** 获取用户信息, 从 token 中获取, 没有则从 session 中获取 */
-    public static ManagerSessionModel getSessionInfo() {
-        ManagerSessionModel sessionModel =
-                (ManagerSessionModel) RequestUtils.getSession().getAttribute(USER);
+    private static ManagerSessionModel getSessionInfo() {
+        ManagerSessionModel sessionModel = (ManagerSessionModel) RequestUtils.getSession().getAttribute(USER);
         return sessionModel == null ? ManagerSessionModel.defaultUser() : sessionModel;
     }
 
@@ -55,28 +63,23 @@ public class ManagerSessionUtil {
         return getSessionInfo().getUserName();
     }
 
-    /** 是否是超级管理员, 是则返回 true */
-    public static boolean isSuper() {
-        return getSessionInfo().wasSuper();
-    }
-    /** 是否是超级管理员, 不是则返回 true */
-    public static boolean isNotSuper() {
-        return !isSuper();
-    }
-
-    /** 验证用户是否有登录, 如果有则返回 true */
-    public static boolean isLogin() {
-        return getSessionInfo().wasLogin();
-    }
-    /** 验证用户是否有登录, 如果没有则返回 true */
-    public static boolean isNotLogin() {
-        return !isLogin();
-    }
-
     /** 验证登录, 未登录则抛出异常 */
     public static void checkLogin() {
-        if (isNotLogin()) {
+        if (!getSessionInfo().wasLogin()) {
             throw new NotLoginException();
+        }
+    }
+
+    /** 检查权限, 无权限则抛出异常 */
+    public static void checkPermission() {
+        // 非超级管理员才验证权限
+        if (!getSessionInfo().wasSuper()) {
+            HttpServletRequest request = RequestUtils.getRequest();
+            String url = request.getRequestURI();
+            String method = request.getMethod();
+            if (!getSessionInfo().wasPermission(url, method)) {
+                throw new ForbiddenException(String.format("您没有(%s)的 %s 访问权限", url, method));
+            }
         }
     }
 

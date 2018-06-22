@@ -6,6 +6,7 @@ import com.github.common.util.LogUtil;
 import com.github.common.util.RequestUtils;
 import com.github.util.ManagerSessionUtil;
 import com.google.common.collect.Lists;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -66,7 +67,6 @@ public class ManagerInterceptor implements HandlerInterceptor {
         if (!online) {
             return;
         }
-
         if (LET_IT_GO.contains(RequestUtils.getRequest().getRequestURI())) {
             return;
         }
@@ -75,13 +75,14 @@ public class ManagerInterceptor implements HandlerInterceptor {
         }
 
         HandlerMethod handlerMethod = (HandlerMethod) handler;
+
         // 在不需要登录的 url 上标注 @NotNeedLogin
         NotNeedLogin notNeedLogin = getAnnotation(handlerMethod, NotNeedLogin.class);
         // 标注了 NotNeedLogin 且 flag 为 true(默认就是 true)则表示当前的请求不需要验证登录
         if (notNeedLogin != null && notNeedLogin.flag()) {
             return;
         }
-
+        // 检查登录
         ManagerSessionUtil.checkLogin();
 
         // 在不需要验证权限的 url 上标注 @NotNeedPermission
@@ -90,13 +91,12 @@ public class ManagerInterceptor implements HandlerInterceptor {
         if (notNeedPermission != null && notNeedPermission.flag()) {
             return;
         }
-
         // 检查权限
-        // ManagerSessionUtil.checkPermission();
+        ManagerSessionUtil.checkPermission();
     }
     private <T extends Annotation> T getAnnotation(HandlerMethod handlerMethod, Class<T> clazz) {
-        // 先找方法上的注解, 再找类上的注解
+        // 先找方法上的注解, 没有再找类上的注解
         T annotation = handlerMethod.getMethodAnnotation(clazz);
-        return annotation == null ? handlerMethod.getBean().getClass().getAnnotation(clazz) : annotation;
+        return annotation == null ? AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), clazz) : annotation;
     }
 }

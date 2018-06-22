@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Accessors(chain = true)
-public class ManagerSessionModel implements Serializable {
+class ManagerSessionModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** 默认未登录用户的 id */
@@ -35,7 +35,7 @@ public class ManagerSessionModel implements Serializable {
     @Getter
     @NoArgsConstructor
     @Accessors(chain = true)
-    public static class Permission implements Serializable {
+    private static class Permission implements Serializable {
         private static final long serialVersionUID = 1L;
 
         /** 权限路径 */
@@ -44,13 +44,13 @@ public class ManagerSessionModel implements Serializable {
         private String method;
     }
 
-    public boolean wasLogin() {
+    boolean wasLogin() {
         return !DEFAULT_ID.equals(id) && !DEFAULT_NAME.equals(userName);
     }
-    public boolean wasSuper() {
+    boolean wasSuper() {
         return SUPER_USER.contains(userName);
     }
-    public boolean wasPermission(String url, String method) {
+    boolean wasPermission(String url, String method) {
         if (A.isNotEmpty(permissionList)) {
             for (Permission permission : permissionList) {
                 // 如果配置的 url 是 /user/*, 传进来的是 /user/info 也可以通过, 通配 或 全字
@@ -60,19 +60,21 @@ public class ManagerSessionModel implements Serializable {
                 boolean methodCheck = (("*").equals(permission.method) || permission.method.contains(method));
 
                 // url 和 method 都通过才表示有访问权限
-                return urlCheck && methodCheck;
+                if (urlCheck && methodCheck) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    public static ManagerSessionModel defaultUser() {
+    static ManagerSessionModel defaultUser() {
         return new ManagerSessionModel().setId(DEFAULT_ID).setUserName(DEFAULT_NAME);
     }
 
     // todo
     /*
-    public static ManagerSessionModel assemblyData(Account account, List<AccountPermission> permissions) {
+    static ManagerSessionModel assemblyData(Account account, List<AccountPermission> permissions) {
         ManagerSessionModel sessionModel = JsonUtil.convert(account, ManagerSessionModel.class);
         sessionModel.setPermissionList(JsonUtil.convertList(permissions, Permission.class));
         return sessionModel;
