@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>message-queue</artifactId>
-    <description>消费队列模块</description>
+    <description>消息队列模块</description>
     <packaging>pom</packaging>
 
     <modules>

@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>queue-model</artifactId>
-    <description>消费队列模块中 所有与数据库相关的实体、枚举, 以及 dubbo 的接口 等</description>
+    <description>消息队列模块中 所有与数据库相关的实体、枚举, 以及 dubbo 的接口 等</description>
 
     <dependencies>
         <dependency>
