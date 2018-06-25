@@ -36,7 +36,16 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>queue-model</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>common-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>search-model</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
