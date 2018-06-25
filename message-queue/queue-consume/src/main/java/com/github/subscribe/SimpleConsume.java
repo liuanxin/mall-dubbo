@@ -4,7 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.common.Const;
 import com.github.common.service.CommonService;
 import com.github.common.util.LogUtil;
-import com.github.message.constant.MessageConst;
+import com.github.message.constant.QueueConst;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
@@ -16,14 +16,14 @@ public class SimpleConsume {
     @Reference(version = Const.DUBBO_VERSION, lazy = true, check = false, timeout = Const.DUBBO_TIMEOUT)
     private CommonService commonService;
 
-    @JmsListener(destination = MessageConst.SIMPLE_MQ_NAME)
+    @JmsListener(destination = QueueConst.SIMPLE_MQ_NAME)
     public void receiveMessage(final String message) throws JMSException {
         LogUtil.recordTime();
         try {
             handlerBusiness(message);
         } finally {
             if (LogUtil.ROOT_LOG.isInfoEnabled()) {
-                LogUtil.ROOT_LOG.info("接收队列({})的数据({})并处理完成", MessageConst.SIMPLE_MQ_NAME, message);
+                LogUtil.ROOT_LOG.info("接收队列({})的数据({})并处理完成", QueueConst.SIMPLE_MQ_NAME, message);
             }
             LogUtil.unbind();
         }

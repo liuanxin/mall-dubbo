@@ -4,8 +4,10 @@ import com.github.common.constant.CommonConst;
 import com.github.common.resource.CollectEnumUtil;
 import com.github.common.util.A;
 import com.github.global.constant.GlobalConst;
+import com.github.message.constant.QueueConst;
 import com.github.order.constant.OrderConst;
 import com.github.product.constant.ProductConst;
+import com.github.search.constant.SearchConst;
 import com.github.user.constant.UserConst;
 
 import java.util.Map;
@@ -15,8 +17,10 @@ public final class BackendDataCollectUtil {
 
     private static final Map<String, Class> ENUM_MAP = A.maps(
             GlobalConst.MODULE_NAME, GlobalConst.class,
+            QueueConst.MODULE_NAME, QueueConst.class,
 
             CommonConst.MODULE_NAME, CommonConst.class,
+            SearchConst.MODULE_NAME, SearchConst.class,
             UserConst.MODULE_NAME, UserConst.class,
             ProductConst.MODULE_NAME, ProductConst.class,
             OrderConst.MODULE_NAME, OrderConst.class
