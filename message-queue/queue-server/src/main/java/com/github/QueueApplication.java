@@ -9,10 +9,10 @@ import org.springframework.jms.annotation.EnableJms;
 
 @SpringBootApplication
 @EnableJms
-public class SubscribeApplication {
+public class QueueApplication {
 
     public static void main(String[] args) {
-        ApplicationContext ctx = new SpringApplicationBuilder(SubscribeApplication.class).web(false).run(args);
+        ApplicationContext ctx = new SpringApplicationBuilder(QueueApplication.class).web(false).run(args);
         if (LogUtil.ROOT_LOG.isDebugEnabled()) {
             String[] activeProfiles = ctx.getEnvironment().getActiveProfiles();
             if (A.isNotEmpty(activeProfiles)) {

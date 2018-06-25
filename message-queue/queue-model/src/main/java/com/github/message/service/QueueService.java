@@ -1,6 +1,6 @@
 package com.github.message.service;
 
-public interface MessageService {
+public interface QueueService {
 
     void submitSimple(String simpleInfo);
 }

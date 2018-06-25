@@ -1,6 +1,6 @@
 package com.github.message.constant;
 
-public final class MessageConst {
+public final class QueueConst {
 
     /** 当前模块名 */
     public static final String MODULE_NAME = "message";
