@@ -3,7 +3,7 @@ online: false
 
 logging.config: classpath:log-dev.xml
 
-spring.application.name: search
+spring.application.name: search-sync
 
 database:
   url:  jdbc:mysql://127.0.0.1:3306/mall?useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&statementInterceptors=com.github.common.sql.ShowSqlInterceptor

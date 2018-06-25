@@ -3,7 +3,7 @@ online: false
 
 logging.config: classpath:log-test.xml
 
-spring.application.name: search
+spring.application.name: search-sync
 
 database:
   url:  jdbc:mysql://test_ip:test_port/x123x?useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&statementInterceptors=com.github.common.sql.ShowSqlInterceptor
