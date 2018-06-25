@@ -11,6 +11,7 @@
 
     <artifactId>user-server</artifactId>
     <description>用户模块的服务端</description>
+
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>

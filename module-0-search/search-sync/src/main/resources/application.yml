@@ -1,0 +1,51 @@
+
+online: false
+
+logging.config: classpath:log-dev.xml
+
+spring.application.name: search
+
+database:
+  url:  jdbc:mysql://127.0.0.1:3306/mall?useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&statementInterceptors=com.github.common.sql.ShowSqlInterceptor
+  userName: root
+  password: root
+  initialSize: 1
+  minIdle: 1
+  maxActive: 1
+  maxWait: 60000
+  timeBetweenEvictionRunsMillis: 60000
+  minEvictableIdleTimeMillis: 300000
+  validationQuery: SELECT 'x'
+  testWhileIdle: true
+  testOnBorrow: false
+  testOnReturn: false
+  filters: stat,wall
+
+
+spring.redis:
+  host: 127.0.0.1
+  port: 6379
+
+
+# io.dubbo.springboot.DubboProperties
+spring.dubbo:
+  # 扫描 @Service @Reference 注解所在的目录. 目录如果有多个用 英文逗号(,) 隔开
+  scan: com.github
+  # 只在服务端时需要下面的配置, 相当于这个配置: <dubbo:protocol name="dubbo" port="xx" serialization="kryo" />
+  protocol:
+    name: dubbo
+    port: 20878
+    serialization: kryo
+  application:
+    # <dubbo:application name="xxx" />
+    name: ${spring.application.name}
+    # <dubbo:registry address="zk://ip:port" timeout="10000"  />
+    registry:
+      address: zookeeper://127.0.0.1:2181
+      timeout: 10000
+
+## org.springframework.cloud.sleuth.zipkin2.ZipkinProperties
+#spring:
+#  zipkin.base-url: http://127.0.0.1:9411
+#  # 抽样比例, 默认是 10%, 如果 值是 1 则表示 100%, 分布式追踪数据量可能会非常大
+#  sleuth.sampler.percentage: 0.1

@@ -34,10 +34,11 @@ public class ModuleTest {
     }
 
     public static void main(String[] args) throws Exception {
-        generate("0-common",  "20880", "公共服务");
-        generate("1-user",    "20881", "用户");
-        generate("2-product", "20882", "商品");
-        generate("3-order",   "20883", "订单");
+//        generate("0-common",  "20880", "公共");
+        generate("0-search",  "20878", "搜索");
+//        generate("1-user",    "20881", "用户");
+//        generate("2-product", "20882", "商品");
+//        generate("3-order",   "20883", "订单");
 
         soutInfo();
     }

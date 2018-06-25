@@ -9,12 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>module-0-common</artifactId>
-    <description>公共模块</description>
+    <artifactId>module-0-search</artifactId>
+    <description>搜索模块</description>
     <packaging>pom</packaging>
 
     <modules>
-        <module>common-model</module>
-        <module>common-server</module>
+        <module>search-model</module>
+        <module>search-server</module>
+        <module>search-sync</module>
     </modules>
 </project>

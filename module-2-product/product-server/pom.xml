@@ -11,6 +11,7 @@
 
     <artifactId>product-server</artifactId>
     <description>商品模块的服务端</description>
+
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>

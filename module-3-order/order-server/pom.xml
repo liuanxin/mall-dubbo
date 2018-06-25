@@ -11,6 +11,7 @@
 
     <artifactId>order-server</artifactId>
     <description>订单模块的服务端</description>
+
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>

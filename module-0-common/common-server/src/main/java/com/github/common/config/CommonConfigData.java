@@ -8,7 +8,7 @@ import com.github.common.constant.CommonConst;
 import org.apache.ibatis.type.TypeHandler;
 import org.springframework.core.io.Resource;
 
-/** 公共服务模块的配置数据. 主要是 mybatis 的多配置目录和类型处理器 */
+/** 公共模块的配置数据. 主要是 mybatis 的多配置目录和类型处理器 */
 final class CommonConfigData {
 
     private static final String[] RESOURCE_PATH = new String[] {

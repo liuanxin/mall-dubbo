@@ -3,14 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>module-0-common</artifactId>
+        <artifactId>module-0-search</artifactId>
         <groupId>com.github</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>common-server</artifactId>
-    <description>公共模块的服务端</description>
+    <artifactId>search-server</artifactId>
+    <description>搜索模块的服务端</description>
 
     <dependencies>
         <dependency>
@@ -24,45 +24,12 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>common-model</artifactId>
+            <artifactId>search-model</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-spring</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.liuanxin</groupId>
-            <artifactId>mybatis-page</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.liuanxin</groupId>
-            <artifactId>mybatis-redis-cache</artifactId>
         </dependency>
 
         <dependency>
@@ -92,7 +59,7 @@
     </dependencies>
 
     <build>
-        <finalName>common-server-20880</finalName>
+        <finalName>search-server-20878</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
