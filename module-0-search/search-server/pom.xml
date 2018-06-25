@@ -59,7 +59,7 @@
     </dependencies>
 
     <build>
-        <finalName>search-server-20878</finalName>
+        <finalName>search-server-20872</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

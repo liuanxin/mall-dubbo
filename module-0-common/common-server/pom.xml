@@ -92,7 +92,7 @@
     </dependencies>
 
     <build>
-        <finalName>common-server-20880</finalName>
+        <finalName>common-server-20870</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

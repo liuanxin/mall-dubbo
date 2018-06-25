@@ -63,7 +63,7 @@
     </dependencies>
 
     <build>
-        <finalName>queue-server-20879</finalName>
+        <finalName>queue-server-20871</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

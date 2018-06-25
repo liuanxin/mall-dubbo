@@ -19,7 +19,7 @@ spring.dubbo:
   scan: com.github
   protocol:
     name: dubbo
-    port: 20879
+    port: 20871
     serialization: kryo
   application:
     name: ${spring.application.name}
