@@ -32,7 +32,7 @@ public final class AppTokenHandler {
         return U.EMPTY;
     }
 
-    /** 重置 token 的过期时间, 每次访问时都应该调用此方法 */
+    /** 重置 token 的过期时间 */
     public static String resetTokenExpireTime() {
         String token = getToken();
         if (U.isNotBlank(token)) {
