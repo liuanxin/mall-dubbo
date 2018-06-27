@@ -3,17 +3,16 @@ package com.github.common.json;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.github.common.util.LogUtil;
 
 import java.util.List;
 
 public class JsonUtil {
 
+    /** 用来渲染给前台的 json 映射器, 定义了一些自定义类的序列化规则, 没有反序列化规则 */
     public static final ObjectMapper RENDER = new RenderObjectMapper();
-
-	private static class RenderObjectMapper extends ObjectMapper {
-        private static final long serialVersionUID = 0L;
-		private RenderObjectMapper() {
+    private static class RenderObjectMapper extends ObjectMapper {
+        private RenderObjectMapper() {
             super();
             // 日期不用 utc 方式显示(utc 是一个整数值)
             // configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
@@ -24,14 +23,14 @@ public class JsonUtil {
             // 不确定的属性项上不要失败
             configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             // 提升序列化性能, map 中的 null 值不序列化
-            configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
+            // configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
             // 提升序列化性能, null 值不序列化
             // setSerializationInclusion(JsonInclude.Include.NON_NULL);
             // 允许字符串中包含 未加引号的控制字符(值小于 32 的 ASCII 字符, 包括制表符和换行字符)的功能.
             // 如果功能设置为 false, 则遇到此类字符时会引发异常. 由于 json 规范要求引用所有控制字符, 因此这是非标准功能, 默认情况下是禁用的.
             configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
         }
-	}
+    }
 
     /** 对象转换, 失败将会返回 null */
     public static <S,T> T convert(S source, Class<T> clazz) {
@@ -64,6 +63,9 @@ public class JsonUtil {
         try {
             return RENDER.readValue(json, clazz);
         } catch (Exception e) {
+            if (LogUtil.ROOT_LOG.isErrorEnabled()) {
+                LogUtil.ROOT_LOG.error(String.format("json(%s) to class(%s) exception", json, clazz), e);
+            }
             return null;
         }
     }
@@ -81,6 +83,9 @@ public class JsonUtil {
         try {
             return RENDER.readValue(json, RENDER.getTypeFactory().constructCollectionType(List.class, clazz));
         } catch (Exception e) {
+            if (LogUtil.ROOT_LOG.isErrorEnabled()) {
+                LogUtil.ROOT_LOG.error(String.format("json(%s) to List<%s> exception", json, clazz), e);
+            }
             return null;
         }
     }
