@@ -593,24 +593,24 @@ class Server {
             "        <appender-ref ref =\"PROJECT\"/>\n" +
             "    </appender>\n" +
             "\n\n" +
-            "    <logger name=\"" + PACKAGE + ".~MODULE_NAME~.repository\" level=\"warn\"/>\n" +
-            "    <logger name=\"" + PACKAGE + ".common.mvc\" level=\"warn\"/>\n" +
+            "    <logger name=\"" + PACKAGE + ".~MODULE_NAME~.repository\" level=\"error\"/>\n" +
+            "    <logger name=\"" + PACKAGE + ".common.mvc\" level=\"error\"/>\n" +
             "\n" +
-            "    <logger name=\"httpclient\" level=\"warn\"/>\n" +
+            "    <logger name=\"httpclient\" level=\"error\"/>\n" +
             "\n" +
             "    <logger name=\"com.alibaba\" level=\"error\"/>\n" +
-            "    <logger name=\"com.netflix\" level=\"warn\"/>\n" +
-            "    <!--<logger name=\"com.github\" level=\"warn\"/>-->\n" +
-            "    <logger name=\"com.sun\" level=\"warn\"/>\n" +
+            "    <logger name=\"com.netflix\" level=\"error\"/>\n" +
+            "    <!--<logger name=\"com.github\" level=\"error\"/>-->\n" +
+            "    <logger name=\"com.sun\" level=\"error\"/>\n" +
             "\n" +
-            "    <logger name=\"org.springframework\" level=\"warn\"/>\n" +
-            "    <logger name=\"org.hibernate\" level=\"warn\"/>\n" +
-            "    <logger name=\"org.mybatis\" level=\"warn\"/>\n" +
-            "    <logger name=\"org.apache\" level=\"warn\"/>\n" +
-            "    <logger name=\"org.I0Itec\" level=\"warn\"/>\n" +
-            "    <logger name=\"org.jboss\" level=\"warn\"/>\n" +
-            "    <logger name=\"org.xnio\" level=\"warn\"/>\n" +
-            "    <logger name=\"org.jooq\" level=\"warn\"/>\n" +
+            "    <logger name=\"org.springframework\" level=\"error\"/>\n" +
+            "    <logger name=\"org.hibernate\" level=\"error\"/>\n" +
+            "    <logger name=\"org.mybatis\" level=\"error\"/>\n" +
+            "    <logger name=\"org.apache\" level=\"error\"/>\n" +
+            "    <logger name=\"org.I0Itec\" level=\"error\"/>\n" +
+            "    <logger name=\"org.jboss\" level=\"error\"/>\n" +
+            "    <logger name=\"org.xnio\" level=\"error\"/>\n" +
+            "    <logger name=\"org.jooq\" level=\"error\"/>\n" +
             "\n\n" +
             "    <root level=\"info\">\n" +
             "        <appender-ref ref=\"ASYNC\"/>\n" +
