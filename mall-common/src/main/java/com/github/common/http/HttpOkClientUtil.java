@@ -31,7 +31,7 @@ public class HttpOkClientUtil {
                 .connectTimeout(10, TimeUnit.SECONDS)
                 // 响应超时时间
                 .readTimeout(20, TimeUnit.SECONDS)
-                // 自动保存
+                // 自动管理 cookie
                 .cookieJar(new CookieJar() {
                     @Override
                     public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
