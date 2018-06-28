@@ -329,14 +329,13 @@ class Server {
             "import com.alibaba.dubbo.config.annotation.Service;\n" +
             "import " + PACKAGE + ".common.Const;\n" +
             "\n" +
-            "/**\n" +
-            " * <p>类上的注解相当于下面的配置</p>\n" +
-            " *\n" +
-            " * &lt;dubbo:service exported=\"false\" unexported=\"false\"\n" +
-            " *     interface=\"" + PACKAGE + ".%s.service.%sService\"\n" +
-            " *     listener=\"\" version=\"1.0\" filter=\"\" timeout=\"5000\"\n" +
-            " *     id=\"" + PACKAGE + ".%s.service.%sService\" /&gt;\n" +
-            " */\n" +
+//            "/**\n" +
+//            " * <p>类上的注解相当于下面的配置</p>\n" +
+//            " *\n" +
+//            " * &lt;dubbo:service interface=\"" + PACKAGE + ".%s.service.%sService\"\n" +
+//            " *     id=\"" + PACKAGE + ".%s.service.%sService\"\n" +
+//            " *     version=\"x\" timeout=\"xx\" filter=\"xxx\" /&gt;" +
+//            " */\n" +
             "@Service(version = Const.DUBBO_VERSION, timeout = Const.DUBBO_TIMEOUT, filter = Const.DUBBO_FILTER)\n" +
             "public class %sServiceImpl implements %sService {\n" +
             "\n" +
