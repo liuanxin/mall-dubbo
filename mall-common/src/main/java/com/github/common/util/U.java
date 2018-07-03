@@ -282,7 +282,6 @@ public final class U {
         if (isBlank(obj)) {
             return false;
         }
-
         try {
             Double.parseDouble(obj.toString());
             return true;
