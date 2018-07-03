@@ -38,7 +38,7 @@ public class BackendSessionUtil {
         return securityCode != null && code.equalsIgnoreCase(securityCode.toString());
     }
 
-    // /** 登录之后调用此方法, 主要就是将 用户信息 放入 session */
+    // /** 登录之后调用此方法, 主要就是将 用户信息 放入 session, app 需要将返回的数据保存到本地 */
     /*
     public static String whenLogin(User user) {
         BackendSessionModel sessionModel = BackendSessionModel.assemblyData(user) ;
@@ -56,13 +56,14 @@ public class BackendSessionUtil {
 
     /** 获取用户信息. 没有则使用默认信息 */
     private static BackendSessionModel getSessionInfo() {
-        // 从 token 中读
-        BackendSessionModel sessionModel = AppTokenHandler.getSessionInfoWithToken(BackendSessionModel.class);
-        // 为空再从 session 中读
-        if (U.isBlank(sessionModel)) {
+        // 如果是 app 请求就从 token 中读, 否则从 session 读
+        BackendSessionModel sessionModel;
+        if (RequestUtils.isMobileRequest()) {
+            sessionModel = AppTokenHandler.getSessionInfoWithToken(BackendSessionModel.class);
+        } else {
             sessionModel = (BackendSessionModel) RequestUtils.getSession().getAttribute(USER);
         }
-        // 还是为空则使用默认值
+        // 为空则使用默认值
         return sessionModel == null ? BackendSessionModel.defaultUser() : sessionModel;
     }
 
