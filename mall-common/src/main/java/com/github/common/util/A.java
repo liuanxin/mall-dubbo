@@ -1,15 +1,17 @@
 package com.github.common.util;
 
-import org.apache.commons.lang3.math.NumberUtils;
-
 import java.util.*;
 
 /** 集合相关的工具包 */
 public final class A {
 
     public static boolean isArray(Object obj) {
-        return (obj != null && obj.getClass().isArray());
+        return obj != null && (obj.getClass().isArray() || obj instanceof Collection);
     }
+    public static boolean isNotArray(Object obj) {
+        return !isArray(obj);
+    }
+
     public static <T> boolean isEmpty(T[] array) {
         return array == null || array.length == 0;
     }
