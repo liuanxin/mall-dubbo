@@ -27,6 +27,8 @@
     </appender>
 
 
+    <logger name="com.github.common.mvc" level="warn"/>
+
     <logger name="httpclient" level="warn"/>
     <logger name="freemarker" level="warn"/>
 
