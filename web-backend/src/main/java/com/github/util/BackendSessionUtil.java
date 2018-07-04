@@ -34,7 +34,7 @@ public class BackendSessionUtil {
         return securityCode != null && code.equalsIgnoreCase(securityCode.toString());
     }
 
-    /** 登录之后调用此方法, 主要就是将 用户信息 放入 session, app 需要将返回的数据保存到本地 */
+    /** 登录之后调用此方法, 将 用户信息 放入 session, app 需要将返回的数据保存到本地 */
     public static <T> String whenLogin(T user) {
         if (U.isNotBlank(user)) {
             BackendSessionModel sessionModel = BackendSessionModel.assemblyData(user);
@@ -53,7 +53,7 @@ public class BackendSessionUtil {
 
     /** 获取用户信息. 没有则使用默认信息 */
     private static BackendSessionModel getSessionInfo() {
-        // 如果是 app 请求就从 token 中读, 否则从 session 读
+        // 从 token 中读, 为空再从 session 中读
         BackendSessionModel sessionModel = AppTokenHandler.getSessionInfoWithToken(BackendSessionModel.class);
         if (U.isBlank(sessionModel)) {
             sessionModel = (BackendSessionModel) RequestUtils.getSession().getAttribute(USER);
