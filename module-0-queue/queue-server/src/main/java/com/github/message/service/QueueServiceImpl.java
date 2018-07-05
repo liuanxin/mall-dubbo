@@ -9,7 +9,7 @@ import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.Queue;
 
-@Service(version = Const.DUBBO_VERSION, timeout = Const.DUBBO_TIMEOUT, filter = Const.DUBBO_FILTER)
+@Service(version = Const.DUBBO_VERSION, timeout = Const.DUBBO_TIMEOUT, filter = Const.DUBBO_FILTER, interfaceClass = QueueService.class)
 public class QueueServiceImpl implements QueueService {
 
     @Autowired

@@ -39,7 +39,7 @@ public class ModuleTest {
 //        generate("0-search",  "20872", "搜索");
 //        generate("1-user",    "20881", "用户");
 //        generate("2-product", "20882", "商品");
-//        generate("3-order",   "20883", "订单");
+        generate("999-order",   "20883", "订单");
 
         soutInfo();
     }
@@ -336,7 +336,8 @@ class Server {
 //            " *     id=\"" + PACKAGE + ".%s.service.%sService\"\n" +
 //            " *     version=\"x\" timeout=\"xx\" filter=\"xxx\" /&gt;" +
 //            " */\n" +
-            "@Service(version = Const.DUBBO_VERSION, timeout = Const.DUBBO_TIMEOUT, filter = Const.DUBBO_FILTER)\n" +
+            // 加上 interfaceClass 用来解决在这个类上有 @Transactional 注解的问题
+            "@Service(version = Const.DUBBO_VERSION, timeout = Const.DUBBO_TIMEOUT, filter = Const.DUBBO_FILTER, interfaceClass = %sService.class)\n" +
             "public class %sServiceImpl implements %sService {\n" +
             "\n" +
             "    @Override\n" +
@@ -793,8 +794,8 @@ class Server {
         String dataSource = String.format(DATA_SOURCE, parentPackageName, clazzName, clazzName, clazzName);
         writeFile(new File(configPath, clazzName + "DataSourceInit.java"), dataSource);
 
-        String service = String.format(SERVICE, parentPackageName, parentPackageName,
-                clazzName, parentPackageName, clazzName, clazzName, clazzName);
+        String service = String.format(SERVICE, parentPackageName, /*parentPackageName,
+                clazzName, parentPackageName, clazzName,*/ clazzName, clazzName, clazzName);
         writeFile(new File(servicePath, clazzName + "ServiceImpl.java"), service);
 
 

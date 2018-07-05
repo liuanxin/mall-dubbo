@@ -9,7 +9,7 @@ import com.github.common.page.Pages;
 import com.github.common.util.LogUtil;
 import com.github.product.model.DemoModel;
 
-@Service(version = Const.DUBBO_VERSION, timeout = Const.DUBBO_TIMEOUT, filter = Const.DUBBO_FILTER)
+@Service(version = Const.DUBBO_VERSION, timeout = Const.DUBBO_TIMEOUT, filter = Const.DUBBO_FILTER, interfaceClass = ProductExampleService.class)
 public class ProductExampleServiceImpl implements ProductExampleService {
 
     // @Autowired

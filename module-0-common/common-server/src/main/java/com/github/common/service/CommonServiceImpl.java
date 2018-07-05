@@ -4,7 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.github.common.Const;
 import com.github.common.util.LogUtil;
 
-@Service(version = Const.DUBBO_VERSION, timeout = Const.DUBBO_TIMEOUT, filter = Const.DUBBO_FILTER)
+@Service(version = Const.DUBBO_VERSION, timeout = Const.DUBBO_TIMEOUT, filter = Const.DUBBO_FILTER, interfaceClass = CommonService.class)
 public class CommonServiceImpl implements CommonService {
 
     @Override
