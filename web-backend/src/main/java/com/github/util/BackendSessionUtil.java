@@ -7,8 +7,6 @@ import com.github.common.util.LogUtil;
 import com.github.common.util.RequestUtils;
 import com.github.common.util.U;
 
-import java.util.concurrent.TimeUnit;
-
 /** !!! 操作 session 都基于此, 其他地方不允许操作! 避免 session 被滥用 !!! */
 public class BackendSessionUtil {
 
