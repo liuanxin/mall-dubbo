@@ -1,4 +1,4 @@
-package com.github.global.config;
+package com.github.config;
 
 import com.github.common.json.JsonCode;
 import com.github.global.constant.Develop;
@@ -18,7 +18,7 @@ import java.util.Set;
 @Configuration
 @EnableApiInfo
 @ConditionalOnClass({ DocumentCopyright.class })
-public class ApiInfoConfig {
+public class ManagerApiInfoConfig {
 
     @Value("${online:false}")
     private boolean online;
@@ -26,7 +26,7 @@ public class ApiInfoConfig {
     @Bean
     public DocumentCopyright urlCopyright() {
         return new DocumentCopyright()
-                .setTitle(Develop.TITLE)
+                .setTitle(Develop.TITLE + " 后台管理系统")
                 .setTeam(Develop.TEAM)
                 .setCopyright(Develop.COPYRIGHT)
                 .setVersion(Develop.VERSION)
