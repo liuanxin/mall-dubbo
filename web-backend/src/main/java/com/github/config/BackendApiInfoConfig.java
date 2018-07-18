@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Configuration
 @EnableApiInfo
-@ConditionalOnClass({ DocumentCopyright.class })
+@ConditionalOnClass(DocumentCopyright.class)
 public class BackendApiInfoConfig {
 
     @Value("${online:false}")
