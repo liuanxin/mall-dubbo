@@ -30,7 +30,3 @@ spring.dubbo:
       address: zookeeper://127.0.0.1:2181
       timeout: 10000
       register: false
-
-#spring:
-#  zipkin.base-url: http://127.0.0.1:9411
-#  sleuth.sampler.percentage: 0.1
