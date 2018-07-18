@@ -26,7 +26,7 @@ public class ManagerApiInfoConfig {
     @Bean
     public DocumentCopyright urlCopyright() {
         return new DocumentCopyright()
-                .setTitle(Develop.TITLE + " 后台管理系统")
+                .setTitle(Develop.TITLE + " - 后台管理")
                 .setTeam(Develop.TEAM)
                 .setCopyright(Develop.COPYRIGHT)
                 .setVersion(Develop.VERSION)
