@@ -13,8 +13,8 @@ import static com.github.common.ModuleTest.*;
 
 public class ModuleTest {
 
-    static String PACKAGE = "com.github";
-    // static String PARENT = "~/project/mall-dubbo/";
+    static final String PROJECT = "mall-dubbo";
+    static final String PACKAGE = "com.github";
     static String PARENT = ModuleTest.class.getClassLoader().getResource("").getFile() + "../../../";
     static String PACKAGE_PATH = PACKAGE.replaceAll("\\.", "/");
 
@@ -103,7 +103,7 @@ class Parent {
                 "         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
                 "         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\n" +
                 "    <parent>\n" +
-                "        <artifactId>mall-dubbo</artifactId>\n" +
+                "        <artifactId>" + PROJECT + "</artifactId>" +
                 "        <groupId>" + PACKAGE + "</groupId>\n" +
                 "        <version>1.0-SNAPSHOT</version>\n" +
                 "    </parent>\n" +
@@ -483,6 +483,9 @@ class Server {
             "    serialization: kryo\n" +
             "  application:\n" +
             "    name: ${spring.application.name}\n" +
+            "    registry:\n" +
+            "      address: zookeeper://192.168.1.100:2181\n" +
+            "      timeout: 10000\n" +
             "    registries:\n" +
             "      -\n" +
             "        address: zookeeper://192.168.1.101:2181\n" +
