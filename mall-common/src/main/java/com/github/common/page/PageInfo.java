@@ -1,7 +1,7 @@
 package com.github.common.page;
 
-import com.github.common.util.U;
 import com.github.liuanxin.api.annotation.ApiReturn;
+import com.github.common.util.U;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,10 +45,10 @@ public class PageInfo<T> implements Serializable {
     private List<T> list;
 
     public static <T> PageInfo<T> emptyReturn() {
-        return new PageInfo<>(0, Collections.emptyList());
+        return new PageInfo<T>(0, Collections.emptyList());
     }
     public static <T> PageInfo<T> returnPage(int total, List<T> list) {
-        return new PageInfo<>(total, list);
+        return new PageInfo<T>(total, list);
     }
 
     /** 在 Controller 中调用 --> 组装不同的 vo 时使用此方法 */
@@ -57,7 +57,7 @@ public class PageInfo<T> implements Serializable {
             return emptyReturn();
         } else {
             // 只要总条数
-            PageInfo<T> info = new PageInfo<>();
+            PageInfo<T> info = new PageInfo<T>();
             info.setTotal(pageInfo.getTotal());
             return info;
         }

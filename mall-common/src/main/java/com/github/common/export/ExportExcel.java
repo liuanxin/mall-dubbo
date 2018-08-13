@@ -150,7 +150,7 @@ final class ExportExcel {
                                 } else {
                                     cell.setCellType(CellType.STRING);
                                     cell.setCellValue(cellData);
-                                    // 给字符串设置样式意义并不大, 此处并不每次都生成一个
+                                    // 给字符串设置样式意义并不大, 忽略样式. 此处并不每次都生成一个
                                     cellTmpStyle = contentStyle;
                                 }
                                 cell.setCellStyle(cellTmpStyle);

@@ -26,7 +26,7 @@ public class Money implements Serializable {
     private Long cent;
 
     public Money() {}
-    /** 从前台过来的数据, 或者要反序列化回去. 都使用此构造 */
+    /** 从前台过来的数据转换成金额对象时使用此构造 */
     @JsonCreator
     public Money(String yuan) {
         cent = yuan2Cent(yuan);
@@ -97,8 +97,8 @@ public class Money implements Serializable {
         return ChineseConvert.upperCase(toString());
     }
 
+    /** 元转换为分 */
     private static Long yuan2Cent(String yuan) {
-        // 元转换为分
         if (U.isBlank(yuan)) {
             return null;
         }
@@ -113,8 +113,8 @@ public class Money implements Serializable {
         // U.assertException(money < 0, "金额不能是负数");
         return new BigDecimal(money).movePointRight(SCALE).longValue();
     }
+    /** 分转换为元 */
     private static String cent2Yuan(Long cent) {
-        // 分转换为元
         return U.greater0(cent) ? BigDecimal.valueOf(cent).movePointLeft(SCALE).toString() : U.EMPTY;
     }
 

@@ -35,7 +35,7 @@ public class ShowSqlInterceptor implements StatementInterceptor {
                 sql = sql.substring(sql.indexOf(':') + 1).trim();
             }
         }
-        if (U.isNotBlank(sql) && !"SELECT 1".equalsIgnoreCase(sql)) {
+        if (U.isNotBlank(sql) && !"SELECT 1".equals(sql)) {
             if (LogUtil.SQL_LOG.isDebugEnabled()) {
                 Long start = TIME.get();
                 // druid -> SQLUtils.formatMySql

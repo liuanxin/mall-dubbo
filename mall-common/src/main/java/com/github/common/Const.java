@@ -39,8 +39,8 @@ public final class Const {
      *   forward 不会改变页面的请求地址, 而且前一个请求的 request 和 response 在下一个请求中还有效.
      *   redirect 正好不同, 要传值得使用 参数拼接 或者放在 session 里(都有利弊, 建议使用前者)
      *
-     * 在 spring mvc 的 controller 上返回 String 时
-     *   return "forward:/some/one" => 转发到 /some/one 的 controller 方法上去. mvc 内部的异常处理就是基于这种方式
+     * 在 spring mvc 的 Controller 上返回 String 时
+     *   return "forward:/some/one" => 转发到 /some/one 的 service 方法上去. mvc 内部的异常处理就是基于这种方式
      *   return "some/one"          => 转发到 template-path/some/one.jsp 页面去(如果是 jsp 的话)
      *   return "/some/one"         => 同 "some/one"
      * </pre>

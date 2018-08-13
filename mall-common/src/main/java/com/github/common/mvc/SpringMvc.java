@@ -7,9 +7,9 @@ import com.github.common.converter.StringToEnumConverter;
 import com.github.common.converter.StringToNumberConverter;
 import com.github.common.json.JsonUtil;
 import com.github.common.page.Page;
-import com.github.common.util.A;
 import com.github.common.util.LogUtil;
 import com.github.common.util.RequestUtils;
+import com.github.common.util.A;
 import com.github.common.util.U;
 import org.springframework.core.MethodParameter;
 import org.springframework.format.FormatterRegistry;
@@ -115,7 +115,6 @@ public final class SpringMvc {
             }
         });
     }
-
 
     /*
      * 这种方式下方法上将不能标 @ResponseBody,
