@@ -15,6 +15,8 @@ public class ModuleTest {
 
     static final String PROJECT = "mall-dubbo";
     static final String PACKAGE = "com.github";
+    static final String COMMON = "mall-common";
+    static final String GLOBAL = "mall-global";
     static String PARENT = ModuleTest.class.getClassLoader().getResource("").getFile() + "../../../";
     static String PACKAGE_PATH = PACKAGE.replaceAll("\\.", "/");
 
@@ -39,7 +41,7 @@ public class ModuleTest {
 //        generate("0-search",  "20872", "搜索");
 //        generate("1-user",    "20881", "用户");
 //        generate("2-product", "20882", "商品");
-        generate("999-order",   "20883", "订单");
+//        generate("3-order",   "20883", "订单");
 
         soutInfo();
     }
@@ -103,7 +105,7 @@ class Parent {
                 "         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
                 "         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\n" +
                 "    <parent>\n" +
-                "        <artifactId>" + PROJECT + "</artifactId>" +
+                "        <artifactId>" + PROJECT + "</artifactId>\n" +
                 "        <groupId>" + PACKAGE + "</groupId>\n" +
                 "        <version>1.0-SNAPSHOT</version>\n" +
                 "    </parent>\n" +
@@ -160,7 +162,7 @@ class Model {
             "    <dependencies>\n" +
             "        <dependency>\n" +
             "            <groupId>${project.groupId}</groupId>\n" +
-            "            <artifactId>mall-common</artifactId>\n" +
+            "            <artifactId>" + COMMON + "</artifactId>\n" +
             "            <scope>provided</scope>\n" +
             "        </dependency>\n" +
             "    </dependencies>\n" +
@@ -217,8 +219,8 @@ class Server {
 
     private static final String CONFIG_DATA = "package " + PACKAGE + ".%s.config;\n" +
             "\n" +
-            "import " + PACKAGE + ".common.resource.CollectTypeHandlerUtil;\n" +
             "import " + PACKAGE + ".common.resource.CollectResourceUtil;\n" +
+            "import " + PACKAGE + ".common.resource.CollectTypeHandlerUtil;\n" +
             "import " + PACKAGE + ".common.util.A;\n" +
             "import " + PACKAGE + ".global.constant.GlobalConst;\n" +
             "import " + PACKAGE + ".%s.constant.%sConst;\n" +
@@ -247,8 +249,8 @@ class Server {
     private static String DATA_SOURCE = "package " + PACKAGE + ".%s.config;\n" +
             "\n" +
             "import com.alibaba.druid.pool.DruidDataSource;\n" +
-            "import com.github.liuanxin.page.PageInterceptor;\n" +
             "import " + PACKAGE + ".common.Const;\n" +
+            "import com.github.liuanxin.page.PageInterceptor;\n" +
             "import org.apache.ibatis.plugin.Interceptor;\n" +
             "import org.apache.ibatis.session.SqlSessionFactory;\n" +
             "import org.mybatis.spring.SqlSessionFactoryBean;\n" +
@@ -354,7 +356,7 @@ class Server {
             "spring.application.name: %s\n" +
             "\n" +
             "database:\n" +
-            "  url:  jdbc:mysql://127.0.0.1:3306/mall?useSSL=false&useUnicode=true&characterEncoding=utf8" +
+            "  url:  jdbc:mysql://127.0.0.1:3306/%s?useSSL=false&useUnicode=true&characterEncoding=utf8" +
             "&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&statementInterceptors=" +
             PACKAGE + ".common.sql.ShowSqlInterceptor\n" +
             "  userName: root\n" +
@@ -440,12 +442,8 @@ class Server {
             "  application:\n" +
             "    name: ${spring.application.name}\n" +
             "    registry:\n" +
-            "      address: zookeeper://127.0.0.1:2181\n" +
-            "      timeout: 10000\n" +
-            "\n" +
-            "#spring:\n" +
-            "#  zipkin.base-url: http://127.0.0.1:9411\n" +
-            "#  sleuth.sampler.percentage: 0.2\n";
+            "      address: zookeeper://test_zk_ip:test_zk_port\n" +
+            "      timeout: 10000\n";
 
     private static String APPLICATION_PROD_YML = "\n" +
             "online: true\n" +
@@ -492,11 +490,7 @@ class Server {
             "        timeout: 10000\n" +
             "      -\n" +
             "        address: zookeeper://192.168.1.102:2181\n" +
-            "        timeout: 10000\n" +
-            "\n" +
-            "#spring:\n" +
-            "#  zipkin.base-url: http://127.0.0.1:9411\n" +
-            "#  sleuth.sampler.percentage: 0.1\n";
+            "        timeout: 10000\n";
 
     private static String LOG_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<configuration>\n" +
@@ -638,11 +632,11 @@ class Server {
             "    <dependencies>\n" +
             "        <dependency>\n" +
             "            <groupId>${project.groupId}</groupId>\n" +
-            "            <artifactId>mall-common</artifactId>\n" +
+            "            <artifactId>" + COMMON + "</artifactId>\n" +
             "        </dependency>\n" +
             "        <dependency>\n" +
             "            <groupId>${project.groupId}</groupId>\n" +
-            "            <artifactId>mall-global</artifactId>\n" +
+            "            <artifactId>" + GLOBAL + "</artifactId>\n" +
             "        </dependency>\n" +
             "\n" +
             "        <dependency>\n" +
@@ -807,7 +801,7 @@ class Server {
         new File(resourcePath, parentPackageName).mkdir();
         new File(resourcePath, parentPackageName + "-custom").mkdir();
 
-        String applicationYml = String.format(APPLICATION_YML, packageName, port);
+        String applicationYml = String.format(APPLICATION_YML, packageName, packageName, port);
         writeFile(new File(resourcePath, "application.yml"), applicationYml);
         String applicationTestYml = String.format(APPLICATION_TEST_YML, packageName, port);
         writeFile(new File(resourcePath, "application-test.yml"), applicationTestYml);

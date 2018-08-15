@@ -34,5 +34,5 @@ spring.dubbo:
   application:
     name: ${spring.application.name}
     registry:
-      address: zookeeper://127.0.0.1:2181
+      address: zookeeper://test_zk_ip:test_zk_port
       timeout: 10000
