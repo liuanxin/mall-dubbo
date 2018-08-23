@@ -1,5 +1,4 @@
 
-logging.config: classpath:log-dev.xml
 server.port: 9411
 
 ## 使用 mysql 存储

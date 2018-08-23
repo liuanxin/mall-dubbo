@@ -1,0 +1,13 @@
+
+server.port: 9872
+
+spring:
+  application.name: search
+  profiles.active: test
+
+spring.cloud.config:
+  uri: http://test_config:8001/
+  name: all,${spring.application.name}
+  profile: ${spring.profiles.active}
+
+management.security.enabled: false

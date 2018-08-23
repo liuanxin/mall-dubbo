@@ -1,0 +1,13 @@
+
+server.port: 9871
+
+spring:
+  application.name: queue-consume
+  profiles.active: test
+
+spring.cloud.config:
+  uri: http://test_config:8001/
+  name: all,queue
+  profile: ${spring.profiles.active}
+
+management.security.enabled: false

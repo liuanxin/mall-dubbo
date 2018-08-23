@@ -1,0 +1,11 @@
+
+spring:
+  application.name: task
+  profiles.active: dev
+
+spring.cloud.config:
+  uri: http://127.0.0.1:8001/
+  name: all,${spring.application.name}
+  profile: ${spring.profiles.active}
+
+management.security.enabled: false

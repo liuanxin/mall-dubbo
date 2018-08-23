@@ -36,12 +36,12 @@ public class ModuleTest {
     }
 
     public static void main(String[] args) throws Exception {
-//        generate("0-common",  "20870", "公共");
-//        generate("0-queue",   "20871", "消息队列");
-//        generate("0-search",  "20872", "搜索");
-//        generate("1-user",    "20881", "用户");
-//        generate("2-product", "20882", "商品");
-//        generate("3-order",   "20883", "订单");
+        generate("0-common",  "9870", "公共");
+        generate("0-queue",   "9871", "消息队列");
+        generate("0-search",  "9872", "搜索");
+        generate("1-user",    "9881", "用户");
+        generate("2-product", "9882", "商品");
+        generate("3-order",   "9883", "订单");
 
         soutInfo();
     }
@@ -349,247 +349,61 @@ class Server {
             "}\n";
 
     private static String APPLICATION_YML = "\n" +
-            "online: false\n" +
+            "server.port: %s\n" +
             "\n" +
-            "logging.config: classpath:log-dev.xml\n" +
+            "spring:\n" +
+            "  application.name: %s\n" +
+            "  profiles.active: dev\n" +
             "\n" +
-            "spring.application.name: %s\n" +
+            "spring.cloud.config:\n" +
+            "  uri: http://127.0.0.1:8001/\n" +
+            "  name: all,${spring.application.name}\n" +
+            "  profile: ${spring.profiles.active}\n" +
             "\n" +
-            "database:\n" +
-            "  url:  jdbc:mysql://127.0.0.1:3306/%s?useSSL=false&useUnicode=true&characterEncoding=utf8" +
-            "&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&statementInterceptors=" +
-            PACKAGE + ".common.sql.ShowSqlInterceptor\n" +
-            "  userName: root\n" +
-            "  password: root\n" +
-            "  initialSize: 1\n" +
-            "  minIdle: 1\n" +
-            "  maxActive: 1\n" +
-            "  maxWait: 60000\n" +
-            "  timeBetweenEvictionRunsMillis: 60000\n" +
-            "  minEvictableIdleTimeMillis: 300000\n" +
-            "  validationQuery: SELECT 'x'\n" +
-            "  testWhileIdle: true\n" +
-            "  testOnBorrow: false\n" +
-            "  testOnReturn: false\n" +
-            "  filters: stat,wall\n" +
-            "\n" +
-            "\n" +
-            "spring.redis:\n" +
-            "  host: 127.0.0.1\n" +
-            "  port: 6379\n" +
-            "\n" +
-            "\n" +
-            "# io.dubbo.springboot.DubboProperties\n" +
-            "spring.dubbo:\n" +
-            "  # 扫描 @Service @Reference 注解所在的目录. 目录如果有多个用 英文逗号(,) 隔开\n" +
-            "  scan: " + PACKAGE + "\n" +
-            "  # 只在服务端时需要下面的配置, 相当于这个配置: <dubbo:protocol name=\"dubbo\" port=\"xx\" serialization=\"kryo\" />\n" +
-            "  protocol:\n" +
-            //"    # 序列化方式如果想使用 kryo, 需要引入 kryo 和 kryo-serializers 包, 见项目的 pom.xml 中的注释部分, 且需要 dubbox\n" +
-            // 从 2.6.0 开始也支持 kryo 了, 但是从这个版本开始要多引一个包(org.apache.curator:curator-framework:version)
-            "    name: dubbo\n" +
-            "    port: %s\n" +
-            "    serialization: kryo\n" +
-            "  application:\n" +
-            "    # <dubbo:application name=\"xxx\" />\n" +
-            "    name: ${spring.application.name}\n" +
-            "    # <dubbo:registry address=\"zk://ip:port\" timeout=\"10000\"  />\n" +
-            "    registry:\n" +
-            "      address: zookeeper://127.0.0.1:2181\n" +
-            "      timeout: 10000\n" +
-            "\n" +
-            "## org.springframework.cloud.sleuth.zipkin2.ZipkinProperties\n" +
-            "#spring:\n" +
-            "#  zipkin.base-url: http://127.0.0.1:9411\n" +
-            "#  # 抽样比例, 默认是 10%%, 如果 值是 1 则表示 100%%, 分布式追踪数据量可能会非常大\n" +
-            "#  sleuth.sampler.percentage: 0.1\n";
+            "management.security.enabled: false\n";
 
     private static String APPLICATION_TEST_YML = "\n" +
-            "online: false\n" +
+            "server.port: %s\n" +
             "\n" +
-            "logging.config: classpath:log-test.xml\n" +
+            "spring:\n" +
+            "  application.name: %s\n" +
+            "  profiles.active: test\n" +
             "\n" +
-            "spring.application.name: %s\n" +
+            "spring.cloud.config:\n" +
+            "  uri: http://test_config:8001/\n" +
+            "  name: all,${spring.application.name}\n" +
+            "  profile: ${spring.profiles.active}\n" +
             "\n" +
-            "database:\n" +
-            "  url:  jdbc:mysql://test_ip:test_port/x123x?useSSL=false&useUnicode=true&characterEncoding=utf8" +
-            "&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&statementInterceptors=" +
-            PACKAGE + ".common.sql.ShowSqlInterceptor\n" +
-            "  userName: xx123xx\n" +
-            "  password: xxx123xxx\n" +
-            "  initialSize: 2\n" +
-            "  minIdle: 2\n" +
-            "  maxActive: 10\n" +
-            "  maxWait: 60000\n" +
-            "  timeBetweenEvictionRunsMillis: 60000\n" +
-            "  minEvictableIdleTimeMillis: 300000\n" +
-            "  validationQuery: SELECT 'x'\n" +
-            "  testWhileIdle: true\n" +
-            "  testOnBorrow: false\n" +
-            "  testOnReturn: false\n" +
-            "  filters: stat,wall\n" +
-            "\n" +
-            "spring.redis:\n" +
-            "  host: 127.0.0.1\n" +
-            "  port: 6379\n" +
-            "\n" +
-            "spring.dubbo:\n" +
-            "  scan: " + PACKAGE + "\n" +
-            "  protocol:\n" +
-            "    name: dubbo\n" +
-            "    port: %s\n" +
-            "    serialization: kryo\n" +
-            "  application:\n" +
-            "    name: ${spring.application.name}\n" +
-            "    registry:\n" +
-            "      address: zookeeper://test_zk_ip:test_zk_port\n" +
-            "      timeout: 10000\n";
+            "management.security.enabled: false\n";
 
     private static String APPLICATION_PROD_YML = "\n" +
-            "online: true\n" +
+            "server.port: %s\n" +
             "\n" +
-            "logging.config: classpath:log-prod.xml\n" +
+            "spring:\n" +
+            "  application.name: %s\n" +
+            "  profiles.active: prod\n" +
             "\n" +
-            "spring.application.name: %s\n" +
+            "spring.cloud.config:\n" +
+            "  uri: http://prod_config:8001/\n" +
+            "  name: all,${spring.application.name}\n" +
+            "  profile: ${spring.profiles.active}\n" +
             "\n" +
-            "database:\n" +
-            "  url:  jdbc:mysql://prod_ip:prod_port/y123y?useSSL=false&useUnicode=true&characterEncoding=utf8" +
-            "&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true\n" +
-            "  userName: yy123yy\n" +
-            "  password: yyy123yyy\n" +
-            "  initialSize: 10\n" +
-            "  minIdle: 10\n" +
-            "  maxActive: 100\n" +
-            "  maxWait: 60000\n" +
-            "  timeBetweenEvictionRunsMillis: 60000\n" +
-            "  minEvictableIdleTimeMillis: 300000\n" +
-            "  validationQuery: SELECT 'x'\n" +
-            "  testWhileIdle: true\n" +
-            "  testOnBorrow: false\n" +
-            "  testOnReturn: false\n" +
-            "  filters: wall\n" +
-            "\n" +
-            "spring.redis:\n" +
-            "  host: 127.0.0.1\n" +
-            "  port: 6379\n" +
-            "\n" +
-            "spring.dubbo:\n" +
-            "  scan: " + PACKAGE + "\n" +
-            "  protocol:\n" +
-            "    name: dubbo\n" +
-            "    port: %s\n" +
-            "    serialization: kryo\n" +
-            "  application:\n" +
-            "    name: ${spring.application.name}\n" +
-            "    registry:\n" +
-            "      address: zookeeper://192.168.1.100:2181\n" +
-            "      timeout: 10000\n" +
-            "    registries:\n" +
-            "      -\n" +
-            "        address: zookeeper://192.168.1.101:2181\n" +
-            "        timeout: 10000\n" +
-            "      -\n" +
-            "        address: zookeeper://192.168.1.102:2181\n" +
-            "        timeout: 10000\n";
+            "management.security.enabled: false\n";
 
-    private static String LOG_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+    private static String SINGLE_LOG_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<configuration>\n" +
-            "    <include resource=\"org/springframework/boot/logging/logback/defaults.xml\" />\n" +
-            "    <property name=\"CONSOLE_LOG_PATTERN\" value=\"[%X{receiveTime}%d] [${PID:- } %t\\\\(%logger\\\\) : %p]%X{requestInfo}%n%class.%method\\\\(%file:%line\\\\)%n%m%n%n\"/>\n" +
-            "    <include resource=\"org/springframework/boot/logging/logback/console-appender.xml\" />\n" +
-            "\n\n" +
-            "    <logger name=\"" + PACKAGE + ".~MODULE_NAME~.repository\" level=\"warn\"/>\n" +
-            "    <logger name=\"" + PACKAGE + ".common.mvc\" level=\"warn\"/>\n" +
-            "    <!--<logger name=\"com.github\" level=\"warn\"/>-->\n" +
-            "    <logger name=\"com.alibaba\" level=\"warn\"/>\n" +
-            "    <logger name=\"com.sun\" level=\"warn\"/>\n" +
             "\n" +
-            "    <logger name=\"io.github\" level=\"warn\"/>\n" +
+            "    <property name=\"FILE_PATH_TEST\" value=\"${user.home}/logs/~MODULE_NAME~-test\"/>\n" +
+            "    <property name=\"LOG_PATTERN_TEST\" value=\"[%X{receiveTime}%d] [${PID:- } %t\\\\(%logger\\\\) : %p]%X{requestInfo} %class{30}#%method\\\\(%file:%line\\\\)%n%m%n%n\"/>\n" +
+            "    <property name=\"SAVE_FILE_TEST\" value=\"7\"/>\n" +
             "\n" +
-            "    <logger name=\"org.springframework\" level=\"warn\"/>\n" +
-            "    <logger name=\"org.hibernate\" level=\"warn\"/>\n" +
-            "    <logger name=\"org.mybatis\" level=\"warn\"/>\n" +
-            "    <logger name=\"org.apache\" level=\"warn\"/>\n" +
-            "    <logger name=\"org.I0Itec\" level=\"warn\"/>\n" +
-            "    <logger name=\"org.jboss\" level=\"warn\"/>\n" +
-            "\n\n" +
-            "    <root level=\"debug\">\n" +
-            "        <appender-ref ref=\"CONSOLE\"/>\n" +
-            "    </root>\n" +
-            "</configuration>\n";
-    private static String LOG_TEST_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-            "<configuration>\n" +
-            "    <property name=\"FILE_PATH\" value=\"${user.home}/logs/~MODULE_NAME~-test\"/>\n" +
+            "    <property name=\"FILE_PATH_PROD\" value=\"${user.home}/logs/~MODULE_NAME~-prod\"/>\n" +
+            "    <property name=\"LOG_PATTERN_PROD\" value=\"[%X{receiveTime}%d] [${PID:- } %t\\\\(%logger\\\\) : %p]%X{requestInfo} %class{30}#%method\\\\(%file:%line\\\\) %m%n%n\"/>\n" +
+            "    <property name=\"SAVE_FILE_PROD\" value=\"15\"/>\n" +
+            "    \n" +
             "    <property name=\"SQL_PATTERN\" value=\"%d [${PID:- } %t\\\\(%logger\\\\) : %p] %class.%method\\\\(%file:%line\\\\)%n%m%n%n\"/>\n" +
-            "    <property name=\"LOG_PATTERN\" value=\"[%X{receiveTime}%d] [${PID:- } %t\\\\(%logger\\\\) : %p]%X{requestInfo} %class{30}#%method\\\\(%file:%line\\\\)%n%m%n%n\"/>\n" +
             "\n" +
-            "    <appender name=\"PROJECT\" class=\"ch.qos.logback.core.rolling.RollingFileAppender\">\n" +
-            "        <file>${FILE_PATH}.log</file>\n" +
-            "        <rollingPolicy class=\"ch.qos.logback.core.rolling.TimeBasedRollingPolicy\">\n" +
-            "            <fileNamePattern>${FILE_PATH}-%d{yyyy-MM-dd}.log</fileNamePattern>\n" +
-            "            <maxHistory>7</maxHistory>\n" +
-            "        </rollingPolicy>\n" +
-            "        <encoder>\n" +
-            "            <pattern>${LOG_PATTERN}</pattern>\n" +
-            "        </encoder>\n" +
-            "    </appender>\n" +
             "\n" +
-            "    <appender name=\"SQL\" class=\"ch.qos.logback.core.rolling.RollingFileAppender\">\n" +
-            "        <file>${FILE_PATH}-sql.log</file>\n" +
-            "        <rollingPolicy class=\"ch.qos.logback.core.rolling.TimeBasedRollingPolicy\">\n" +
-            "            <fileNamePattern>${FILE_PATH}-sql-%d{yyyy-MM-dd}.log</fileNamePattern>\n" +
-            "            <maxHistory>7</maxHistory>\n" +
-            "        </rollingPolicy>\n" +
-            "        <encoder>\n" +
-            "            <pattern>${SQL_PATTERN}</pattern>\n" +
-            "        </encoder>\n" +
-            "    </appender>\n" +
-            "\n\n" +
-            "    <logger name=\"" + PACKAGE + ".~MODULE_NAME~.repository\" level=\"warn\"/>\n" +
-            "    <logger name=\"" + PACKAGE + ".common.mvc\" level=\"warn\"/>\n" +
-            "    <!--<logger name=\"com.github\" level=\"warn\"/>-->\n" +
-            "    <logger name=\"com.alibaba\" level=\"warn\"/>\n" +
-            "    <logger name=\"com.sun\" level=\"warn\"/>\n" +
-            "\n" +
-            "    <logger name=\"io.github\" level=\"warn\"/>\n" +
-            "\n" +
-            "    <logger name=\"org.springframework\" level=\"warn\"/>\n" +
-            "    <logger name=\"org.hibernate\" level=\"warn\"/>\n" +
-            "    <logger name=\"org.mybatis\" level=\"warn\"/>\n" +
-            "    <logger name=\"org.apache\" level=\"warn\"/>\n" +
-            "    <logger name=\"org.I0Itec\" level=\"warn\"/>\n" +
-            "    <logger name=\"org.jboss\" level=\"warn\"/>\n" +
-            "\n\n" +
-            "    <logger name=\"sqlLog\" level=\"debug\" additivity=\"false\">\n" +
-            "        <appender-ref ref=\"SQL\" />\n" +
-            "    </logger>\n" +
-            "\n" +
-            "    <root level=\"debug\">\n" +
-            "        <appender-ref ref=\"PROJECT\"/>\n" +
-            "    </root>\n" +
-            "</configuration>\n";
-    private static String LOG_PROD_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-            "<configuration>\n" +
-            "    <property name=\"FILE_PATH\" value=\"${user.home}/logs/~MODULE_NAME~-prod\"/>\n" +
-            "    <property name=\"LOG_PATTERN\" value=\"[%X{receiveTime}%d] [${PID:- } %t\\\\(%logger\\\\) : %p]%X{requestInfo} %class{30}#%method\\\\(%file:%line\\\\) %m%n%n\"/>\n" +
-            "\n" +
-            "    <appender name=\"PROJECT\" class=\"ch.qos.logback.core.rolling.RollingFileAppender\">\n" +
-            "        <file>${FILE_PATH}.log</file>\n" +
-            "        <rollingPolicy class=\"ch.qos.logback.core.rolling.TimeBasedRollingPolicy\">\n" +
-            "            <fileNamePattern>${FILE_PATH}-%d{yyyy-MM-dd}.log</fileNamePattern>\n" +
-            "            <maxHistory>60</maxHistory>\n" +
-            "        </rollingPolicy>\n" +
-            "        <encoder>\n" +
-            "            <pattern>${LOG_PATTERN}</pattern>\n" +
-            "        </encoder>\n" +
-            "    </appender>\n" +
-            "\n" +
-            "    <appender name=\"ASYNC\" class=\"ch.qos.logback.classic.AsyncAppender\">\n" +
-            "        <discardingThreshold>0</discardingThreshold>\n" +
-            "        <includeCallerData>true</includeCallerData>\n" +
-            "        <appender-ref ref =\"PROJECT\"/>\n" +
-            "    </appender>\n" +
-            "\n\n" +
             "    <logger name=\"" + PACKAGE + ".~MODULE_NAME~.repository\" level=\"error\"/>\n" +
             "    <logger name=\"" + PACKAGE + ".common.mvc\" level=\"error\"/>\n" +
             "\n" +
@@ -608,10 +422,75 @@ class Server {
             "    <logger name=\"org.jboss\" level=\"error\"/>\n" +
             "    <logger name=\"org.xnio\" level=\"error\"/>\n" +
             "    <logger name=\"org.jooq\" level=\"error\"/>\n" +
-            "\n\n" +
-            "    <root level=\"info\">\n" +
-            "        <appender-ref ref=\"ASYNC\"/>\n" +
-            "    </root>\n" +
+            "\n" +
+            "\n" +
+            "    <!-- 本地开发用到的日志配置 -->\n" +
+            "    <springProfile name=\"dev,default,native\">\n" +
+            "        <include resource=\"org/springframework/boot/logging/logback/defaults.xml\" />\n" +
+            "        <property name=\"CONSOLE_LOG_PATTERN\" value=\"[%X{receiveTime}%d] [${PID:- } %t\\\\(%logger\\\\) : %p]%X{requestInfo}%n%class.%method\\\\(%file:%line\\\\)%n%m%n%n\"/>\n" +
+            "        <include resource=\"org/springframework/boot/logging/logback/console-appender.xml\" />\n" +
+            "\n" +
+            "        <root level=\"debug\">\n" +
+            "            <appender-ref ref=\"CONSOLE\"/>\n" +
+            "        </root>\n" +
+            "    </springProfile>\n" +
+            "\n" +
+            "\n" +
+            "    <!-- 测试时用到的日志配置 -->\n" +
+            "    <springProfile name=\"test\">\n" +
+            "        <appender name=\"PROJECT\" class=\"ch.qos.logback.core.rolling.RollingFileAppender\">\n" +
+            "            <file>${FILE_PATH}.log</file>\n" +
+            "            <rollingPolicy class=\"ch.qos.logback.core.rolling.TimeBasedRollingPolicy\">\n" +
+            "                <fileNamePattern>${FILE_PATH}-%d{yyyy-MM-dd}.log</fileNamePattern>\n" +
+            "                <maxHistory>${SAVE_FILE_TEST}</maxHistory>\n" +
+            "            </rollingPolicy>\n" +
+            "            <encoder>\n" +
+            "                <pattern>${LOG_PATTERN}</pattern>\n" +
+            "            </encoder>\n" +
+            "        </appender>\n" +
+            "\n" +
+            "        <appender name=\"SQL\" class=\"ch.qos.logback.core.rolling.RollingFileAppender\">\n" +
+            "            <file>${FILE_PATH}-sql.log</file>\n" +
+            "            <rollingPolicy class=\"ch.qos.logback.core.rolling.TimeBasedRollingPolicy\">\n" +
+            "                <fileNamePattern>${FILE_PATH}-sql-%d{yyyy-MM-dd}.log</fileNamePattern>\n" +
+            "                <maxHistory>${SAVE_FILE_TEST}</maxHistory>\n" +
+            "            </rollingPolicy>\n" +
+            "            <encoder>\n" +
+            "                <pattern>${SQL_PATTERN}</pattern>\n" +
+            "            </encoder>\n" +
+            "        </appender>\n" +
+            "        <logger name=\"sqlLog\" level=\"debug\" additivity=\"false\">\n" +
+            "            <appender-ref ref=\"SQL\" />\n" +
+            "        </logger>\n" +
+            "\n" +
+            "        <root level=\"debug\">\n" +
+            "            <appender-ref ref=\"PROJECT\"/>\n" +
+            "        </root>\n" +
+            "    </springProfile>\n" +
+            "\n" +
+            "\n" +
+            "    <!-- 生产上用到的日志配置 -->\n" +
+            "    <springProfile name=\"prod\">\n" +
+            "        <appender name=\"PROJECT\" class=\"ch.qos.logback.core.rolling.RollingFileAppender\">\n" +
+            "            <file>${FILE_PATH_PROD}.log</file>\n" +
+            "            <rollingPolicy class=\"ch.qos.logback.core.rolling.TimeBasedRollingPolicy\">\n" +
+            "                <fileNamePattern>${FILE_PATH_PROD}-%d{yyyy-MM-dd}.log</fileNamePattern>\n" +
+            "                <maxHistory>${SAVE_FILE_PROD}</maxHistory>\n" +
+            "            </rollingPolicy>\n" +
+            "            <encoder>\n" +
+            "                <pattern>${LOG_PATTERN_PROD}</pattern>\n" +
+            "            </encoder>\n" +
+            "        </appender>\n" +
+            "        <appender name=\"ASYNC\" class=\"ch.qos.logback.classic.AsyncAppender\">\n" +
+            "            <discardingThreshold>0</discardingThreshold>\n" +
+            "            <includeCallerData>true</includeCallerData>\n" +
+            "            <appender-ref ref =\"PROJECT\"/>\n" +
+            "        </appender>\n" +
+            "\n" +
+            "        <root level=\"info\">\n" +
+            "            <appender-ref ref=\"ASYNC\"/>\n" +
+            "        </root>\n" +
+            "    </springProfile>\n" +
             "</configuration>\n";
 
 
@@ -644,6 +523,14 @@ class Server {
             "            <artifactId>%s</artifactId>\n" +
             "        </dependency>\n" +
             "\n" +
+            "        <dependency>\n" +
+            "            <groupId>org.springframework.boot</groupId>\n" +
+            "            <artifactId>spring-boot-starter-actuator</artifactId>\n" +
+            "        </dependency>\n" +
+            "        <dependency>\n" +
+            "            <groupId>org.springframework.cloud</groupId>\n" +
+            "            <artifactId>spring-cloud-starter-config</artifactId>\n" +
+            "        </dependency>\n" +
             "        <dependency>\n" +
             "            <groupId>org.springframework.boot</groupId>\n" +
             "            <artifactId>spring-boot-starter</artifactId>\n" +
@@ -801,19 +688,15 @@ class Server {
         new File(resourcePath, parentPackageName).mkdir();
         new File(resourcePath, parentPackageName + "-custom").mkdir();
 
-        String applicationYml = String.format(APPLICATION_YML, packageName, packageName, port);
-        writeFile(new File(resourcePath, "application.yml"), applicationYml);
-        String applicationTestYml = String.format(APPLICATION_TEST_YML, packageName, port);
-        writeFile(new File(resourcePath, "application-test.yml"), applicationTestYml);
-        String applicationProdYml = String.format(APPLICATION_PROD_YML,  packageName, port);
-        writeFile(new File(resourcePath, "application-prod.yml"), applicationProdYml);
+        String applicationYml = String.format(APPLICATION_YML, port, packageName);
+        writeFile(new File(resourcePath, "bootstrap.yml"), applicationYml);
+        String applicationTestYml = String.format(APPLICATION_TEST_YML, port, packageName);
+        writeFile(new File(resourcePath, "bootstrap-test.yml"), applicationTestYml);
+        String applicationProdYml = String.format(APPLICATION_PROD_YML,  port, packageName);
+        writeFile(new File(resourcePath, "bootstrap-prod.yml"), applicationProdYml);
 
-        String logXml = LOG_XML.replaceAll("~MODULE_NAME~", parentPackageName);
-        writeFile(new File(resourcePath, "log-dev.xml"), logXml);
-        String testXml = LOG_TEST_XML.replaceAll("~MODULE_NAME~", parentPackageName);
-        writeFile(new File(resourcePath, "log-test.xml"), testXml);
-        String prodXml = LOG_PROD_XML.replaceAll("~MODULE_NAME~", parentPackageName);
-        writeFile(new File(resourcePath, "log-prod.xml"), prodXml);
+        String prodXml = SINGLE_LOG_XML.replaceAll("~MODULE_NAME~", parentPackageName);
+        writeFile(new File(resourcePath, "logback-spring.xml"), prodXml);
 
 
         File testParent = new File(module + "/" + server + "/src/test/java/" +
