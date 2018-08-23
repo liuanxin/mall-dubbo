@@ -1,4 +1,6 @@
 
+server.port: 8686
+
 spring:
   application.name: web-backend
   profiles.active: dev

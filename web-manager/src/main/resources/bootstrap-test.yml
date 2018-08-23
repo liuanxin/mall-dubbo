@@ -1,4 +1,6 @@
 
+server.port: 8787
+
 spring:
   application.name: web-manager
   profiles.active: test

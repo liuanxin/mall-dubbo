@@ -1,6 +1,4 @@
 
-server.port: 8686
-
 spring:
 #  session:
 #    store-type: redis
