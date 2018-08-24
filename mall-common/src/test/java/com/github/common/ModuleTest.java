@@ -439,20 +439,20 @@ class Server {
             "    <!-- 测试时用到的日志配置 -->\n" +
             "    <springProfile name=\"test\">\n" +
             "        <appender name=\"PROJECT\" class=\"ch.qos.logback.core.rolling.RollingFileAppender\">\n" +
-            "            <file>${FILE_PATH}.log</file>\n" +
+            "            <file>${FILE_PATH_TEST}.log</file>\n" +
             "            <rollingPolicy class=\"ch.qos.logback.core.rolling.TimeBasedRollingPolicy\">\n" +
-            "                <fileNamePattern>${FILE_PATH}-%d{yyyy-MM-dd}.log</fileNamePattern>\n" +
+            "                <fileNamePattern>${FILE_PATH_TEST}-%d{yyyy-MM-dd}.log</fileNamePattern>\n" +
             "                <maxHistory>${SAVE_FILE_TEST}</maxHistory>\n" +
             "            </rollingPolicy>\n" +
             "            <encoder>\n" +
-            "                <pattern>${LOG_PATTERN}</pattern>\n" +
+            "                <pattern>${LOG_PATTERN_TEST}</pattern>\n" +
             "            </encoder>\n" +
             "        </appender>\n" +
             "\n" +
             "        <appender name=\"SQL\" class=\"ch.qos.logback.core.rolling.RollingFileAppender\">\n" +
-            "            <file>${FILE_PATH}-sql.log</file>\n" +
+            "            <file>${FILE_PATH_TEST}-sql.log</file>\n" +
             "            <rollingPolicy class=\"ch.qos.logback.core.rolling.TimeBasedRollingPolicy\">\n" +
-            "                <fileNamePattern>${FILE_PATH}-sql-%d{yyyy-MM-dd}.log</fileNamePattern>\n" +
+            "                <fileNamePattern>${FILE_PATH_TEST}-sql-%d{yyyy-MM-dd}.log</fileNamePattern>\n" +
             "                <maxHistory>${SAVE_FILE_TEST}</maxHistory>\n" +
             "            </rollingPolicy>\n" +
             "            <encoder>\n" +
