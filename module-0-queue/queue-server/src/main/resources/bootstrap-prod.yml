@@ -1,5 +1,6 @@
 
 server.port: 9871
+logging.config: classpath:log-prod.xml
 
 spring:
   application.name: queue
