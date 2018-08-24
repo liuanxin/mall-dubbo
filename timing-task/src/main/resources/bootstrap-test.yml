@@ -1,5 +1,6 @@
 
 server.port: 8585
+logging.config: classpath:log-test.xml
 
 spring:
   application.name: task

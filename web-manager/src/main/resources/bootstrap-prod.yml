@@ -1,5 +1,6 @@
 
 server.port: 8787
+logging.config: classpath:log-prod.xml
 
 spring:
   application.name: web-manager

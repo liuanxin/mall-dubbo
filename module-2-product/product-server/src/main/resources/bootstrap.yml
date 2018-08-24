@@ -1,5 +1,6 @@
 
 server.port: 9882
+logging.config: classpath:log-dev.xml
 
 spring:
   application.name: product
