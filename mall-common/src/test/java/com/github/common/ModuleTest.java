@@ -356,14 +356,12 @@ class Server {
             "server.port: %s\n" +
             "logging.config: classpath:log-dev.xml\n" +
             "\n" +
-            "spring:\n" +
-            "  application.name: %s\n" +
-            "  profiles.active: dev\n" +
+            "spring.application.name: %s\n" +
             "\n" +
             "spring.cloud.config:\n" +
             "  uri: http://127.0.0.1:8001/\n" +
             "  name: all,${spring.application.name}\n" +
-            "  profile: ${spring.profiles.active}\n" +
+            "  profile: dev\n" +
             "\n" +
             "management.security.enabled: false\n";
 
@@ -371,14 +369,12 @@ class Server {
             "server.port: %s\n" +
             "logging.config: classpath:log-test.xml\n" +
             "\n" +
-            "spring:\n" +
-            "  application.name: %s\n" +
-            "  profiles.active: test\n" +
+            "spring.application.name: %s\n" +
             "\n" +
             "spring.cloud.config:\n" +
             "  uri: http://test_config:8001/\n" +
             "  name: all,${spring.application.name}\n" +
-            "  profile: ${spring.profiles.active}\n" +
+            "  profile: test\n" +
             "\n" +
             "management.security.enabled: false\n";
 
@@ -386,14 +382,12 @@ class Server {
             "server.port: %s\n" +
             "logging.config: classpath:log-prod.xml\n" +
             "\n" +
-            "spring:\n" +
-            "  application.name: %s\n" +
-            "  profiles.active: prod\n" +
+            "spring.application.name: %s\n" +
             "\n" +
             "spring.cloud.config:\n" +
             "  uri: http://prod_config:8001/\n" +
             "  name: all,${spring.application.name}\n" +
-            "  profile: ${spring.profiles.active}\n" +
+            "  profile: prod\n" +
             "\n" +
             "management.security.enabled: false\n";
 

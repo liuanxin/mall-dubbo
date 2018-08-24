@@ -2,13 +2,11 @@
 server.port: 9881
 logging.config: classpath:log-dev.xml
 
-spring:
-  application.name: user
-  profiles.active: dev
+spring.application.name: user
 
 spring.cloud.config:
   uri: http://127.0.0.1:8001/
   name: all,${spring.application.name}
-  profile: ${spring.profiles.active}
+  profile: dev
 
 management.security.enabled: false

@@ -9,6 +9,6 @@ spring:
 spring.cloud.config:
   uri: http://127.0.0.1:8001/
   name: all,queue
-  profile: ${spring.profiles.active}
+  profile: dev
 
 management.security.enabled: false

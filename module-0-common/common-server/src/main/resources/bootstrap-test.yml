@@ -2,13 +2,11 @@
 server.port: 9870
 logging.config: classpath:log-test.xml
 
-spring:
-  application.name: common
-  profiles.active: test
+spring.application.name: common
 
 spring.cloud.config:
   uri: http://test_config:8001/
   name: all,${spring.application.name}
-  profile: ${spring.profiles.active}
+  profile: test
 
 management.security.enabled: false

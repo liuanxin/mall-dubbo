@@ -2,13 +2,11 @@
 server.port: 8686
 logging.config: classpath:log-test.xml
 
-spring:
-  application.name: web-backend
-  profiles.active: test
+spring.application.name: web-backend
 
 spring.cloud.config:
   uri: http://test_config:8001/
   name: all,${spring.application.name}
-  profile: ${spring.profiles.active}
+  profile: test
 
 management.security.enabled: false
