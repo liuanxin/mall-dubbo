@@ -6,7 +6,7 @@ spring.application.name: task
 
 spring.cloud.config:
   uri: http://test_config:8001/
-  name: all,${spring.application.name}
+  name: all
   profile: test
 
 management.security.enabled: false
