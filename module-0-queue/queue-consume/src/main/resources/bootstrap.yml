@@ -1,11 +1,10 @@
 
-server.port: 9871
 logging.config: classpath:log-dev.xml
 
 spring.application.name: queue-consume
 
 spring.cloud.config:
-  uri: http://127.0.0.1:8001/
+  uri: http://dev_config:8001/
   name: all,queue
   profile: dev
 

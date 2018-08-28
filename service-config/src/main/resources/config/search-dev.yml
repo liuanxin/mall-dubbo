@@ -1,4 +1,18 @@
 
-# https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+search.ip-port: dev_search:9200
 
-search.ip-port: 127.0.0.1:9200
+database:
+  url:  jdbc:mysql://dev_db_search:3306/search_db_dev?useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&statementInterceptors=com.taiheiot.common.sql.ShowSqlInterceptor
+  userName: root
+  password: root
+  initialSize: 1
+  minIdle: 1
+  maxActive: 1
+  maxWait: 60000
+  timeBetweenEvictionRunsMillis: 60000
+  minEvictableIdleTimeMillis: 300000
+  validationQuery: SELECT 'x'
+  testWhileIdle: true
+  testOnBorrow: false
+  testOnReturn: false
+  filters: stat,wall

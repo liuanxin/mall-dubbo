@@ -6,7 +6,7 @@ spring.application.name: queue
 
 spring.cloud.config:
   uri: http://test_config:8001/
-  name: all,${spring.application.name}
+  name: all,queue,queue-server
   profile: test
 
 management.security.enabled: false

@@ -5,7 +5,7 @@ logging.config: classpath:log-dev.xml
 spring.application.name: web-backend
 
 spring.cloud.config:
-  uri: http://127.0.0.1:8001/
+  uri: http://dev_config:8001/
   name: all,${spring.application.name}
   profile: dev
 

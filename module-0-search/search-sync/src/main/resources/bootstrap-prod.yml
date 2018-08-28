@@ -2,11 +2,11 @@
 server.port: 9870
 logging.config: classpath:log-prod.xml
 
-spring.application.name: common
+spring.application.name: search-sync
 
 spring.cloud.config:
   uri: http://prod_config:8001/
-  name: all,${spring.application.name}
+  name: all,search
   profile: prod
 
 management.security.enabled: false

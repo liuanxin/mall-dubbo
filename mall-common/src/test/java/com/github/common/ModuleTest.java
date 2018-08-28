@@ -359,7 +359,7 @@ class Server {
             "spring.application.name: %s\n" +
             "\n" +
             "spring.cloud.config:\n" +
-            "  uri: http://127.0.0.1:8001/\n" +
+            "  uri: http://dev_config:8001/\n" +
             "  name: all,${spring.application.name}\n" +
             "  profile: dev\n" +
             "\n" +

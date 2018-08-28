@@ -2,11 +2,11 @@
 server.port: 9870
 logging.config: classpath:log-dev.xml
 
-spring.application.name: common
+spring.application.name: search-sync
 
 spring.cloud.config:
-  uri: http://127.0.0.1:8001/
-  name: all,${spring.application.name}
+  uri: http://dev_config:8001/
+  name: all,search
   profile: dev
 
 management.security.enabled: false

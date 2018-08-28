@@ -1,6 +1,6 @@
 
-DROP TABLE IF EXISTS `t_trade_order`;
-CREATE TABLE IF NOT EXISTS `t_trade_order` (
+DROP TABLE IF EXISTS `t_order`;
+CREATE TABLE IF NOT EXISTS `t_order` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `order_no` varchar(64) NOT NULL comment '订单号',
   `user_id` bigint(20) unsigned NOT NULL comment '买家 id',

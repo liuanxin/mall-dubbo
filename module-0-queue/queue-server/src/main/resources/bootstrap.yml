@@ -5,8 +5,8 @@ logging.config: classpath:log-dev.xml
 spring.application.name: queue
 
 spring.cloud.config:
-  uri: http://127.0.0.1:8001/
-  name: all,${spring.application.name}
+  uri: http://dev_config:8001/
+  name: all,queue,queue-server
   profile: dev
 
 management.security.enabled: false
