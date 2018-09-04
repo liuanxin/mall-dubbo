@@ -5,8 +5,8 @@ logging.config: classpath:log-prod.xml
 spring.application.name: web-manager
 
 spring.cloud.config:
-  uri: http://prod_config:8001/
-  name: all,${spring.application.name}
+  uri: http://prod-config:8001/
+  name: all,${spring.application.name},zk-client
   profile: prod
 
 management.security.enabled: false

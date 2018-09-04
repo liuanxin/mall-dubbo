@@ -359,7 +359,7 @@ class Server {
             "spring.application.name: %s\n" +
             "\n" +
             "spring.cloud.config:\n" +
-            "  uri: http://dev_config:8001/\n" +
+            "  uri: http://dev-config:8001/\n" +
             "  name: all,${spring.application.name}\n" +
             "  profile: dev\n" +
             "\n" +
@@ -372,7 +372,7 @@ class Server {
             "spring.application.name: %s\n" +
             "\n" +
             "spring.cloud.config:\n" +
-            "  uri: http://test_config:8001/\n" +
+            "  uri: http://test-config:8001/\n" +
             "  name: all,${spring.application.name}\n" +
             "  profile: test\n" +
             "\n" +
@@ -385,7 +385,7 @@ class Server {
             "spring.application.name: %s\n" +
             "\n" +
             "spring.cloud.config:\n" +
-            "  uri: http://prod_config:8001/\n" +
+            "  uri: http://prod-config:8001/\n" +
             "  name: all,${spring.application.name}\n" +
             "  profile: prod\n" +
             "\n" +
@@ -404,6 +404,7 @@ class Server {
             "    <logger name=\"" + PACKAGE + ".~MODULE_NAME~.repository\" level=\"warn\"/>\n" +
             "    <logger name=\"" + PACKAGE + ".common.mvc\" level=\"warn\"/>\n" +
             "\n" +
+            "    <logger name=\"com.alibaba\" level=\"warn\"/>\n" +
             "    <logger name=\"com.netflix\" level=\"warn\"/>\n" +
             "    <!--<logger name=\"com.github\" level=\"warn\"/>-->\n" +
             "    <logger name=\"com.zaxxer\" level=\"warn\"/>\n" +
@@ -467,6 +468,7 @@ class Server {
             "    <logger name=\"" + PACKAGE + ".~MODULE_NAME~.repository\" level=\"warn\"/>\n" +
             "    <logger name=\"" + PACKAGE + ".common.mvc\" level=\"warn\"/>\n" +
             "\n" +
+            "    <logger name=\"com.alibaba\" level=\"warn\"/>\n" +
             "    <logger name=\"com.netflix\" level=\"warn\"/>\n" +
             "    <!--<logger name=\"com.github\" level=\"warn\"/>-->\n" +
             "    <logger name=\"com.zaxxer\" level=\"warn\"/>\n" +
@@ -515,6 +517,7 @@ class Server {
             "    <logger name=\"" + PACKAGE + ".~MODULE_NAME~.repository\" level=\"error\"/>\n" +
             "    <logger name=\"" + PACKAGE + ".common.mvc\" level=\"error\"/>\n" +
             "\n" +
+            "    <logger name=\"com.alibaba\" level=\"error\"/>\n" +
             "    <logger name=\"com.netflix\" level=\"error\"/>\n" +
             "    <!--<logger name=\"com.github\" level=\"error\"/>-->\n" +
             "    <logger name=\"com.zaxxer\" level=\"error\"/>\n" +

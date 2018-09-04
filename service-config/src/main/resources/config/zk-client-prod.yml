@@ -1,6 +1,6 @@
 
 spring.dubbo:
-  scan: com.taiheiot
+  scan: com.github
   application:
     name: ${spring.application.name}
     registry:

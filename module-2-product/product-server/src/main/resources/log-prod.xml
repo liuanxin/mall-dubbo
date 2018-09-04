@@ -27,6 +27,7 @@
     <logger name="com.github.product.repository" level="error"/>
     <logger name="com.github.common.mvc" level="error"/>
 
+    <logger name="com.alibaba" level="error"/>
     <logger name="com.netflix" level="error"/>
     <!--<logger name="com.github" level="error"/>-->
     <logger name="com.zaxxer" level="error"/>

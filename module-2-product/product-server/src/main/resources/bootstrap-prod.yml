@@ -5,7 +5,7 @@ logging.config: classpath:log-prod.xml
 spring.application.name: product
 
 spring.cloud.config:
-  uri: http://prod_config:8001/
+  uri: http://prod-config:8001/
   name: all,${spring.application.name}
   profile: prod
 

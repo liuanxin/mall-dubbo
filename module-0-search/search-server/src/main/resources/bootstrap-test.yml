@@ -5,7 +5,7 @@ logging.config: classpath:log-test.xml
 spring.application.name: search
 
 spring.cloud.config:
-  uri: http://test_config:8001/
+  uri: http://test-config:8001/
   name: all,${spring.application.name}
   profile: test
 
