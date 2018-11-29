@@ -59,10 +59,10 @@ public final class Const {
     public static final String REDIRECT_PREFIX = "redirect:";
 
     /** pc 端传过来的 token 的 key */
-    public static final String TOKEN = "X-t";
+    public static final String TOKEN = "X-token";
     /** pc 端传过来的 version 的 key */
-    public static final String VERSION = "X-v";
+    public static final String VERSION = "X-version";
 
     /** cors 支持的所有方法 */
-    public static final String[] SUPPORT_METHODS = new String[] { "HEAD", "GET", "POST", "PUT", "DELETE", "OPTIONS" };
+    public static final String[] SUPPORT_METHODS = new String[] { "GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "TRACE" };
 }
