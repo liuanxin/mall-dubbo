@@ -1,6 +1,7 @@
 package com.github.config;
 
 import com.github.common.exception.ForbiddenException;
+import com.github.common.exception.NotFoundException;
 import com.github.common.exception.NotLoginException;
 import com.github.common.exception.ServiceException;
 import com.github.common.json.JsonResult;
@@ -29,6 +30,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @RestControllerAdvice
 public class BackendGlobalException {
 
+    private static final String NOT_FOUND = NotFoundException.class.getName();
     private static final String SERVICE = ServiceException.class.getName();
     private static final String FORBIDDEN = ForbiddenException.class.getName();
     private static final String NOT_LOGIN = NotLoginException.class.getName();
@@ -45,7 +47,6 @@ public class BackendGlobalException {
         }
         return fail(msg);
     }
-
     /** 未登录 */
     @ExceptionHandler(NotLoginException.class)
     public ResponseEntity<JsonResult> notLogin(NotLoginException e) {
@@ -55,7 +56,6 @@ public class BackendGlobalException {
         }
         return notLogin(msg);
     }
-
     /** 无权限 */
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<JsonResult> forbidden(ForbiddenException e) {
@@ -65,13 +65,24 @@ public class BackendGlobalException {
         }
         return notPermission(msg);
     }
+    /** 404 */
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<JsonResult> notFound(NotFoundException e) {
+        String msg = e.getMessage();
+        if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+            LogUtil.ROOT_LOG.debug(msg);
+        }
+        return notFound(msg);
+    }
+
+
+    // 以下是 spring 的内部异常
 
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<JsonResult> noHandler(NoHandlerFoundException e) {
         bindAndPrintLog(e);
 
-        String msg = String.format("没找到(%s %s)", e.getHttpMethod(), e.getRequestURL());
-        return new ResponseEntity<>(JsonResult.notFound(msg), HttpStatus.NOT_FOUND);
+        return notFound(String.format("没找到(%s %s)", e.getHttpMethod(), e.getRequestURL()));
     }
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<JsonResult> missParam(MissingServletRequestParameterException e) {
@@ -95,9 +106,11 @@ public class BackendGlobalException {
         bindAndPrintLog(e);
 
         // 右移 20 位相当于除以两次 1024, 正好表示从字节到 Mb
-        String msg = String.format("上传文件太大! 请保持在 %sM 以内", (e.getMaxUploadSize() >> 20));
-        return fail(msg);
+        return fail(String.format("上传文件太大! 请保持在 %sM 以内", (e.getMaxUploadSize() >> 20)));
     }
+
+    // 以上是 spring 的内部异常
+
 
     /** 未知的所有其他异常 */
     @ExceptionHandler(Throwable.class)
@@ -126,6 +139,12 @@ public class BackendGlobalException {
                     LogUtil.ROOT_LOG.debug(msg, e);
                 }
                 return notPermission(msg.substring(FORBIDDEN.length() + 1));
+            } else if (msg.startsWith(NOT_FOUND)) {
+                // 404
+                if (LogUtil.ROOT_LOG.isDebugEnabled()) {
+                    LogUtil.ROOT_LOG.debug(msg, e);
+                }
+                return fail(msg.substring(NOT_FOUND.length() + 1));
             }
         }
 
@@ -149,6 +168,9 @@ public class BackendGlobalException {
                 LogUtil.unbind();
             }
         }
+    }
+    private ResponseEntity<JsonResult> notFound(String msg) {
+        return new ResponseEntity<>(JsonResult.notFound(msg), HttpStatus.NOT_FOUND);
     }
     private ResponseEntity<JsonResult> notLogin(String msg) {
         return new ResponseEntity<>(JsonResult.notLogin(msg), HttpStatus.UNAUTHORIZED);
