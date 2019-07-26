@@ -27,7 +27,7 @@ public class BackendIndexController {
     }
 
     @ApiIgnore(false)
-    @ApiMethod(title = "枚举信息", develop = Develop.ORDER)
+    @ApiMethod(value = "枚举信息", develop = Develop.COMMON)
     @GetMapping("/enum")
     @ResponseBody
     public JsonResult enumList(@ApiParam("枚举类型. 不传则返回列表, type 与 枚举的类名相同, 忽略大小写") String type) {
@@ -38,8 +38,8 @@ public class BackendIndexController {
 
     @GetMapping("/code")
     public void code(HttpServletResponse response, String width, String height,
-                     String count, String style) throws IOException {
-        SecurityCodeUtil.Code code = SecurityCodeUtil.generateCode(count, style, width, height);
+                     String count, String style, String rgb) throws IOException {
+        SecurityCodeUtil.Code code = SecurityCodeUtil.generateCode(count, style, width, height, rgb);
 
         // 往 session 里面丢值
         BackendSessionUtil.putImageCode(code.getContent());

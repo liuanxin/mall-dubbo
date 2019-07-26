@@ -21,9 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 处理全局异常的控制类
  *
- * @see org.springframework.boot.autoconfigure.web.ErrorController
+ * @see org.springframework.boot.web.servlet.error.ErrorController
  * @see org.springframework.boot.autoconfigure.web.ErrorProperties
- * @see org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration
+ * @see org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
  */
 @ConditionalOnClass({ HttpServletRequest.class, ResponseEntity.class })
 @RestControllerAdvice
@@ -102,7 +102,9 @@ public class GlobalException {
     }
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<String> notSupported(HttpRequestMethodNotSupportedException e) {
-        String msg = online  ? "无法处理此请求" : String.format("不支持此请求方式: 当前(%s), 支持(%s)", e.getMethod(), A.toStr(e.getSupportedMethods()));
+        String msg = online
+                ? "无法处理此请求"
+                : String.format("不支持此请求方式: 当前(%s), 支持(%s)", e.getMethod(), A.toStr(e.getSupportedMethods()));
 
         bindAndPrintLog(msg, e);
         return ResponseEntity.status(JsonCode.FAIL.getCode()).body(msg);
