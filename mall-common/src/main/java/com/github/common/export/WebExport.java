@@ -22,8 +22,8 @@ import java.util.List;
  *     &#064;ExportColumn("名称")
  *     private String name;
  *
- *     &#064;ExportColumn("金额|0.00)|宽度(255 以内)")
- *     private Integer num;
+ *     &#064;ExportColumn("金额|0.00|20")
+ *     private Integer num; // 说明/样式/列宽
  *
  *     &#064;ExportColumn("数量")
  *     private Integer num;
