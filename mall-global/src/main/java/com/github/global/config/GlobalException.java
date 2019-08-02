@@ -21,9 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 处理全局异常的控制类
  *
- * @see org.springframework.boot.web.servlet.error.ErrorController
+ * @see org.springframework.boot.autoconfigure.web.ErrorController
  * @see org.springframework.boot.autoconfigure.web.ErrorProperties
- * @see org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+ * @see org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration
  */
 @ConditionalOnClass({ HttpServletRequest.class, ResponseEntity.class })
 @RestControllerAdvice
@@ -94,7 +94,9 @@ public class GlobalException {
     }
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<String> missParam(MissingServletRequestParameterException e) {
-        String msg = online ? "无法响应此请求" : String.format("缺少必须的参数(%s), 类型(%s)", e.getParameterName(), e.getParameterType());
+        String msg = online
+                ? "无法响应此请求"
+                : String.format("缺少必须的参数(%s), 类型(%s)", e.getParameterName(), e.getParameterType());
 
         bindAndPrintLog(msg, e);
         return ResponseEntity.status(JsonCode.FAIL.getCode()).body(msg);
