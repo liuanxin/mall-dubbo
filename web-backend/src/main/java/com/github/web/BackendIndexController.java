@@ -7,6 +7,7 @@ import com.github.global.constant.Develop;
 import com.github.liuanxin.api.annotation.ApiIgnore;
 import com.github.liuanxin.api.annotation.ApiMethod;
 import com.github.liuanxin.api.annotation.ApiParam;
+import com.github.liuanxin.api.annotation.ApiTokens;
 import com.github.util.BackendDataCollectUtil;
 import com.github.util.BackendSessionUtil;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,7 @@ public class BackendIndexController {
     }
 
     @ApiIgnore(false)
+    @ApiTokens(false)
     @ApiMethod(value = "枚举信息", develop = Develop.COMMON)
     @GetMapping("/enum")
     @ResponseBody
