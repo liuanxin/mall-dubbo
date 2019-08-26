@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  */
 public final class Render {
 
-    private static final Pattern HTTP_PATTERN =  Pattern.compile("http(s?)://");
+    private static final Pattern HTTP_PATTERN =  Pattern.compile("(?i)^http(s?):");
     private static final Pattern RESOURCE_PATTERN = Pattern.compile("(?i)^.*\\.(css|js|ico|gif|bmp|png|jpg|jpeg)$");
 
     /** 去掉 html 和 js 注释, 基于正则表达式完成 */
@@ -23,6 +23,12 @@ public final class Render {
     /** 基于当前项目的绝对路径, 从 spring mvc 中获取 */
     public static MvcUriComponentsBuilder.MethodArgumentBuilder mapping(String name) {
         return MvcUriComponentsBuilder.fromMappingName(name);
+    }
+
+    public static String url(String url) {
+        // 前缀改成 // 开头(去掉 http 或 https)
+        // domain = domain.replaceFirst("(?i)^http(s?):", "");
+        return HTTP_PATTERN.matcher(url).replaceFirst("");
     }
 
     /**
