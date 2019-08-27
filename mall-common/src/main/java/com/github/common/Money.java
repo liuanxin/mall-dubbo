@@ -210,7 +210,7 @@ public class Money implements Serializable {
          */
         private static String upperCase(String money) {
             if (money == null || money.trim().length() == 0) {
-                return "";
+                return BLANK;
             }
             // 必要的检查. 如果是 0 直接返回
             try {
