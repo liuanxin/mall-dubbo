@@ -28,7 +28,7 @@ public final class Render {
     public static String url(String url) {
         // 前缀改成 // 开头(去掉 http 或 https)
         // domain = domain.replaceFirst("(?i)^http(s?):", "");
-        return HTTP_PATTERN.matcher(url).replaceFirst("");
+        return U.isBlank(url) ? U.EMPTY : HTTP_PATTERN.matcher(url).replaceFirst("");
     }
 
     /**
@@ -41,8 +41,8 @@ public final class Render {
     public static String url(String domain, String path) {
         if (U.isNotBlank(domain)) {
             // 前缀改成 // 开头(去掉 http 或 https)
-            // domain = domain.replaceFirst("http(s?)://", "//");
-            domain = HTTP_PATTERN.matcher(domain).replaceFirst("//");
+            // domain = domain.replaceFirst("(?i)^http(s?):", "");
+            domain = url(domain);
         }
         if (path.contains("#")) {
             // 从 mvc 中获取 url 时的参数类似于 IC#index ==> IC 表示 IndexController 的两个大写字母, index 表示类里的方法
