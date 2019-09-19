@@ -305,7 +305,7 @@ public final class RequestUtils {
 
         String ip = getRealIp();
         String method = request.getMethod();
-        String url = request.getRequestURL().toString();
+        String url = getRequestUrl();
         String param = formatParam();
         String headParam = formatHeadParam();
         return new LogUtil.RequestLogContext(ip, method, url, param, headParam);
