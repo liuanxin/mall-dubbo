@@ -9,7 +9,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.List;
@@ -194,22 +193,6 @@ public final class RequestUtils {
         String contentType = request.getContentType();
         boolean upload = U.isNotBlank(contentType) && contentType.startsWith("multipart/");
         return upload ? "uploading file" : U.formatParam(request.getParameterMap());
-    }
-
-    public static String getRequestBody() {
-        try (BufferedReader reader = getRequest().getReader()) {
-            StringBuilder sbd = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sbd.append(line);
-            }
-            return sbd.toString();
-        } catch (IOException e) {
-            if (LogUtil.ROOT_LOG.isDebugEnabled()) {
-                LogUtil.ROOT_LOG.debug("get RequestBody exception", e);
-            }
-            return U.EMPTY;
-        }
     }
 
     /** 先从请求头中查, 为空再从参数中查 */
