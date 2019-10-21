@@ -391,7 +391,7 @@ class Server {
             "\n" +
             "management.security.enabled: false\n";
 
-    private static final String LOG_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+    private static final String LOG_DEV_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<configuration>\n" +
             "    <include resource=\"org/springframework/boot/logging/logback/defaults.xml\" />\n" +
             "    <property name=\"CONSOLE_LOG_PATTERN\" value=\"%n[%X{receiveTime}%d] [${PID:- } %t\\\\(%logger\\\\) : %p]%X{requestInfo}%n%class.%method\\\\(%file:%line\\\\)%n%m%n\"/>\n" +
@@ -429,7 +429,7 @@ class Server {
             "<configuration>\n" +
             "    <property name=\"FILE_PATH\" value=\"${user.home}/logs/~MODULE_NAME~-test\"/>\n" +
             "    <property name=\"SQL_PATTERN\" value=\"%n[%d] [${PID:- } %t\\\\(%logger\\\\) : %p] %class.%method\\\\(%file:%line\\\\) %m%n\"/>\n" +
-            "    <property name=\"LOG_PATTERN\" value=\"%n[%X{receiveTime}%d] [${PID:- } %t\\\\(%logger\\\\) : %p]%X{requestInfo} %class{30}#%method\\\\(%file:%line\\\\)%n%m%n\"/>\n" +
+            "    <property name=\"LOG_PATTERN\" value=\"%n[%X{receiveTime}%d] [${PID:- } %t\\\\(%logger\\\\) : %p]%X{requestInfo} %class{30}#%method\\\\(%file:%line\\\\) %m%n\"/>\n" +
             "\n" +
             "    <appender name=\"PROJECT\" class=\"ch.qos.logback.core.rolling.RollingFileAppender\">\n" +
             "        <file>${FILE_PATH}.log</file>\n" +
@@ -740,7 +740,7 @@ class Server {
         String applicationProdYml = String.format(APPLICATION_PROD_YML,  port, packageName);
         writeFile(new File(resourcePath, "bootstrap-prod.yml"), applicationProdYml);
 
-        String logXml = LOG_XML.replaceAll("~MODULE_NAME~", parentPackageName);
+        String logXml = LOG_DEV_XML.replaceAll("~MODULE_NAME~", parentPackageName);
         writeFile(new File(resourcePath, "log-dev.xml"), logXml);
         String testXml = LOG_TEST_XML.replaceAll("~MODULE_NAME~", parentPackageName);
         writeFile(new File(resourcePath, "log-test.xml"), testXml);
