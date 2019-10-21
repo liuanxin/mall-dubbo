@@ -428,7 +428,7 @@ class Server {
     private static final String LOG_TEST_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<configuration>\n" +
             "    <property name=\"FILE_PATH\" value=\"${user.home}/logs/~MODULE_NAME~-test\"/>\n" +
-            "    <property name=\"SQL_PATTERN\" value=\"%n%d [${PID:- } %t\\\\(%logger\\\\) : %p]%n%class.%method\\\\(%file:%line\\\\)%n%m%n\"/>\n" +
+            "    <property name=\"SQL_PATTERN\" value=\"%n[%d] [${PID:- } %t\\\\(%logger\\\\) : %p] %class.%method\\\\(%file:%line\\\\) %m%n\"/>\n" +
             "    <property name=\"LOG_PATTERN\" value=\"%n[%X{receiveTime}%d] [${PID:- } %t\\\\(%logger\\\\) : %p]%X{requestInfo} %class{30}#%method\\\\(%file:%line\\\\)%n%m%n\"/>\n" +
             "\n" +
             "    <appender name=\"PROJECT\" class=\"ch.qos.logback.core.rolling.RollingFileAppender\">\n" +
@@ -659,7 +659,7 @@ class Server {
             "<configuration>\n" +
             "\n" +
             "    <include resource=\"org/springframework/boot/logging/logback/defaults.xml\" />\n" +
-            "    <property name=\"CONSOLE_LOG_PATTERN\" value=\"%n%d [%t\\\\(%logger\\\\) : %p] %class.%method\\\\(%file:%line\\\\)%n%m%n\"/>\n" +
+            "    <property name=\"CONSOLE_LOG_PATTERN\" value=\"%n[%d] [%t\\\\(%logger\\\\) : %p] %class.%method\\\\(%file:%line\\\\) %m%n\"/>\n" +
             "    <include resource=\"org/springframework/boot/logging/logback/console-appender.xml\" />\n" +
             "\n" +
             "    <logger name=\"org.springframework\" level=\"warn\"/>\n" +
