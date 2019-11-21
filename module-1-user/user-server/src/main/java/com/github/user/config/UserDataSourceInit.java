@@ -55,7 +55,7 @@ public class UserDataSourceInit {
         // 装载 typeHandler 实现
         sessionFactory.setTypeHandlers(UserConfigData.HANDLER_ARRAY);
         // 插件
-        sessionFactory.setPlugins(new Interceptor[] { mybatisPage() });
+        sessionFactory.setPlugins(mybatisPage());
         return sessionFactory.getObject();
     }
 

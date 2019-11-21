@@ -43,6 +43,15 @@ public class CacheService {
         }
     }
 
+    public void expire(String key, long time, TimeUnit timeUnit) {
+        stringRedisTemplate.expire(key, time, timeUnit);
+    }
+
+    public long incr(String key) {
+        Long inc = stringRedisTemplate.opsForValue().increment(key, 1L);
+        return inc == null ? 0 : inc;
+    }
+
     /**
      * <pre>
      * 用 redis 获取分布式锁, 获取成功则返回 true
@@ -132,11 +141,6 @@ public class CacheService {
         DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(script, Long.class);
         List<String> keys = Arrays.asList(key, value);
         stringRedisTemplate.execute(redisScript, keys);
-    }
-
-    /** 设置超时 */
-    public void expire(String key, int time, TimeUnit unit) {
-        redisTemplate.expire(key, time, unit);
     }
 
     /** 从 redis 中取值 */
