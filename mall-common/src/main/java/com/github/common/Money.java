@@ -44,7 +44,7 @@ public class Money implements Serializable {
     }
 
     /** 输出 1,234,567,890.50 的形式 */
-    public String toShow() {
+    public String getShow() {
         return U.formatNumberToThousands(toString());
     }
 
