@@ -41,7 +41,7 @@ public class Page implements Serializable {
     /** 分页默认页 */
     private static final int DEFAULT_PAGE_NO = 1;
     /** 分页默认的每页条数 */
-    private static final int DEFAULT_LIMIT = 20;
+    private static final int DEFAULT_LIMIT = 10;
     /** 最大分页条数 */
     private static final int MAX_LIMIT = 1000;
 
