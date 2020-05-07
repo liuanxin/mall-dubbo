@@ -65,22 +65,18 @@ class SqlFormat {
     }
 
     private static String handlerParam(String sql) {
-        // 把多个空白符替换成一个空格
         sql = BLANK_REGEX.matcher(sql).replaceAll(" ");
 
         List<String> list = Lists.newArrayList();
         Matcher match = PARAM_REGEX.matcher(sql);
         while (match.find()) {
-            // 把参数 '' 收集起来
             list.add(match.group());
         }
         if (list.size() == 0) {
             return sql;
         }
 
-        // 把参数 '' 用占用替代
         sql = match.replaceAll(Matcher.quoteReplacement(SCRIPT_PLACE));
-        // 把占位一个个又还原回去
         while (sql.contains(SCRIPT_PLACE)) {
             String place = list.remove(0);
             Matcher m = SCRIPT_PLACE_REGEX.matcher(sql);
