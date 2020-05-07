@@ -52,16 +52,9 @@ class SqlFormat {
         MISC.add("on");
     }
 
-    private static final String INDENT_STRING = "  ";
-    private static final String INITIAL = "  ";
-
-    /** 参数匹配的正则 */
     private static final Pattern PARAM_REGEX = Pattern.compile("(?s)('[^']*?\\s{2,}?.*?')");
-    /** 多空白符的正则 */
     private static final Pattern BLANK_REGEX = Pattern.compile("\\s{2,}");
-    /** 占位参数 */
     private static final String SCRIPT_PLACE = String.format("___%s-%s===", SqlFormat.class.getName(), "PARam");
-    /** 占位参数的正则 */
     private static final Pattern SCRIPT_PLACE_REGEX = Pattern.compile(SCRIPT_PLACE);
 
     static String format(String source) {
@@ -72,14 +65,15 @@ class SqlFormat {
     }
 
     private static String handlerParam(String sql) {
-        Matcher match = PARAM_REGEX.matcher(sql);
+        // 把多个空白符替换成一个空格
+        sql = BLANK_REGEX.matcher(sql).replaceAll(" ");
+
         List<String> list = Lists.newArrayList();
+        Matcher match = PARAM_REGEX.matcher(sql);
         while (match.find()) {
             // 把参数 '' 收集起来
             list.add(match.group());
         }
-        // 把多个空白符替换成一个空格
-        sql = BLANK_REGEX.matcher(sql).replaceAll(" ");
         if (list.size() == 0) {
             return sql;
         }
@@ -107,8 +101,8 @@ class SqlFormat {
         boolean afterInsert;
         int inFunction;
         int parensSinceSelect;
-        private LinkedList<Integer> parenCounts = new LinkedList<>();
-        private LinkedList<Boolean> afterByOrFromOrSelects = new LinkedList<>();
+        private final LinkedList<Integer> parenCounts = new LinkedList<>();
+        private final LinkedList<Boolean> afterByOrFromOrSelects = new LinkedList<>();
 
         int indent = 1;
 
@@ -121,13 +115,13 @@ class SqlFormat {
         private FormatProcess(String sql) {
             tokens = new StringTokenizer(
                     sql,
-                    "()+*/-=<>'`\"[]," + " ",
+                    "()+*/-=<>'`\"[], ",
                     true
             );
         }
 
         private String perform() {
-            result.append(INITIAL);
+            result.append("  ");
 
             while (tokens.hasMoreTokens()) {
                 token = tokens.nextToken();
@@ -332,15 +326,11 @@ class SqlFormat {
                 inFunction++;
             }
             beginLine = false;
-            if (inFunction > 0) {
-                out();
-            } else {
-                out();
-                if (!afterByOrSetOrFromOrSelect) {
-                    indent++;
-                    newline();
-                    beginLine = true;
-                }
+            out();
+            if (inFunction <= 0 && !afterByOrSetOrFromOrSelect) {
+                indent++;
+                newline();
+                beginLine = true;
             }
             parensSinceSelect++;
         }
@@ -361,11 +351,13 @@ class SqlFormat {
         }
 
         private void newline() {
-            result.append("\n");
-            for (int i = 0; i < indent; i++) {
-                result.append(INDENT_STRING);
+            if (!"`".equals(token)) {
+                result.append("\n");
+                for (int i = 0; i < indent; i++) {
+                    result.append("  ");
+                }
+                beginLine = true;
             }
-            beginLine = true;
         }
     }
 }
