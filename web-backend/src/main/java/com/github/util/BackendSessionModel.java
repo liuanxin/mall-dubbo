@@ -37,6 +37,10 @@ class BackendSessionModel implements Serializable {
         return !Objects.equals(DEFAULT_ID, id) && !Objects.equals(DEFAULT_NAME, name);
     }
 
+    public String userInfo() {
+        return id + "/" + name;
+    }
+
 
     // 以下为静态方法
 
