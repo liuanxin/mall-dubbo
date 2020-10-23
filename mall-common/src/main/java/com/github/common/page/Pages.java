@@ -12,19 +12,17 @@ import java.util.List;
  * 此实体类只在 <span style="color:red">Service</span> 中用到分页时使用.
  *
  * &#064;Controller --> request 请求中带过来的参数使用 Page 进行接收(如果前端不传, 此处接收则程序会使用默认值)
- * public JsonResult xx(xxx, PageParam page) {
- *     PageReturn pageInfo = xxxService.page(xxx, page);
- *     return success("xxx", (page.isWasMobile() ? pageInfo.getList() : pageInfo));
+ * public JsonResult&lt;XXXVo&gt; xx(xxxDto xxx, PageParam page) {
+ *     PageReturn&lt;XXX&gt; pageInfo = xxxService.page(xxx.checkAndReturnParam(), page);
+ *     return success("xxx", XXXVo.assemblyData(pageInfo));
  * }
  *
- * &#064;Service --> 调用方法使用 PageParam 进行传递, 返回 PageInfo
- * public PageReturn page(xxx, PageParam page) {
- *     PageBounds pageBounds = Pages.param(page);
- *     List&lt;XXX> xxxList = xxxMapper.selectByExample(xxxxx, pageBounds);
- *     return Pages.returnPage(xxxList);
+ * &#064;Service --> 调用方法使用 Page 进行传递, 返回 PageInfo
+ * public PageReturn&lt;XXX&gt; page(xxx xx, PageParam page) {
+ *     return Pages.returnPage(xxxMapper.selectByExample(xx, Pages.param(page)));
  * }
  *
- * <span style="color:red">Controller 中不要使用此类</span>, mybatis 的分页插件只需要在服务端引入.
+ * <span style="color:red">web 层不要使用此类</span>, 这样 mybatis 不需要在 web 层引入
  * </pre>
  */
 public final class Pages {

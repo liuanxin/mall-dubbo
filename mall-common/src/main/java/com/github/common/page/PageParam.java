@@ -13,19 +13,17 @@ import java.io.Serializable;
  * 此实体类在 Controller 和 Service 中用到分页时使用.
  *
  * &#064;Controller --> request 请求中带过来的参数使用 Page 进行接收(如果前端不传, 此处接收则程序会使用默认值)
- * public JsonResult xx(xxx, PageParam page) {
- *     PageReturn pageInfo = xxxService.page(xxx, page);
- *     return success("xxx", (page.isWasMobile() ? pageInfo.getList() : pageInfo));
+ * public JsonResult&lt;XXXVo&gt; xx(xxxDto xxx, PageParam page) {
+ *     PageReturn&lt;XXX&gt; pageInfo = xxxService.page(xxx.checkAndReturnParam(), page);
+ *     return success("xxx", XXXVo.assemblyData(pageInfo));
  * }
  *
  * &#064;Service --> 调用方法使用 Page 进行传递, 返回 PageInfo
- * public PageReturn page(xxx, PageParam page) {
- *     PageBounds pageBounds = Pages.param(page);
- *     List&lt;XXX> xxxList = xxxMapper.selectByExample(xxxxx, pageBounds);
- *     return Pages.returnPage(xxxList);
+ * public PageReturn&lt;XXX&gt; page(xxx xx, PageParam page) {
+ *     return Pages.returnPage(xxxMapper.selectByExample(xx, Pages.param(page)));
  * }
  *
- * 这么做的目的是分页包只需要在服务端引入即可
+ * 这么做的目的是 mybatis 包只需要在服务端引入即可
  * </pre>
  */
 @Setter
