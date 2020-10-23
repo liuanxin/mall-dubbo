@@ -3,8 +3,8 @@ package com.github.manager.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.common.Const;
 import com.github.common.encrypt.Encrypt;
-import com.github.common.page.Page;
-import com.github.common.page.PageInfo;
+import com.github.common.page.PageParam;
+import com.github.common.page.PageReturn;
 import com.github.common.page.Pages;
 import com.github.common.util.A;
 import com.github.common.util.U;
@@ -155,7 +155,7 @@ public class ManagerServiceImpl implements ManagerService {
         return user;
     }
     @Override
-    public PageInfo<ManagerUser> queryUser(String userName, Boolean status, Page page) {
+    public PageReturn<ManagerUser> queryUser(String userName, Boolean status, PageParam page) {
         ManagerUserExample userExample = new ManagerUserExample();
         ManagerUserExample.Criteria or = userExample.or();
         if (U.isNotBlank(userName)) {

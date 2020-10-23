@@ -1,7 +1,7 @@
 package com.github.manager.service;
 
-import com.github.common.page.Page;
-import com.github.common.page.PageInfo;
+import com.github.common.page.PageParam;
+import com.github.common.page.PageReturn;
 import com.github.manager.model.ManagerMenu;
 import com.github.manager.model.ManagerPermission;
 import com.github.manager.model.ManagerRole;
@@ -15,7 +15,7 @@ public interface ManagerService {
     ManagerUser login(String userName, String password);
     ManagerUser getUser(Long userId);
     /** 管理员查询用户 */
-    PageInfo<ManagerUser> queryUser(String userName, Boolean status, Page page);
+    PageReturn<ManagerUser> queryUser(String userName, Boolean status, PageParam page);
     /** 管理员添加或修改用户(包括重置密码, 修改状态) */
     void addOrUpdateUser(ManagerUser user);
     /** 管理员删除用户 */

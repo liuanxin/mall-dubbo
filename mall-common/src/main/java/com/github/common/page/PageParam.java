@@ -13,13 +13,13 @@ import java.io.Serializable;
  * 此实体类在 Controller 和 Service 中用到分页时使用.
  *
  * &#064;Controller --> request 请求中带过来的参数使用 Page 进行接收(如果前端不传, 此处接收则程序会使用默认值)
- * public JsonResult xx(xxx, Page page) {
- *     PageInfo pageInfo = xxxService.page(xxx, page);
+ * public JsonResult xx(xxx, PageParam page) {
+ *     PageReturn pageInfo = xxxService.page(xxx, page);
  *     return success("xxx", (page.isWasMobile() ? pageInfo.getList() : pageInfo));
  * }
  *
  * &#064;Service --> 调用方法使用 Page 进行传递, 返回 PageInfo
- * public PageInfo page(xxx, Page page) {
+ * public PageReturn page(xxx, PageParam page) {
  *     PageBounds pageBounds = Pages.param(page);
  *     List&lt;XXX> xxxList = xxxMapper.selectByExample(xxxxx, pageBounds);
  *     return Pages.returnPage(xxxList);
@@ -30,7 +30,7 @@ import java.io.Serializable;
  */
 @Setter
 @Getter
-public class Page implements Serializable {
+public class PageParam implements Serializable {
     private static final long serialVersionUID = 0L;
 
     /** 前台传递过来的分页参数名 */
@@ -55,17 +55,17 @@ public class Page implements Serializable {
     @ApiParamIgnore
     private boolean wasMobile = false;
 
-    public Page() {
+    public PageParam() {
         this.page = DEFAULT_PAGE_NO;
         this.limit = DEFAULT_LIMIT;
     }
 
-    public Page(String page, String limit) {
+    public PageParam(String page, String limit) {
         this.page = handlerPage(page);
         this.limit = handlerLimit(limit);
     }
 
-    public Page(int page, int limit) {
+    public PageParam(int page, int limit) {
         this.page = handlerPage(page);
         this.limit = handlerLimit(limit);
     }
